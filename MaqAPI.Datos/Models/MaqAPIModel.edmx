@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="diesel">
+          <Key>
+            <PropertyRef Name="idDiesel" />
+          </Key>
+          <Property Name="idDiesel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idEconomico" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idObra" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fecha_alta" Type="datetime" Nullable="false" />
+          <Property Name="hodometro" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="litros" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fecha_ingreso" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="maquinaria">
+          <Key>
+            <PropertyRef Name="idEconomico" />
+          </Key>
+          <Property Name="idEconomico" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Tipo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="estatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="fecha_alta" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="obras">
+          <Key>
+            <PropertyRef Name="idObra" />
+          </Key>
+          <Property Name="idObra" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="estatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="fecha_alta" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="operadores">
+          <Key>
+            <PropertyRef Name="idOperador" />
+          </Key>
+          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="estatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="fecha_alta" Type="date" Nullable="false" />
+          <Property Name="categoria" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="passw" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="parametros">
+          <Key>
+            <PropertyRef Name="nombre" />
+            <PropertyRef Name="valor" />
+          </Key>
+          <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="valor" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ubicacion">
+          <Key>
+            <PropertyRef Name="idUbicacion" />
+          </Key>
+          <Property Name="idUbicacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idEconomico" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idObra" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fecha_alta" Type="date" Nullable="false" />
+          <Property Name="comentarios" Type="varchar" MaxLength="200" />
+          <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fecha_ingreso" Type="date" Nullable="false" />
+          <Property Name="hodometro" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="odometro" Type="int" />
+          <Property Name="sello" Type="varchar" MaxLength="50" />
+          <Property Name="litros" Type="int" />
+          <Property Name="horometro" Type="int" />
+          <Property Name="ventana" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="passw" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="estatus" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TipoEmpleado" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="fecha_alta" Type="date" Nullable="false" />
+        </EntityType>
+        <Function Name="spConsultaUbicacionPaginado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="intRenglones" Type="int" Mode="In" />
+          <Parameter Name="intPagina" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="MaquinariaModelStoreContainer">
+          <EntitySet Name="diesel" EntityType="Self.diesel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="maquinaria" EntityType="Self.maquinaria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="obras" EntityType="Self.obras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="operadores" EntityType="Self.operadores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="parametros" EntityType="Self.parametros" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [parametros].[nombre] AS [nombre], 
+    [parametros].[valor] AS [valor]
+    FROM [dbo].[parametros] AS [parametros]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MaquinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="diesel">
+          <Key>
+            <PropertyRef Name="idDiesel" />
+          </Key>
+          <Property Name="idDiesel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idEconomico" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idObra" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="hodometro" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="litros" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idUsuario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_ingreso" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="maquinaria">
+          <Key>
+            <PropertyRef Name="idEconomico" />
+          </Key>
+          <Property Name="idEconomico" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tipo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="obra">
+          <Key>
+            <PropertyRef Name="idObra" />
+          </Key>
+          <Property Name="idObra" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="operadore">
+          <Key>
+            <PropertyRef Name="idOperador" />
+          </Key>
+          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="categoria" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="passw" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ubicacion">
+          <Key>
+            <PropertyRef Name="idUbicacion" />
+          </Key>
+          <Property Name="idUbicacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idEconomico" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idObra" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="comentarios" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="idUsuario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_ingreso" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="hodometro" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="odometro" Type="Int32" />
+          <Property Name="sello" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="litros" Type="Int32" />
+          <Property Name="horometro" Type="Int32" />
+          <Property Name="ventana" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="passw" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TipoEmpleado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="parametro">
+          <Key>
+            <PropertyRef Name="nombre" />
+            <PropertyRef Name="valor" />
+          </Key>
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="valor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MaquinariaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="diesels" EntityType="Self.diesel" />
+          <EntitySet Name="maquinarias" EntityType="Self.maquinaria" />
+          <EntitySet Name="obras" EntityType="Self.obra" />
+          <EntitySet Name="operadores" EntityType="Self.operadore" />
+          <EntitySet Name="ubicacions" EntityType="Self.ubicacion" />
+          <EntitySet Name="usuarios" EntityType="Self.usuario" />
+          <EntitySet Name="parametros" EntityType="Self.parametro" />
+          <FunctionImport Name="spConsultaUbicacionPaginado">
+            <Parameter Name="intRenglones" Mode="In" Type="Int32" />
+            <Parameter Name="intPagina" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MaquinariaModelStoreContainer" CdmEntityContainer="MaquinariaEntities">
+          <EntitySetMapping Name="diesels">
+            <EntityTypeMapping TypeName="MaquinariaModel.diesel">
+              <MappingFragment StoreEntitySet="diesel">
+                <ScalarProperty Name="idDiesel" ColumnName="idDiesel" />
+                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="idObra" ColumnName="idObra" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+                <ScalarProperty Name="hodometro" ColumnName="hodometro" />
+                <ScalarProperty Name="litros" ColumnName="litros" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="maquinarias">
+            <EntityTypeMapping TypeName="MaquinariaModel.maquinaria">
+              <MappingFragment StoreEntitySet="maquinaria">
+                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="obras">
+            <EntityTypeMapping TypeName="MaquinariaModel.obra">
+              <MappingFragment StoreEntitySet="obras">
+                <ScalarProperty Name="idObra" ColumnName="idObra" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="operadores">
+            <EntityTypeMapping TypeName="MaquinariaModel.operadore">
+              <MappingFragment StoreEntitySet="operadores">
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="passw" ColumnName="passw" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ubicacions">
+            <EntityTypeMapping TypeName="MaquinariaModel.ubicacion">
+              <MappingFragment StoreEntitySet="ubicacion">
+                <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
+                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="idObra" ColumnName="idObra" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+                <ScalarProperty Name="hodometro" ColumnName="hodometro" />
+                <ScalarProperty Name="odometro" ColumnName="odometro" />
+                <ScalarProperty Name="sello" ColumnName="sello" />
+                <ScalarProperty Name="litros" ColumnName="litros" />
+                <ScalarProperty Name="horometro" ColumnName="horometro" />
+                <ScalarProperty Name="ventana" ColumnName="ventana" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuarios">
+            <EntityTypeMapping TypeName="MaquinariaModel.usuario">
+              <MappingFragment StoreEntitySet="usuarios">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="passw" ColumnName="passw" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="TipoEmpleado" ColumnName="TipoEmpleado" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="parametros">
+            <EntityTypeMapping TypeName="MaquinariaModel.parametro">
+              <MappingFragment StoreEntitySet="parametros">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaquinariaModel.Store.spConsultaUbicacionPaginado" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
