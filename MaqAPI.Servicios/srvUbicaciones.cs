@@ -74,6 +74,21 @@ namespace MaqAPI.Servicios
             throw new NotImplementedException();
         }
 
+        public IEnumerable<object> ListadoFiltro(object filtro)
+        {
+            try
+            {
+                var _UbicacionesABC = new UbicacionesABC();
+                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
+                return _catalogosABC.ListadoFiltro(filtro);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public object ListadoPorId(object id)
         {
             try

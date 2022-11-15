@@ -91,7 +91,9 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _ObrasListado = db.obras.Select(x => x).ToList();
+                    var _ObrasListado = db.obras
+                        .OrderBy(x => x.Nombre)
+                        .Select(x => x).ToList();
 
                     return _ObrasListado;
                 }
@@ -122,5 +124,28 @@ namespace MaqAPI.Datos.Catalogos
             }
         }
 
+        public IEnumerable<object> GetListFilter(object filtro)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+
+                    var _obraByID = db.obras
+                        .Where(x => x.idObra.Contains(filtro.ToString()) 
+                                    || x.Nombre.Contains(filtro.ToString())
+                                    || x.estatus.Contains(filtro.ToString()))
+                        .OrderBy(x => x.Nombre)
+                        .Select(x => x).ToList();
+
+                    return _obraByID;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace MaqAPI.Servicios
         {
             try
             {
+                this.operadorEntidad.fecha_alta = DateTime.Now;
                 var _operadoresABC = new OperadoresABC
                 {
                     OperadorEntidad = this.operadorEntidad
@@ -78,6 +79,21 @@ namespace MaqAPI.Servicios
                 var _catalogosABC = new CatalogosABC(_operadoresABC);
                 return _catalogosABC.Listado();
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<object> ListadoFiltro(object filtro)
+        {
+            try
+            {
+                var _operadoresABC = new OperadoresABC();
+                var _catalogosABC = new CatalogosABC(_operadoresABC);
+                return _catalogosABC.ListadoFiltro(filtro);
             }
             catch (Exception)
             {

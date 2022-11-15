@@ -17,6 +17,7 @@ namespace MaqAPI.Aplicacion.Controllers
         public class Params
         {
             public string idOperador { get; set; }
+            public string filtro { get; set; }
         }
 
         [AcceptVerbs("POST")]
@@ -73,6 +74,15 @@ namespace MaqAPI.Aplicacion.Controllers
         public object getOperadorById([FromBody] Params _param)
         {
             return _svrOPeradores.ListadoPorId(_param.idOperador);
+
+        }
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getOperadoresFiltro")]
+        public object getOperadoresFiltro([FromBody] Params _param)
+        {
+            return _svrOPeradores.ListadoFiltro(_param.filtro);
 
         }
     }

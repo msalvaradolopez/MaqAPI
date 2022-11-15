@@ -17,6 +17,7 @@ namespace MaqAPI.Servicios
         {
             try
             {
+                this.obraEntidad.fecha_alta = DateTime.Now;
                 var _obrasABC = new ObrasABC
                 {
                     obraEntidad = this.obraEntidad
@@ -94,6 +95,21 @@ namespace MaqAPI.Servicios
                 var _obrasABC = new ObrasABC();
                 var _catalogosABC = new CatalogosABC(_obrasABC);
                 return _catalogosABC.ListadoPorId(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<object> ListadoFiltro(object filtro)
+        {
+            try
+            {
+                var _obrasABC = new ObrasABC();
+                var _catalogosABC = new CatalogosABC(_obrasABC);
+                return _catalogosABC.ListadoFiltro(filtro);
             }
             catch (Exception)
             {

@@ -81,5 +81,18 @@ namespace MaqAPI.Datos
                 throw;
             }
         }
+
+        public IEnumerable<object> ListadoFiltro(object filtro)
+        {
+            try
+            {
+                return _conexion.GetListFilter(filtro);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

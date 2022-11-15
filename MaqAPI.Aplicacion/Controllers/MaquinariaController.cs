@@ -17,6 +17,7 @@ namespace MaqAPI.Aplicacion.Controllers
         public class Params
         {
             public string idEconomico { get; set; }
+            public string filtro { get; set; }
         }
 
         [AcceptVerbs("POST")]
@@ -73,6 +74,15 @@ namespace MaqAPI.Aplicacion.Controllers
         public object getMaquinariaById([FromBody] Params _param)
         {
             return _svrMaquinaria.ListadoPorId(_param.idEconomico);
+
+        }
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getMaquinariaFiltro")]
+        public object getMaquinariaFiltro([FromBody] Params _param)
+        {
+            return _svrMaquinaria.ListadoFiltro(_param.filtro);
 
         }
 

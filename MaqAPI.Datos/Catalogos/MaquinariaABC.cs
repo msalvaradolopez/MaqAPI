@@ -42,7 +42,9 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _maquinariaList = db.maquinarias.Select(x => x).ToList();
+                    var _maquinariaList = db.maquinarias
+                        .OrderBy(x=>x.Tipo)
+                        .Select(x => x).ToList();
 
                     return _maquinariaList;
                 }
@@ -112,6 +114,30 @@ namespace MaqAPI.Datos.Catalogos
 
                     db.SaveChanges();
                     return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public IEnumerable<object> GetListFilter(object filtro)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+
+                    var _obraByID = db.maquinarias
+                        .Where(x => x.idEconomico.Contains(filtro.ToString())
+                                    || x.Tipo.Contains(filtro.ToString())
+                                    || x.estatus.Contains(filtro.ToString()))
+                        .OrderBy(x=> x.Tipo)
+                        .Select(x => x).ToList();
+
+                    return _obraByID;
                 }
                 catch (Exception)
                 {

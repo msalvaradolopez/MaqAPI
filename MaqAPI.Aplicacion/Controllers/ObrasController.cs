@@ -18,6 +18,7 @@ namespace MaqAPI.Aplicacion.Controllers
         public class Params
         {
             public string idObra { get; set; }
+            public string filtro { get; set; }
         }
 
         [AcceptVerbs("POST")]
@@ -74,6 +75,15 @@ namespace MaqAPI.Aplicacion.Controllers
         public object getObraById([FromBody] Params _param)
         {
             return _srvObras.ListadoPorId(_param.idObra);
+
+        }
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getObrasFiltro")]
+        public object getObrasFiltro([FromBody] Params _param)
+        {
+            return _srvObras.ListadoFiltro(_param.filtro);
 
         }
     }

@@ -43,7 +43,9 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _operadoresListado = db.operadores.Select(x => x).ToList();
+                    var _operadoresListado = db.operadores
+                        .OrderBy(x=> x.Nombre)
+                        .Select(x => x).ToList();
 
                     return _operadoresListado;
                 }
@@ -119,6 +121,30 @@ namespace MaqAPI.Datos.Catalogos
 
                     db.SaveChanges();
                     return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public IEnumerable<object> GetListFilter(object filtro)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+
+                    var _obraByID = db.operadores
+                        .Where(x => x.idOperador.Contains(filtro.ToString())
+                                    || x.Nombre.Contains(filtro.ToString())
+                                    || x.estatus.Contains(filtro.ToString()))
+                        .OrderBy(x => x.Nombre)
+                        .Select(x => x).ToList();
+
+                    return _obraByID;
                 }
                 catch (Exception)
                 {

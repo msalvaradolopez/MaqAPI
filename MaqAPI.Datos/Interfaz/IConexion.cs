@@ -17,5 +17,7 @@ namespace MaqAPI.Datos.Interfaz
         IEnumerable<object> GetListAll();
 
         object GetListById(object id);
+
+        IEnumerable<object> GetListFilter(object filtro);
     }
 }

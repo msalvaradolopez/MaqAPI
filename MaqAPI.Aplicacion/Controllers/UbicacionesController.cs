@@ -15,6 +15,7 @@ namespace MaqAPI.Aplicacion.Controllers
         public class Params
         {
             public string idUbicacion { get; set; }
+            public string filtro { get; set; }
         }
 
         private srvUbicaciones _srvUbicaciones = new srvUbicaciones();
@@ -65,6 +66,15 @@ namespace MaqAPI.Aplicacion.Controllers
         public object getUbicacionById([FromBody] Params _param)
         {
             return _srvUbicaciones.ListadoPorId(_param.idUbicacion);
+
+        }
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getUbicacionesFiltro")]
+        public object getUbicacionesFiltro([FromBody] Params _param)
+        {
+            return _srvUbicaciones.ListadoFiltro(_param.filtro);
 
         }
     }

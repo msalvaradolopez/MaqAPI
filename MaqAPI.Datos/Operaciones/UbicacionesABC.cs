@@ -37,7 +37,23 @@ namespace MaqAPI.Datos.Operaciones
 
         public IEnumerable<object> GetListAll()
         {
-            throw new NotImplementedException();
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+
+                    var _listado = db.ubicacions
+                        .OrderBy(x => x.idEconomico)
+                        .Select(x => x).ToList();
+
+                    return _listado;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
         }
 
         public object GetListById(object id)
@@ -118,6 +134,31 @@ namespace MaqAPI.Datos.Operaciones
 
                     db.SaveChanges();
                     return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public IEnumerable<object> GetListFilter(object filtro)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+
+                    var _obraByID = db.ubicacions
+                        .Where(x => x.idEconomico.Contains(filtro.ToString())
+                                    || x.idOperador.Contains(filtro.ToString())
+                                    || x.idObra.Contains(filtro.ToString())
+                                    || x.comentarios.Contains(filtro.ToString()))
+                        .OrderBy(x=> x.idEconomico)
+                        .Select(x => x).ToList();
+
+                    return _obraByID;
                 }
                 catch (Exception)
                 {

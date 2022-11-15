@@ -14,5 +14,7 @@ namespace MaqAPI.Servicios
         IEnumerable<object> Listado();
         object ListadoPorId(object id);
 
+        IEnumerable<object> ListadoFiltro(object filtro);
+
     }
 }

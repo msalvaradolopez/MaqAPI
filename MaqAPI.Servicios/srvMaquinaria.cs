@@ -15,17 +15,60 @@ namespace MaqAPI.Servicios
         public MaquinariaEntidad maquinariaEntidad { get; set; }
         public bool Actualizar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var _MaquinariaABC = new MaquinariaABC
+                {
+                    MaquinariaEntidad = this.maquinariaEntidad
+                };
+                var _catalogosABC = new CatalogosABC(_MaquinariaABC);
+                _catalogosABC.Actualizar();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Agregar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.maquinariaEntidad.fecha_alta = DateTime.Now;
+                var _MaquinariaABC = new MaquinariaABC
+                {
+                    MaquinariaEntidad = this.maquinariaEntidad
+                };
+                var _catalogosABC = new CatalogosABC(_MaquinariaABC);
+                _catalogosABC.Nuevo();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Eliminar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var _MaquinariaABC = new MaquinariaABC
+                {
+                    MaquinariaEntidad = this.maquinariaEntidad
+                };
+                var _catalogosABC = new CatalogosABC(_MaquinariaABC);
+                _catalogosABC.Eliminar();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<object> Listado()
@@ -36,6 +79,21 @@ namespace MaqAPI.Servicios
                 var _catalogosABC = new CatalogosABC(_maquinariaABC);
                 return _catalogosABC.Listado();
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<object> ListadoFiltro(object filtro)
+        {
+            try
+            {
+                var _maquinariaABC = new MaquinariaABC();
+                var _catalogosABC = new CatalogosABC(_maquinariaABC);
+                return _catalogosABC.ListadoFiltro(filtro);
             }
             catch (Exception)
             {
