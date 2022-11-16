@@ -16,6 +16,7 @@ namespace MaqAPI.Aplicacion.Controllers
         {
             public string idUbicacion { get; set; }
             public string filtro { get; set; }
+            public DateTime fecha_alta { get; set; }
         }
 
         private srvUbicaciones _srvUbicaciones = new srvUbicaciones();
@@ -59,22 +60,32 @@ namespace MaqAPI.Aplicacion.Controllers
                 return "Fallo.";
         }
 
-        
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getUbicaciones")]
+        public IEnumerable<object> getUbicaciones()
+        {
+            var _listado = _srvUbicaciones.Listado();
+            return _listado;
+
+        }
+
+
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getUbicacionById")]
-        public object getUbicacionById([FromBody] Params _param)
+        public object getUbicacionById([FromBody] FiltrosEntidad _filtros)
         {
-            return _srvUbicaciones.ListadoPorId(_param.idUbicacion);
+            return _srvUbicaciones.ListadoPorId(_filtros.idUbicacion);
 
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getUbicacionesFiltro")]
-        public object getUbicacionesFiltro([FromBody] Params _param)
+        public object getUbicacionesFiltro([FromBody] FiltrosEntidad _filtros)
         {
-            return _srvUbicaciones.ListadoFiltro(_param.filtro);
+            return _srvUbicaciones.ListadoFiltro(_filtros);
 
         }
     }

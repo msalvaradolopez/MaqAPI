@@ -1,6 +1,7 @@
 ﻿using MaqAPI.Datos;
 using MaqAPI.Datos.Operaciones;
 using MaqAPI.Entidades;
+using MaqAPI.DTOMap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +72,22 @@ namespace MaqAPI.Servicios
 
         public IEnumerable<object> Listado()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var _UbicacionesABC = new UbicacionesABC();
+                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
+
+                var _ubicacionesDTOMap = new UbicacionesDTOMap();
+
+                return _ubicacionesDTOMap.CreateUbicacionesList(_catalogosABC.Listado());
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<object> ListadoFiltro(object filtro)
@@ -80,7 +96,10 @@ namespace MaqAPI.Servicios
             {
                 var _UbicacionesABC = new UbicacionesABC();
                 var _catalogosABC = new CatalogosABC(_UbicacionesABC);
-                return _catalogosABC.ListadoFiltro(filtro);
+
+                var _ubicacionesDTOMap = new UbicacionesDTOMap();
+
+                return _ubicacionesDTOMap.CreateUbicacionesList(_catalogosABC.ListadoFiltro(filtro));
             }
             catch (Exception)
             {

@@ -132,8 +132,7 @@ namespace MaqAPI.Datos.Catalogos
 
                     var _obraByID = db.maquinarias
                         .Where(x => x.idEconomico.Contains(filtro.ToString())
-                                    || x.Tipo.Contains(filtro.ToString())
-                                    || x.estatus.Contains(filtro.ToString()))
+                                    || x.Tipo.Contains(filtro.ToString()))
                         .OrderBy(x=> x.Tipo)
                         .Select(x => x).ToList();
 

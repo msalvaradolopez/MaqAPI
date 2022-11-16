@@ -90,7 +90,7 @@ namespace MaqAPI.Datos.Operaciones
                         comentarios = this.ubicacionEntidad.comentarios,
                         idUsuario = this.ubicacionEntidad.idUsuario,
                         fecha_ingreso = this.ubicacionEntidad.fecha_ingreso,
-                        hodometro = this.ubicacionEntidad.hodometro,
+                        hodometro = 0,
                         odometro = this.ubicacionEntidad.odometro,
                         sello = this.ubicacionEntidad.sello,
                         litros = this.ubicacionEntidad.litros,
@@ -125,7 +125,7 @@ namespace MaqAPI.Datos.Operaciones
                     this._ubicacionEntity.comentarios = this.ubicacionEntidad.comentarios;
                     this._ubicacionEntity.idUsuario = this.ubicacionEntidad.idUsuario;
                     this._ubicacionEntity.fecha_ingreso = this.ubicacionEntidad.fecha_ingreso;
-                    this._ubicacionEntity.hodometro = this.ubicacionEntidad.hodometro;
+                    this._ubicacionEntity.hodometro = 0;
                     this._ubicacionEntity.odometro = this.ubicacionEntidad.odometro;
                     this._ubicacionEntity.sello = this.ubicacionEntidad.sello;
                     this._ubicacionEntity.litros = this.ubicacionEntidad.litros;
@@ -149,12 +149,18 @@ namespace MaqAPI.Datos.Operaciones
             {
                 try
                 {
+                    var _filtros = (FiltrosEntidad)filtro;
 
                     var _obraByID = db.ubicacions
-                        .Where(x => x.idEconomico.Contains(filtro.ToString())
-                                    || x.idOperador.Contains(filtro.ToString())
-                                    || x.idObra.Contains(filtro.ToString())
-                                    || x.comentarios.Contains(filtro.ToString()))
+                        .Where(x => x.idEconomico.Contains(_filtros.idEconomico)
+                                    || x.idOperador.Contains(_filtros.idOperador)
+                                    || x.idObra.Contains(_filtros.idObra)
+                                    || (
+                                        x.fecha_alta.Year == _filtros.fecha_alta.Year 
+                                            && x.fecha_alta.Month == _filtros.fecha_alta.Month
+                                            && x.fecha_alta.Day == _filtros.fecha_alta.Day
+                                       )
+                                )
                         .OrderBy(x=> x.idEconomico)
                         .Select(x => x).ToList();
 
