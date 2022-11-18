@@ -72,22 +72,7 @@ namespace MaqAPI.Servicios
 
         public IEnumerable<object> Listado()
         {
-            try
-            {
-                var _UbicacionesABC = new UbicacionesABC();
-                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
-
-                var _ubicacionesDTOMap = new UbicacionesDTOMap();
-
-                return _ubicacionesDTOMap.CreateUbicacionesList(_catalogosABC.Listado());
-
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            throw new Exception("No implelentado.");
         }
 
         public IEnumerable<object> ListadoFiltro(object filtro)
@@ -99,7 +84,7 @@ namespace MaqAPI.Servicios
 
                 var _ubicacionesDTOMap = new UbicacionesDTOMap();
 
-                return _ubicacionesDTOMap.CreateUbicacionesList(_catalogosABC.ListadoFiltro(filtro));
+                return _ubicacionesDTOMap.CreateUbicacionesList(_catalogosABC.ListadoFiltro(filtro), filtro);
             }
             catch (Exception)
             {

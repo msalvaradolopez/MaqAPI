@@ -143,6 +143,14 @@ namespace MaqAPI.Datos.Operaciones
             }
         }
 
+
+        /*
+         * ((x.idEconomico == _filtros.idEconomico) || _todos)
+                                    && (x.idOperador == _filtros.idOperador) || _todos)
+                                    && (x.idObra == _filtros.idObra) || _todos)
+                                    && (
+         */
+
         public IEnumerable<object> GetListFilter(object filtro)
         {
             using (var db = new MaquinariaEntities())
@@ -151,17 +159,22 @@ namespace MaqAPI.Datos.Operaciones
                 {
                     var _filtros = (FiltrosEntidad)filtro;
 
+                    var _todos = (_filtros.idEconomico == null && _filtros.idOperador == null && _filtros.idObra == null);
+
                     var _obraByID = db.ubicacions
-                        .Where(x => x.idEconomico.Contains(_filtros.idEconomico)
-                                    || x.idOperador.Contains(_filtros.idOperador)
-                                    || x.idObra.Contains(_filtros.idObra)
-                                    || (
-                                        x.fecha_alta.Year == _filtros.fecha_alta.Year 
-                                            && x.fecha_alta.Month == _filtros.fecha_alta.Month
-                                            && x.fecha_alta.Day == _filtros.fecha_alta.Day
-                                       )
-                                )
-                        .OrderBy(x=> x.idEconomico)
+                        .Where(x =>
+                            (
+                                (x.idEconomico == _filtros.idEconomico || _todos)
+                             || (x.idObra == _filtros.idObra || _todos)
+                             || (x.idOperador == _filtros.idOperador || _todos)
+                            )
+                            && (
+                            x.fecha_alta.Year == _filtros.fecha_alta.Year
+                                      && x.fecha_alta.Month == _filtros.fecha_alta.Month
+                                      && x.fecha_alta.Day == _filtros.fecha_alta.Day
+                                      )
+                                    )
+                        .OrderBy(x => x.idEconomico)
                         .Select(x => x).ToList();
 
                     return _obraByID;

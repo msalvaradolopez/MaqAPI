@@ -16,7 +16,9 @@ namespace MaqAPI.DTOMap
     public class UbicacionesDTOMap
     {
 
-        public List<UbicacionesDTO> CreateUbicacionesList(IEnumerable<object> pUbicacionesEntity) {
+        public List<UbicacionesDTO> CreateUbicacionesList(IEnumerable<object> pUbicacionesEntity, object pFiltros) {
+
+            var _filtros = (FiltrosEntidad)pFiltros;
 
             List<UbicacionesDTO> _ubicacionesDTOList = new List<UbicacionesDTO>();
 
@@ -65,7 +67,13 @@ namespace MaqAPI.DTOMap
                 _ubicacionesDTOList.Add(_ubicacionesDTO);
             });
 
-            return _ubicacionesDTOList;
+
+             var   _ubicacionesLis = _ubicacionesDTOList.Where(x => x.equipoNom.Contains(_filtros.filtro)
+                                        || x.operadorNom.Contains(_filtros.filtro)
+                                        || x.obraNom.Contains(_filtros.filtro))
+                    .ToList();
+
+            return _ubicacionesLis;
         }
     }
 }
