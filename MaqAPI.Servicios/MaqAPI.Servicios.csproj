@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IServiciosCatalogos.cs" />
+    <Compile Include="srvAccesos.cs" />
     <Compile Include="srvObras.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="srvMaquinaria.cs" />
