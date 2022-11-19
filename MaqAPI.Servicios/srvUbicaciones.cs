@@ -36,6 +36,21 @@ namespace MaqAPI.Servicios
         {
             try
             {
+                var _srvObras = new srvObras();
+                var _svrOPeradores = new srvOperadores();
+                var _svrMaquinaria = new srvMaquinaria();
+
+                if (_svrMaquinaria.ListadoPorId(this.ubicacionEntidad.idEconomico) == null)
+                    throw new Exception("Id Obra no existe.");
+
+                if (_srvObras.ListadoPorId(this.ubicacionEntidad.idObra) == null)
+                    throw new Exception("Id Equipo no existe.");
+
+                if (_svrOPeradores.ListadoPorId(this.ubicacionEntidad.idOperador) == null)
+                    throw new Exception("Id operador no existe.");
+
+                this.ubicacionEntidad.fecha_ingreso = DateTime.Now;
+
                 var _UbicacionesABC = new UbicacionesABC
                 {
                     ubicacionEntidad = this.ubicacionEntidad
