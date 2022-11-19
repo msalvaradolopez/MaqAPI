@@ -13,6 +13,7 @@ namespace MaqAPI.Entidades
         public string idOperador { get; set; }
         public string idObra { get; set; }
         public DateTime fecha_alta { get; set; }
-        public string filtro { get; set; }
+        public string estatus { get; set; }
+        public string buscar { get; set; }
     }
 }

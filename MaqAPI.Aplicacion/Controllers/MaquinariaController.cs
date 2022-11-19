@@ -71,18 +71,18 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getMaquinariaById")]
-        public object getMaquinariaById([FromBody] Params _param)
+        public object getMaquinariaById([FromBody] FiltrosEntidad filtro)
         {
-            return _svrMaquinaria.ListadoPorId(_param.idEconomico);
+            return _svrMaquinaria.ListadoPorId(filtro.idEconomico);
 
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getMaquinariaFiltro")]
-        public object getMaquinariaFiltro([FromBody] Params _param)
+        public object getMaquinariaFiltro([FromBody] FiltrosEntidad filtro)
         {
-            return _svrMaquinaria.ListadoFiltro(_param.filtro);
+            return _svrMaquinaria.ListadoFiltro(filtro);
 
         }
 

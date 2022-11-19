@@ -137,10 +137,12 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
+                    var _filtros = (FiltrosEntidad)filtro;
+
                     var _obraByID = db.operadores
-                        .Where(x => x.idOperador.Contains(filtro.ToString())
-                                    || x.Nombre.Contains(filtro.ToString())
-                                    || x.estatus.Contains(filtro.ToString()))
+                        .Where(x => (x.idOperador.Contains(_filtros.buscar)
+                                    || x.Nombre.Contains(_filtros.buscar))
+                                    && (x.estatus == _filtros.estatus || _filtros.estatus == "0"))
                         .OrderBy(x => x.Nombre)
                         .Select(x => x).ToList();
 

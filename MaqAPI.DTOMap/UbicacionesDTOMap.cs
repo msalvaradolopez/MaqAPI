@@ -68,9 +68,9 @@ namespace MaqAPI.DTOMap
             });
 
 
-             var   _ubicacionesLis = _ubicacionesDTOList.Where(x => x.equipoNom.Contains(_filtros.filtro)
-                                        || x.operadorNom.Contains(_filtros.filtro)
-                                        || x.obraNom.Contains(_filtros.filtro))
+             var   _ubicacionesLis = _ubicacionesDTOList.Where(x => x.equipoNom.Contains(_filtros.buscar)
+                                        || x.operadorNom.Contains(_filtros.buscar)
+                                        || x.obraNom.Contains(_filtros.buscar))
                     .ToList();
 
             return _ubicacionesLis;

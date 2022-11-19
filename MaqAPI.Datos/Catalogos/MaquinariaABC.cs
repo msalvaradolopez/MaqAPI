@@ -129,10 +129,12 @@ namespace MaqAPI.Datos.Catalogos
             {
                 try
                 {
+                    var _filtros = (FiltrosEntidad)filtro;
 
                     var _obraByID = db.maquinarias
-                        .Where(x => x.idEconomico.Contains(filtro.ToString())
-                                    || x.Tipo.Contains(filtro.ToString()))
+                        .Where(x => (x.idEconomico.Contains(_filtros.buscar)
+                                    || x.Tipo.Contains(_filtros.buscar))
+                                    && (x.estatus == _filtros.estatus  || _filtros.estatus == "0"))
                         .OrderBy(x=> x.Tipo)
                         .Select(x => x).ToList();
 

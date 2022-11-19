@@ -71,18 +71,18 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getOperadorById")]
-        public object getOperadorById([FromBody] Params _param)
+        public object getOperadorById([FromBody] FiltrosEntidad filtro)
         {
-            return _svrOPeradores.ListadoPorId(_param.idOperador);
+            return _svrOPeradores.ListadoPorId(filtro.idOperador);
 
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getOperadoresFiltro")]
-        public object getOperadoresFiltro([FromBody] Params _param)
+        public object getOperadoresFiltro([FromBody] FiltrosEntidad filtro)
         {
-            return _svrOPeradores.ListadoFiltro(_param.filtro);
+            return _svrOPeradores.ListadoFiltro(filtro);
 
         }
     }
