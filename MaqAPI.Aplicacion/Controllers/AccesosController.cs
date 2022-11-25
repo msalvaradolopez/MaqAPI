@@ -17,7 +17,7 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("Login")]
-        public string Login([FromBody] OperadorEntidad pOperador)
+        public object Login([FromBody] OperadorEntidad pOperador)
         {
 
             _srvAccesos.operadorEntidad = pOperador;

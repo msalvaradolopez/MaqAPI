@@ -13,7 +13,7 @@ namespace MaqAPI.Servicios
     {
         public OperadorEntidad operadorEntidad { get; set; }
         private srvOperadores _svrOPeradores = new srvOperadores();
-        public string Login() {
+        public object Login() {
 
             try
             {
@@ -32,7 +32,7 @@ namespace MaqAPI.Servicios
                 if(_operador.categoria == "O")
                     throw new Exception("Usuario no autorizado.");
 
-                return _operador.categoria;
+                return _operador;
             }
             catch (Exception)
             {

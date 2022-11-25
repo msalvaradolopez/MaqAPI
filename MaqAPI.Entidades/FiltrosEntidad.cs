@@ -15,5 +15,6 @@ namespace MaqAPI.Entidades
         public DateTime fecha_alta { get; set; }
         public string estatus { get; set; }
         public string buscar { get; set; }
+        public string idUsuario { get; set; }
     }
 }
