@@ -170,6 +170,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccesosController.cs" />
     <Compile Include="Controllers\MaquinariaController.cs" />
+    <Compile Include="Controllers\MigracionController.cs" />
     <Compile Include="Controllers\ObrasController.cs" />
     <Compile Include="Controllers\OperadoresController.cs" />
     <Compile Include="Controllers\UbicacionesController.cs" />
@@ -266,6 +267,10 @@
     <ProjectReference Include="..\MaqAPI.Entidades\MaqAPI.Entidades.csproj">
       <Project>{76775ef8-a75a-4a74-9863-bffe8b69d29a}</Project>
       <Name>MaqAPI.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaqAPI.Migracion\MaqAPI.Migracion.csproj">
+      <Project>{71ee2283-b4d6-4aae-a55c-dfbe95c1dd0a}</Project>
+      <Name>MaqAPI.Migracion</Name>
     </ProjectReference>
     <ProjectReference Include="..\MaqAPI.Servicios\MaqAPI.Servicios.csproj">
       <Project>{f4a40f07-c7f3-420e-b8bc-ea3360e945f6}</Project>

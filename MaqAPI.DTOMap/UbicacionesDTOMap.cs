@@ -46,7 +46,7 @@ namespace MaqAPI.DTOMap
                 string idOperador = item.idOperador;
                 string idObra = item.idObra;                
 
-                _ubicacionesDTO.idUbicacion = item.idUbicacion;
+                _ubicacionesDTO.idUbicacion = (int)item.idUbicacion;
                 _ubicacionesDTO.idEconomico = idEconomico;
                 _ubicacionesDTO.equipoNom = _maquinariaList.Where(x => x.idEconomico == idEconomico).Select(x => x.Tipo).FirstOrDefault(); // _maquinariaItem.Tipo;
                 _ubicacionesDTO.idOperador = idOperador;

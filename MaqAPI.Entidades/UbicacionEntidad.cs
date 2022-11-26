@@ -8,7 +8,7 @@ namespace MaqAPI.Entidades
 {
     public class UbicacionEntidad
     {
-        public int idUbicacion { get; set; }
+        public int? idUbicacion { get; set; }
         public string idEconomico { get; set; }
         public string idOperador { get; set; }
         public string idObra { get; set; }
