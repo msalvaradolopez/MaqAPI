@@ -12,13 +12,7 @@ namespace MaqAPI.Aplicacion.Controllers
     [RoutePrefix("api/ubicaciones")]
     public class UbicacionesController : ApiController
     {
-        public class Params
-        {
-            public string idUbicacion { get; set; }
-            public string filtro { get; set; }
-            public DateTime fecha_alta { get; set; }
-        }
-
+        
         private srvUbicaciones _srvUbicaciones = new srvUbicaciones();
 
         [AcceptVerbs("POST")]
@@ -86,6 +80,15 @@ namespace MaqAPI.Aplicacion.Controllers
         public object getUbicacionesFiltro([FromBody] FiltrosEntidad _filtros)
         {
             return _srvUbicaciones.ListadoFiltro(_filtros);
+
+        }
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getTableroList")]
+        public object getTableroList([FromBody] FiltrosEntidad _filtros)
+        {
+            return _srvUbicaciones.TableroList(_filtros.pagina);
 
         }
     }

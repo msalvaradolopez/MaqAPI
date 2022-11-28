@@ -122,5 +122,21 @@ namespace MaqAPI.Servicios
                 throw;
             }
         }
+
+        public IEnumerable<object> TableroList(int pagina)
+        {
+            try
+            {
+               
+                var _tableroDTOMap = new TableroDTOMap();
+
+                return _tableroDTOMap.createTableroList(pagina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

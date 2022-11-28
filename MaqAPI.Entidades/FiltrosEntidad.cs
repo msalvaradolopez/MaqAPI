@@ -16,5 +16,6 @@ namespace MaqAPI.Entidades
         public string estatus { get; set; }
         public string buscar { get; set; }
         public string idUsuario { get; set; }
+        public int pagina { get; set; }
     }
 }
