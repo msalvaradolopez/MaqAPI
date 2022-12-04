@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MaqAPI.Servicios
 {
-    public interface IServiciosCatalogos
+    public interface IServicios
     {
         bool Agregar();
         bool Actualizar();

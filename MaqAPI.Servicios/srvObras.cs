@@ -9,7 +9,7 @@ using MaqAPI.Datos;
 
 namespace MaqAPI.Servicios
 {
-    public class srvObras : IServiciosCatalogos
+    public class srvObras : IServicios
     {
         public ObraEntidad obraEntidad { get; set; }
 

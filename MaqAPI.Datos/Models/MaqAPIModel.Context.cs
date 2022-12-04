@@ -34,6 +34,7 @@ namespace MaqAPI.Datos.Models
         public virtual DbSet<ubicacion> ubicacions { get; set; }
         public virtual DbSet<usuario> usuarios { get; set; }
         public virtual DbSet<parametro> parametros { get; set; }
+        public virtual DbSet<bitseg> bitseg { get; set; }
     
         public virtual int spConsultaUbicacionPaginado(Nullable<int> intRenglones, Nullable<int> intPagina)
         {

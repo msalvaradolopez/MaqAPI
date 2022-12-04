@@ -58,6 +58,9 @@
     <Compile Include="Catalogos\ObrasABC.cs" />
     <Compile Include="Catalogos\OperadoresABC.cs" />
     <Compile Include="Interfaz\IConexion.cs" />
+    <Compile Include="Models\bitseg.cs">
+      <DependentUpon>MaqAPIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\diesel.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
@@ -94,6 +97,7 @@
     <Compile Include="Models\usuario.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Operaciones\BitSegABC.cs" />
     <Compile Include="Operaciones\UbicacionesABC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

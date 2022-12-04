@@ -17,5 +17,7 @@ namespace MaqAPI.Entidades
         public string buscar { get; set; }
         public string idUsuario { get; set; }
         public int pagina { get; set; }
+        public long idBitacora { get; set; }
+        public long docBitacora { get; set; }
     }
 }

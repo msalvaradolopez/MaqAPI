@@ -1,7 +1,6 @@
 ﻿using MaqAPI.Datos;
 using MaqAPI.Datos.Operaciones;
 using MaqAPI.Entidades;
-using MaqAPI.DTOMap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace MaqAPI.Servicios
 {
-    public class srvUbicaciones : IServicios
+    public class srvBitSeg : IServicios
     {
-        public UbicacionEntidad ubicacionEntidad { get; set; }
+        public BitSegEntidad bitSegEntidad { get; set; }
         public bool Actualizar()
         {
             try
             {
-                var _UbicacionesABC = new UbicacionesABC
+                var _BitSegABC = new BitSegABC
                 {
-                    ubicacionEntidad = this.ubicacionEntidad
+                    bitSegEntidad = this.bitSegEntidad
                 };
-                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
+                var _catalogosABC = new CatalogosABC(_BitSegABC);
                 _catalogosABC.Actualizar();
                 return true;
             }
@@ -40,22 +39,22 @@ namespace MaqAPI.Servicios
                 var _svrOPeradores = new srvOperadores();
                 var _svrMaquinaria = new srvMaquinaria();
 
-                if (_svrMaquinaria.ListadoPorId(this.ubicacionEntidad.idEconomico) == null)
+                if (_svrMaquinaria.ListadoPorId(this.bitSegEntidad.idEconomico) == null)
                     throw new Exception("Id Obra no existe.");
 
-                if (_srvObras.ListadoPorId(this.ubicacionEntidad.idObra) == null)
+                if (_srvObras.ListadoPorId(this.bitSegEntidad.idObra) == null)
                     throw new Exception("Id Equipo no existe.");
 
-                if (_svrOPeradores.ListadoPorId(this.ubicacionEntidad.idOperador) == null)
+                if (_svrOPeradores.ListadoPorId(this.bitSegEntidad.idOperador) == null)
                     throw new Exception("Id operador no existe.");
 
-                this.ubicacionEntidad.fecha_ingreso = DateTime.Now;
+                this.bitSegEntidad.fecha = DateTime.Now;
 
-                var _UbicacionesABC = new UbicacionesABC
+                var _BitSegABC = new BitSegABC
                 {
-                    ubicacionEntidad = this.ubicacionEntidad
+                    bitSegEntidad = this.bitSegEntidad
                 };
-                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
+                var _catalogosABC = new CatalogosABC(_BitSegABC);
                 _catalogosABC.Nuevo();
                 return true;
             }
@@ -70,11 +69,11 @@ namespace MaqAPI.Servicios
         {
             try
             {
-                var _UbicacionesABC = new UbicacionesABC
+                var _BitSegABC = new BitSegABC
                 {
-                    ubicacionEntidad = this.ubicacionEntidad
+                    bitSegEntidad = this.bitSegEntidad
                 };
-                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
+                var _catalogosABC = new CatalogosABC(_BitSegABC);
                 _catalogosABC.Eliminar();
                 return true;
             }
@@ -87,19 +86,17 @@ namespace MaqAPI.Servicios
 
         public IEnumerable<object> Listado()
         {
-            throw new Exception("No implelentado.");
+            throw new NotImplementedException();
         }
 
         public IEnumerable<object> ListadoFiltro(object filtro)
         {
             try
             {
-                var _UbicacionesABC = new UbicacionesABC();
-                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
+                var _BitSegABC = new BitSegABC();
+                var _catalogosABC = new CatalogosABC(_BitSegABC);
 
-                var _ubicacionesDTOMap = new UbicacionesDTOMap();
-
-                return _ubicacionesDTOMap.CreateUbicacionesList(_catalogosABC.ListadoFiltro(filtro), filtro);
+                return _catalogosABC.ListadoFiltro(filtro);
             }
             catch (Exception)
             {
@@ -112,25 +109,9 @@ namespace MaqAPI.Servicios
         {
             try
             {
-                var _UbicacionesABC = new UbicacionesABC();
-                var _catalogosABC = new CatalogosABC(_UbicacionesABC);
+                var _BitSegABC = new BitSegABC();
+                var _catalogosABC = new CatalogosABC(_BitSegABC);
                 return _catalogosABC.ListadoPorId(id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public IEnumerable<object> TableroList(int pagina)
-        {
-            try
-            {
-               
-                var _tableroDTOMap = new TableroDTOMap();
-
-                return _tableroDTOMap.createTableroList(pagina);
             }
             catch (Exception)
             {

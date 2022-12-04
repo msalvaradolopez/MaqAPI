@@ -4,7 +4,45 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bitseg">
+          <Key>
+            <PropertyRef Name="idBitacora" />
+          </Key>
+          <Property Name="idBitacora" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="docBitacora" Type="bigint" Nullable="false" />
+          <Property Name="fecha" Type="smalldatetime" Nullable="false" />
+          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idObra" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="area" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="hora_inicio" Type="smalldatetime" Nullable="false" />
+          <Property Name="hora_termino" Type="smalldatetime" Nullable="false" />
+          <Property Name="idEconomico" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="actividad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pto_exacto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="chequeo_medico" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="chequeo_medico_obs" Type="varchar" MaxLength="255" />
+          <Property Name="checklist_maq_equip" Type="varchar" MaxLength="1" />
+          <Property Name="checklist_maq_equip_obs" Type="varchar" MaxLength="255" />
+          <Property Name="apr" Type="varchar" MaxLength="1" />
+          <Property Name="apr_obs" Type="varchar" MaxLength="255" />
+          <Property Name="permiso_instancia" Type="varchar" MaxLength="1" />
+          <Property Name="permiso_instancia_obs" Type="varchar" MaxLength="255" />
+          <Property Name="dc3" Type="varchar" MaxLength="1" />
+          <Property Name="dc3_obs" Type="varchar" MaxLength="255" />
+          <Property Name="extintor" Type="varchar" MaxLength="1" />
+          <Property Name="extintor_obs" Type="varchar" MaxLength="255" />
+          <Property Name="kit_antiderrames" Type="varchar" MaxLength="1" />
+          <Property Name="kit_antiderrames_obs" Type="varchar" MaxLength="255" />
+          <Property Name="platica_5min" Type="varchar" MaxLength="1" />
+          <Property Name="platica_5min_obs" Type="varchar" MaxLength="255" />
+          <Property Name="epp" Type="varchar" MaxLength="1" />
+          <Property Name="epp_obs" Type="varchar" MaxLength="255" />
+          <Property Name="otro" Type="varchar" MaxLength="1" />
+          <Property Name="otro_descrip" Type="varchar" MaxLength="50" />
+          <Property Name="otro_obs" Type="varchar" MaxLength="255" />
+          <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="diesel">
           <Key>
             <PropertyRef Name="idDiesel" />
@@ -93,6 +131,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <Parameter Name="intPagina" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="MaquinariaModelStoreContainer">
+          <EntitySet Name="bitseg" EntityType="Self.bitseg" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="diesel" EntityType="Self.diesel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obras" EntityType="Self.obras" Schema="dbo" store:Type="Tables" />
@@ -106,8 +145,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
     FROM [dbo].[parametros] AS [parametros]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MaquinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -204,7 +242,46 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             <Parameter Name="intRenglones" Mode="In" Type="Int32" />
             <Parameter Name="intPagina" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="bitseg" EntityType="MaquinariaModel.bitseg" />
         </EntityContainer>
+        <EntityType Name="bitseg">
+          <Key>
+            <PropertyRef Name="idBitacora" />
+          </Key>
+          <Property Name="idBitacora" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="docBitacora" Type="Int64" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idOperador" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="idObra" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hora_inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="hora_termino" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idEconomico" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="actividad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pto_exacto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="chequeo_medico" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="chequeo_medico_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="checklist_maq_equip" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="checklist_maq_equip_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="apr" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="apr_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="permiso_instancia" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="permiso_instancia_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="dc3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="dc3_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="extintor" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="extintor_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="kit_antiderrames" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="kit_antiderrames_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="platica_5min" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="platica_5min_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="epp" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="epp_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="otro" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="otro_descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="otro_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="idUsuario" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -299,6 +376,45 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaquinariaModel.Store.spConsultaUbicacionPaginado" />
+          <EntitySetMapping Name="bitseg">
+            <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
+              <MappingFragment StoreEntitySet="bitseg">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="otro_obs" ColumnName="otro_obs" />
+                <ScalarProperty Name="otro_descrip" ColumnName="otro_descrip" />
+                <ScalarProperty Name="otro" ColumnName="otro" />
+                <ScalarProperty Name="epp_obs" ColumnName="epp_obs" />
+                <ScalarProperty Name="epp" ColumnName="epp" />
+                <ScalarProperty Name="platica_5min_obs" ColumnName="platica_5min_obs" />
+                <ScalarProperty Name="platica_5min" ColumnName="platica_5min" />
+                <ScalarProperty Name="kit_antiderrames_obs" ColumnName="kit_antiderrames_obs" />
+                <ScalarProperty Name="kit_antiderrames" ColumnName="kit_antiderrames" />
+                <ScalarProperty Name="extintor_obs" ColumnName="extintor_obs" />
+                <ScalarProperty Name="extintor" ColumnName="extintor" />
+                <ScalarProperty Name="dc3_obs" ColumnName="dc3_obs" />
+                <ScalarProperty Name="dc3" ColumnName="dc3" />
+                <ScalarProperty Name="permiso_instancia_obs" ColumnName="permiso_instancia_obs" />
+                <ScalarProperty Name="permiso_instancia" ColumnName="permiso_instancia" />
+                <ScalarProperty Name="apr_obs" ColumnName="apr_obs" />
+                <ScalarProperty Name="apr" ColumnName="apr" />
+                <ScalarProperty Name="checklist_maq_equip_obs" ColumnName="checklist_maq_equip_obs" />
+                <ScalarProperty Name="checklist_maq_equip" ColumnName="checklist_maq_equip" />
+                <ScalarProperty Name="chequeo_medico_obs" ColumnName="chequeo_medico_obs" />
+                <ScalarProperty Name="chequeo_medico" ColumnName="chequeo_medico" />
+                <ScalarProperty Name="pto_exacto" ColumnName="pto_exacto" />
+                <ScalarProperty Name="actividad" ColumnName="actividad" />
+                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
+                <ScalarProperty Name="hora_termino" ColumnName="hora_termino" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="idObra" ColumnName="idObra" />
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="docBitacora" ColumnName="docBitacora" />
+                <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -313,7 +429,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />

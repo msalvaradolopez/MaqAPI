@@ -10,7 +10,7 @@ using MaqAPI.Datos;
 
 namespace MaqAPI.Servicios
 {
-    public class srvMaquinaria : IServiciosCatalogos
+    public class srvMaquinaria : IServicios
     {
         public MaquinariaEntidad maquinariaEntidad { get; set; }
         public bool Actualizar()
