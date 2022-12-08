@@ -53,12 +53,7 @@
   <ItemGroup>
     <Compile Include="CatalogosMIG.cs" />
     <Compile Include="ICatalogosMig.cs" />
-    <Compile Include="MaquinariaMIG.cs" />
-    <Compile Include="ObrasMIG.cs" />
-    <Compile Include="OperadoresMIG.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="srvMigracion.cs" />
-    <Compile Include="UbicacionesMIG.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

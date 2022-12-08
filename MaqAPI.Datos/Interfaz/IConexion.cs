@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace MaqAPI.Datos.Interfaz
 {
-    public interface IConexion
+    public interface IConexion<T>
     {
-        Boolean Insert();
+        Boolean Insert(T pItem);
 
-        Boolean Update();
+        Boolean Insert(List<T> pList);
 
-        Boolean Delete();
+        Boolean Update(T pItem);
+        Boolean Update(List<T> pList);
+
+        Boolean Delete(T pItem);
+        Boolean Delete(List<T> pList);
 
         IEnumerable<object> GetListAll();
 

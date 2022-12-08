@@ -11,7 +11,7 @@ namespace MaqAPI.Servicios
 {
     public class srvBitSeg : IServicios
     {
-        public BitSegEntidad bitSegEntidad { get; set; }
+        public List<BitSegEntidad> bitSegEntidad { get; set; }
         public bool Actualizar()
         {
             try
@@ -39,16 +39,19 @@ namespace MaqAPI.Servicios
                 var _svrOPeradores = new srvOperadores();
                 var _svrMaquinaria = new srvMaquinaria();
 
-                if (_svrMaquinaria.ListadoPorId(this.bitSegEntidad.idEconomico) == null)
-                    throw new Exception("Id Obra no existe.");
+                foreach (var item in this.bitSegEntidad)
+                {
+                    if (_svrMaquinaria.ListadoPorId(item.idEconomico) == null)
+                        throw new Exception("Id Obra no existe.");
 
-                if (_srvObras.ListadoPorId(this.bitSegEntidad.idObra) == null)
-                    throw new Exception("Id Equipo no existe.");
+                    if (_srvObras.ListadoPorId(item.idObra) == null)
+                        throw new Exception("Id Equipo no existe.");
 
-                if (_svrOPeradores.ListadoPorId(this.bitSegEntidad.idOperador) == null)
-                    throw new Exception("Id operador no existe.");
+                    if (_svrOPeradores.ListadoPorId(item.idOperador) == null)
+                        throw new Exception("Id operador no existe.");
 
-                this.bitSegEntidad.fecha = DateTime.Now;
+                    item.fecha = DateTime.Now;
+                }
 
                 var _BitSegABC = new BitSegABC
                 {

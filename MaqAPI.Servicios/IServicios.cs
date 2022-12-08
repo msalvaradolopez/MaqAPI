@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace MaqAPI.Servicios
 {
-    public interface IServicios
+    public interface IServicios<T>
     {
-        bool Agregar();
-        bool Actualizar();
-        bool Eliminar();
+        bool Insertar(T pItem);
+        bool insertar(List<T> pListado);
+        bool Actualizar(T pItem);
+        bool Actualizar(List<T> pListado);
+        bool Eliminar(T pItem);
+        bool Eliminar(List<T> pListado);
         IEnumerable<object> Listado();
         object ListadoPorId(object id);
 

@@ -9,9 +9,8 @@ using MaqAPI.Entidades;
 
 namespace MaqAPI.Datos.Catalogos
 {
-    public class MaquinariaABC : IConexion
+    public class MaquinariaABC<MaquinariaEntidad> : IConexion<MaquinariaEntidad>
     {
-        public MaquinariaEntidad MaquinariaEntidad { get; set; }
         private maquinaria _maquinariaEntity;
         public bool Delete()
         {
@@ -146,6 +145,11 @@ namespace MaqAPI.Datos.Catalogos
                     throw;
                 }
             }
+        }
+
+        public bool InsertList(List<MaquinariaEntidad> pList)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -53,10 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CatalogosABC.cs" />
-    <Compile Include="Catalogos\MaquinariaABC.cs" />
-    <Compile Include="Catalogos\ObrasABC.cs" />
-    <Compile Include="Catalogos\OperadoresABC.cs" />
     <Compile Include="Interfaz\IConexion.cs" />
     <Compile Include="Models\bitseg.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
@@ -98,7 +94,6 @@
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\BitSegABC.cs" />
-    <Compile Include="Operaciones\UbicacionesABC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +125,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Catalogos\" />
     <Folder Include="Consultas\" />
   </ItemGroup>
   <ItemGroup>

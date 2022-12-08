@@ -12,74 +12,77 @@ namespace MaqAPI.Aplicacion.Controllers
     [RoutePrefix("api/bitSeg")]
     public class BitSegController : ApiController
     {
-        private srvBitSeg _srvBitSeg = new srvBitSeg();
+
+        private srvCRUD<BitSegEntidad> _srvCRUD;
+        public BitSegController() {
+            _srvCRUD = new srvCRUD<BitSegEntidad>(tipoCRUD.BITSEG);
+        }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("insBitSeg")]
-        public string insBitSeg([FromBody] BitSegEntidad pBitSeg)
+        [Route("insItem")]
+        public string insItem([FromBody] BitSegEntidad pBitSeg)
         {
 
-            _srvBitSeg.bitSegEntidad = pBitSeg;
-            if (_srvBitSeg.Agregar())
+            if (_srvCRUD.Insertar(pBitSeg))
                 return "Registro insertado.";
             else
                 return "Fallo.";
         }
 
-        [AcceptVerbs("POST")]
-        [HttpPost()]
-        [Route("updBitSeg")]
-        public string updBitSeg([FromBody] BitSegEntidad pBitSeg)
-        {
+        //[AcceptVerbs("POST")]
+        //[HttpPost()]
+        //[Route("updBitSeg")]
+        //public string updBitSeg([FromBody] List<BitSegEntidad> pBitSeg)
+        //{
 
-            _srvBitSeg.bitSegEntidad = pBitSeg;
-            if (_srvBitSeg.Actualizar())
-                return "Registro Actualizado.";
-            else
-                return "Fallo.";
-        }
+        //    _srvBitSeg.bitSegEntidad = pBitSeg;
+        //    if (_srvBitSeg.Actualizar())
+        //        return "Registro Actualizado.";
+        //    else
+        //        return "Fallo.";
+        //}
 
-        [AcceptVerbs("POST")]
-        [HttpPost()]
-        [Route("delBitSeg")]
-        public string delBitSeg([FromBody] BitSegEntidad pBitSeg)
-        {
-            _srvBitSeg.bitSegEntidad = pBitSeg;
-            if (_srvBitSeg.Eliminar())
-                return "Registro eliminado.";
-            else
-                return "Fallo.";
-        }
+        //[AcceptVerbs("POST")]
+        //[HttpPost()]
+        //[Route("delBitSeg")]
+        //public string delBitSeg([FromBody] BitSegEntidad pBitSeg)
+        //{
+        //    _srvBitSeg.bitSegEntidad = pBitSeg;
+        //    if (_srvBitSeg.Eliminar())
+        //        return "Registro eliminado.";
+        //    else
+        //        return "Fallo.";
+        //}
 
-        [AcceptVerbs("POST")]
-        [HttpPost()]
-        [Route("getBitSeg")]
-        public IEnumerable<object> getBitSeg()
-        {
-            var _listado = _srvBitSeg.Listado();
-            return _listado;
+        //[AcceptVerbs("POST")]
+        //[HttpPost()]
+        //[Route("getBitSeg")]
+        //public IEnumerable<object> getBitSeg()
+        //{
+        //    var _listado = _srvBitSeg.Listado();
+        //    return _listado;
 
-        }
+        //}
 
 
-        [AcceptVerbs("POST")]
-        [HttpPost()]
-        [Route("getBitSegById")]
-        public object getBitSegById([FromBody] FiltrosEntidad _filtros)
-        {
-            return _srvBitSeg.ListadoPorId(_filtros.idUbicacion);
+        //[AcceptVerbs("POST")]
+        //[HttpPost()]
+        //[Route("getBitSegById")]
+        //public object getBitSegById([FromBody] FiltrosEntidad _filtros)
+        //{
+        //    return _srvBitSeg.ListadoPorId(_filtros.idUbicacion);
 
-        }
+        //}
 
-        [AcceptVerbs("POST")]
-        [HttpPost()]
-        [Route("getBitSegFiltro")]
-        public object getBitSegFiltro([FromBody] FiltrosEntidad _filtros)
-        {
-            return _srvBitSeg.ListadoFiltro(_filtros);
+        //[AcceptVerbs("POST")]
+        //[HttpPost()]
+        //[Route("getBitSegFiltro")]
+        //public object getBitSegFiltro([FromBody] FiltrosEntidad _filtros)
+        //{
+        //    return _srvBitSeg.ListadoFiltro(_filtros);
 
-        }
+        //}
 
     }
 }
