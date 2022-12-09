@@ -21,6 +21,7 @@ namespace MaqAPI.Datos.Models
             this.bitseg1 = new HashSet<bitseg>();
             this.ubicacion = new HashSet<ubicacion>();
             this.ubicacion1 = new HashSet<ubicacion>();
+            this.bitseg11 = new HashSet<bitseg>();
         }
     
         public string idOperador { get; set; }
@@ -38,5 +39,7 @@ namespace MaqAPI.Datos.Models
         public virtual ICollection<ubicacion> ubicacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ubicacion> ubicacion1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<bitseg> bitseg11 { get; set; }
     }
 }

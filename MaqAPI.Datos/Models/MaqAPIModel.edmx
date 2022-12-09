@@ -12,12 +12,13 @@
           <Property Name="idBitacora" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="docBitacora" Type="bigint" Nullable="false" />
           <Property Name="fecha" Type="smalldatetime" Nullable="false" />
-          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idSupervisor" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="idObra" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="area" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="hora_inicio" Type="smalldatetime" Nullable="false" />
           <Property Name="hora_termino" Type="smalldatetime" Nullable="false" />
           <Property Name="idEconomico" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="actividad" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="pto_exacto" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="chequeo_medico" Type="varchar" MaxLength="3" Nullable="false" />
@@ -162,6 +163,18 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bitseg_supervisor">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="bitseg">
+              <PropertyRef Name="idSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bitseg_usuarios">
           <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
           <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
@@ -252,6 +265,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             <End Role="operadores" EntitySet="operadores" />
             <End Role="bitseg" EntitySet="bitseg" />
           </AssociationSet>
+          <AssociationSet Name="FK_bitseg_supervisor" Association="Self.FK_bitseg_supervisor">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="bitseg" EntitySet="bitseg" />
+          </AssociationSet>
           <AssociationSet Name="FK_bitseg_usuarios" Association="Self.FK_bitseg_usuarios">
             <End Role="operadores" EntitySet="operadores" />
             <End Role="bitseg" EntitySet="bitseg" />
@@ -327,6 +344,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <NavigationProperty Name="bitseg1" Relationship="MaquinariaModel.FK_bitseg_usuarios" FromRole="operadore" ToRole="bitseg" />
           <NavigationProperty Name="ubicacion" Relationship="MaquinariaModel.FK_ubicacion_operadores" FromRole="operadore" ToRole="ubicacion" />
           <NavigationProperty Name="ubicacion1" Relationship="MaquinariaModel.FK_ubicacion_usuarios" FromRole="operadore" ToRole="ubicacion" />
+          <NavigationProperty Name="bitseg11" Relationship="MaquinariaModel.FK_bitseg_supervisor" FromRole="operadore" ToRole="bitseg" />
         </EntityType>
         <EntityType Name="ubicacion">
           <Key>
@@ -415,6 +433,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             <End Role="operadore" EntitySet="operadores" />
             <End Role="ubicacion" EntitySet="ubicacions" />
           </AssociationSet>
+          <AssociationSet Name="FK_bitseg_supervisor" Association="MaquinariaModel.FK_bitseg_supervisor">
+            <End Role="operadore" EntitySet="operadores" />
+            <End Role="bitseg" EntitySet="bitseg" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="bitseg">
           <Key>
@@ -457,6 +479,8 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <NavigationProperty Name="obras" Relationship="MaquinariaModel.FK_bitseg_obras" FromRole="bitseg" ToRole="obra" />
           <NavigationProperty Name="operadores" Relationship="MaquinariaModel.FK_bitseg_operadores" FromRole="bitseg" ToRole="operadore" />
           <NavigationProperty Name="operadores1" Relationship="MaquinariaModel.FK_bitseg_usuarios" FromRole="bitseg" ToRole="operadore" />
+          <Property Name="idSupervisor" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="operadores11" Relationship="MaquinariaModel.FK_bitseg_supervisor" FromRole="bitseg" ToRole="operadore" />
         </EntityType>
         <Association Name="FK_bitseg_maquinaria">
           <End Type="MaquinariaModel.maquinaria" Role="maquinaria" Multiplicity="1" />
@@ -551,6 +575,18 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </Principal>
             <Dependent Role="ubicacion">
               <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bitseg_supervisor">
+          <End Type="MaquinariaModel.operadore" Role="operadore" Multiplicity="1" />
+          <End Type="MaquinariaModel.bitseg" Role="bitseg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadore">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="bitseg">
+              <PropertyRef Name="idSupervisor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -651,6 +687,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <EntitySetMapping Name="bitseg">
             <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
               <MappingFragment StoreEntitySet="bitseg">
+                <ScalarProperty Name="idSupervisor" ColumnName="idSupervisor" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="otro_obs" ColumnName="otro_obs" />
                 <ScalarProperty Name="otro_descrip" ColumnName="otro_descrip" />

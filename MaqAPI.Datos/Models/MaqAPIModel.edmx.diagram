@@ -21,6 +21,7 @@
         <AssociationConnector Association="MaquinariaModel.FK_ubicacion_obras" />
         <AssociationConnector Association="MaquinariaModel.FK_ubicacion_operadores" />
         <AssociationConnector Association="MaquinariaModel.FK_ubicacion_usuarios" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_supervisor" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

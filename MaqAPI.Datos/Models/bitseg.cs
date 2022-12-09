@@ -47,10 +47,12 @@ namespace MaqAPI.Datos.Models
         public string otro_descrip { get; set; }
         public string otro_obs { get; set; }
         public string idUsuario { get; set; }
+        public string idSupervisor { get; set; }
     
         public virtual maquinaria maquinaria { get; set; }
         public virtual obra obras { get; set; }
         public virtual operadore operadores { get; set; }
         public virtual operadore operadores1 { get; set; }
+        public virtual operadore operadores11 { get; set; }
     }
 }

@@ -98,7 +98,7 @@ namespace MaqAPI.Datos.Operaciones
                     _filtros.idUsuario = _filtros.idUsuario == null ? "0" : _filtros.idUsuario;
                     var _todos = (_filtros.idEconomico == null && _filtros.idOperador == null && _filtros.idObra == null);
 
-                    var _Listado = db.bitseg
+                    List<BitSegEntidad> _Listado = db.bitseg
                         .Where(x =>
                                 (
                                     (x.idEconomico == _filtros.idEconomico || _todos)
@@ -113,6 +113,46 @@ namespace MaqAPI.Datos.Operaciones
                                 )
                                 && (x.idUsuario == _filtros.idUsuario || _filtros.idUsuario == "0")
                               )
+                        .Select(x => new BitSegEntidad {
+                            idBitacora = x.idBitacora,
+                            docBitacora =x.docBitacora,
+                            fecha = x.fecha,
+                            idSupervisor = x.idSupervisor,
+                            idObra = x.idObra,
+                            area = x.area,
+                            hora_inicio = x.hora_inicio,
+                            hora_termino = x.hora_termino,
+                            idEconomico = x.idEconomico,
+                            idOperador = x.idOperador,
+                            actividad = x.actividad,
+                            pto_exacto = x.pto_exacto,
+                            chequeo_medico = x.chequeo_medico,
+                            chequeo_medico_obs = x.chequeo_medico_obs,
+                            checklist_maq_equip = x.checklist_maq_equip,
+                            checklist_maq_equip_obs = x.checklist_maq_equip_obs,
+                            apr = x.apr,
+                            apr_obs = x.apr_obs,
+                            permiso_instancia = x.permiso_instancia,
+                            permiso_instancia_obs = x.permiso_instancia_obs,
+                            dc3 = x.dc3,
+                            dc3_obs = x.dc3_obs,
+                            extintor = x.extintor,
+                            extintor_obs = x.extintor_obs,
+                            kit_antiderrames = x.kit_antiderrames,
+                            kit_antiderrames_obs = x.kit_antiderrames_obs,
+                            platica_5min = x.platica_5min,
+                            platica_5min_obs = x.platica_5min_obs,
+                            epp = x.epp,
+                            epp_obs = x.epp_obs,
+                            otro = x.otro,
+                            otro_descrip = x.otro_descrip,
+                            otro_obs = x.otro_obs,
+                            idUsuario = x.idUsuario,
+                            equipoNom = x.maquinaria.Tipo,
+                            obraNom = x.obras.Nombre,
+                            operadorNom = x.operadores.Nombre,
+                            supervisorNom = x.operadores11.Nombre
+                        })
                         .ToList();
 
                     var _BitSegEncabezadosDTO = this.getEncabezadoBitacoraSeguridad(_Listado);
@@ -327,36 +367,33 @@ namespace MaqAPI.Datos.Operaciones
         }
 
         #region ESPECIAL PARA INSERTAR REGISTROS A DTO LISTADO DE BITACORA SEGURIDAD.
-        private List<BitSegDTO> getEncabezadoBitacoraSeguridad(List<bitseg> pBitacoraSegFiltrada)
+        private List<BitSegDTO> getEncabezadoBitacoraSeguridad(List<BitSegEntidad> pBitacoraSegFiltrada)
         {
-            var _ListadoBitSegMaster = new List<BitSegEntidad>();
-            _ListadoBitSegMaster = JsonConvert.DeserializeObject<List<BitSegEntidad>>(JsonConvert.SerializeObject(pBitacoraSegFiltrada, Newtonsoft.Json.Formatting.None));
 
-            var _ListadoEncabezado = _ListadoBitSegMaster
-                .GroupBy(g => new { g.docBitacora, g.fecha, g.idOperador, g.idObra, g.area, g.hora_inicio, g.hora_termino })
+            var _ListadoEncabezado = pBitacoraSegFiltrada
+                .GroupBy(g => new { g.docBitacora, g.fecha, g.idSupervisor, g.idObra, g.area, g.hora_inicio, g.hora_termino, g.supervisorNom, g.obraNom })
                 .Select(x => new BitSegDTO
                 {
                     docBitacora = x.Key.docBitacora,
                     fecha = x.Key.fecha,
-                    idOperador = x.Key.idOperador,
+                    idSupervisor = x.Key.idSupervisor,
                     idObra = x.Key.idObra,
                     area = x.Key.area,
                     hora_inicio = x.Key.hora_inicio,
-                    hora_termino = x.Key.hora_termino
+                    hora_termino = x.Key.hora_termino,
+                    supervisorNom = x.Key.supervisorNom,
+                    obraNom = x.Key.obraNom
                 })
                 .ToList();
 
             return _ListadoEncabezado;
         }
 
-        private List<BitSegDTO> getDetailBitacoraSeguridad(List<BitSegDTO> pBitSegEncabezadosDTO, List<bitseg> pBitacoraSegFiltrada)
+        private List<BitSegDTO> getDetailBitacoraSeguridad(List<BitSegDTO> pBitSegEncabezadosDTO, List<BitSegEntidad> pBitacoraSegFiltrada)
         {
-            var _ListadoBitSegMaster = new List<BitSegEntidad>();
-            _ListadoBitSegMaster = JsonConvert.DeserializeObject<List<BitSegEntidad>>(JsonConvert.SerializeObject(pBitacoraSegFiltrada, Newtonsoft.Json.Formatting.None));
-
             pBitSegEncabezadosDTO.ForEach(itemBitSegEncabezado =>
             {
-                var _ListadoBitSeg = _ListadoBitSegMaster.Where(x => x.docBitacora == itemBitSegEncabezado.docBitacora).ToList();
+                var _ListadoBitSeg = pBitacoraSegFiltrada.Where(x => x.docBitacora == itemBitSegEncabezado.docBitacora).ToList();
                 itemBitSegEncabezado.ListadoBitSeg = new List<BitSegEntidad>();
                 _ListadoBitSeg.ForEach(x =>
                 {
