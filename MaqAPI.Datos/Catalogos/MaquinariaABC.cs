@@ -9,31 +9,8 @@ using MaqAPI.Entidades;
 
 namespace MaqAPI.Datos.Catalogos
 {
-    public class MaquinariaABC<MaquinariaEntidad> : IConexion<MaquinariaEntidad>
+    public class MaquinariaABC<T> : IConexion<T>
     {
-        private maquinaria _maquinariaEntity;
-        public bool Delete()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._maquinariaEntity = db.maquinarias.Where(x => x.idEconomico == this.MaquinariaEntidad.idEconomico).FirstOrDefault();
-
-                    db.maquinarias.Remove(this._maquinariaEntity);
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
         public IEnumerable<object> GetListAll()
         {
             using (var db = new MaquinariaEntities())
@@ -74,54 +51,6 @@ namespace MaqAPI.Datos.Catalogos
             }
         }
 
-        public bool Insert()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-                    this._maquinariaEntity = new maquinaria();
-                    this._maquinariaEntity.idEconomico = this.MaquinariaEntidad.idEconomico;
-                    this._maquinariaEntity.Tipo = this.MaquinariaEntidad.Tipo;
-                    this._maquinariaEntity.estatus = this.MaquinariaEntidad.estatus;
-                    this._maquinariaEntity.fecha_alta = this.MaquinariaEntidad.fecha_alta;
-
-                    db.maquinarias.Add(this._maquinariaEntity);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
-        public bool Update()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._maquinariaEntity = db.maquinarias.Where(x => x.idEconomico == this.MaquinariaEntidad.idEconomico).FirstOrDefault();
-
-                    this._maquinariaEntity.Tipo = this.MaquinariaEntidad.Tipo;
-                    this._maquinariaEntity.estatus = this.MaquinariaEntidad.estatus;
-                    this._maquinariaEntity.fecha_alta = this.MaquinariaEntidad.fecha_alta;
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
         public IEnumerable<object> GetListFilter(object filtro)
         {
             using (var db = new MaquinariaEntities())
@@ -147,7 +76,91 @@ namespace MaqAPI.Datos.Catalogos
             }
         }
 
-        public bool InsertList(List<MaquinariaEntidad> pList)
+        public bool Insert(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as MaquinariaEntidad;
+
+                    var _maquinariaEntity = new maquinaria();
+                    _maquinariaEntity.idEconomico = _item.idEconomico;
+                    _maquinariaEntity.Tipo = _item.Tipo;
+                    _maquinariaEntity.estatus = _item.estatus;
+                    _maquinariaEntity.fecha_alta = _item.fecha_alta;
+
+                    db.maquinarias.Add(_maquinariaEntity);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Insert(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as MaquinariaEntidad;
+
+                    var _maquinariaEntity = db.maquinarias.Where(x => x.idEconomico == _item.idEconomico).FirstOrDefault();
+
+                    _maquinariaEntity.Tipo = _item.Tipo;
+                    _maquinariaEntity.estatus = _item.estatus;
+                    _maquinariaEntity.fecha_alta = _item.fecha_alta;
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Update(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as MaquinariaEntidad;
+
+                    var _maquinariaEntity = db.maquinarias.Where(x => x.idEconomico == _item.idEconomico).FirstOrDefault();
+
+                    db.maquinarias.Remove(_maquinariaEntity);
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Delete(List<T> pList)
         {
             throw new NotImplementedException();
         }

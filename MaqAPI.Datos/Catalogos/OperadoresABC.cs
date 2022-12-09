@@ -9,33 +9,8 @@ using MaqAPI.Entidades;
 
 namespace MaqAPI.Datos.Catalogos
 {
-    public class OperadoresABC : IConexion
+    public class OperadoresABC<T> : IConexion<T>
     {
-
-        public OperadorEntidad OperadorEntidad { get; set; }
-        private operadore _OperadorEntity;
-        public bool Delete()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._OperadorEntity = db.operadores.Where(x => x.idOperador == this.OperadorEntidad.idOperador).FirstOrDefault();
-
-                    db.operadores.Remove(this._OperadorEntity);
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
         public IEnumerable<object> GetListAll()
         {
             using (var db = new MaquinariaEntities())
@@ -76,60 +51,6 @@ namespace MaqAPI.Datos.Catalogos
             }
         }
 
-        public bool Insert()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-                    this._OperadorEntity = new operadore
-                    {
-                        idOperador = this.OperadorEntidad.idOperador,
-                        Nombre = this.OperadorEntidad.Nombre,
-                        estatus = this.OperadorEntidad.estatus,
-                        fecha_alta = this.OperadorEntidad.fecha_alta,
-                        categoria = this.OperadorEntidad.categoria,
-                        passw = this.OperadorEntidad.passw
-                    };
-
-                    db.operadores.Add(this._OperadorEntity);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
-        public bool Update()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._OperadorEntity = db.operadores.Where(x => x.idOperador == this.OperadorEntidad.idOperador).FirstOrDefault();
-
-                    this._OperadorEntity.Nombre = this.OperadorEntidad.Nombre;
-                    this._OperadorEntity.estatus = this.OperadorEntidad.estatus;
-                    this._OperadorEntity.fecha_alta = this.OperadorEntidad.fecha_alta;
-                    this._OperadorEntity.categoria = this.OperadorEntidad.categoria;
-                    this._OperadorEntity.passw = this.OperadorEntidad.passw;
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
         public IEnumerable<object> GetListFilter(object filtro)
         {
             using (var db = new MaquinariaEntities())
@@ -137,7 +58,7 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _filtros = (FiltrosEntidad)filtro;
+                    var _filtros = filtro as FiltrosEntidad;
 
                     var _obraByID = db.operadores
                         .Where(x => (x.idOperador.Contains(_filtros.buscar)
@@ -154,6 +75,100 @@ namespace MaqAPI.Datos.Catalogos
                     throw;
                 }
             }
+        }
+
+        public bool Insert(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as OperadorEntidad;
+
+                    var _OperadorEntity = new operadore
+                    {
+                        idOperador = _item.idOperador,
+                        Nombre = _item.Nombre,
+                        estatus = _item.estatus,
+                        fecha_alta = _item.fecha_alta,
+                        categoria = _item.categoria,
+                        passw = _item.passw
+                    };
+
+                    db.operadores.Add(_OperadorEntity);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Insert(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as OperadorEntidad;
+                    var _OperadorEntity = db.operadores.Where(x => x.idOperador == _item.idOperador).FirstOrDefault();
+
+                    _OperadorEntity.Nombre = _item.Nombre;
+                    _OperadorEntity.estatus = _item.estatus;
+                    _OperadorEntity.fecha_alta = _item.fecha_alta;
+                    _OperadorEntity.categoria = _item.categoria;
+                    _OperadorEntity.passw = _item.passw;
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Update(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as OperadorEntidad;
+
+                    var _OperadorEntity = db.operadores.Where(x => x.idOperador == _item.idOperador).FirstOrDefault();
+
+                    db.operadores.Remove(_OperadorEntity);
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Delete(List<T> pList)
+        {
+            throw new NotImplementedException();
         }
     }
 }

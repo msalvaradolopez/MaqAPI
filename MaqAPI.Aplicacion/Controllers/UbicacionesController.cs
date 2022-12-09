@@ -12,17 +12,21 @@ namespace MaqAPI.Aplicacion.Controllers
     [RoutePrefix("api/ubicaciones")]
     public class UbicacionesController : ApiController
     {
-        
-        private srvUbicaciones _srvUbicaciones = new srvUbicaciones();
+
+        private srvCRUD<UbicacionEntidad> _srvCRUD;
+
+        public UbicacionesController()
+        {
+            _srvCRUD = new srvCRUD<UbicacionEntidad>(tipoCRUD.UBICACION);
+        }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("insUbicacion")]
-        public string insUbicacion([FromBody] UbicacionEntidad pUbicacion)
+        [Route("insItem")]
+        public string insItem([FromBody] UbicacionEntidad pItem)
         {
 
-            _srvUbicaciones.ubicacionEntidad = pUbicacion;
-            if (_srvUbicaciones.Agregar())
+            if (_srvCRUD.Insertar(pItem))
                 return "Registro insertado.";
             else
                 return "Fallo.";
@@ -30,25 +34,23 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("updUbicacion")]
-        public string updUbicacion([FromBody] UbicacionEntidad pUbicacion)
+        [Route("updItem")]
+        public string updObra([FromBody] UbicacionEntidad pItem)
         {
 
-            _srvUbicaciones.ubicacionEntidad = pUbicacion;
-            if (_srvUbicaciones.Actualizar())
-                return "Registro Actualizado.";
+            if (_srvCRUD.Actualizar(pItem))
+                return "Registro actualizado.";
             else
                 return "Fallo.";
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("delUbicacion")]
-        public string delUbicacion([FromBody] UbicacionEntidad pUbicacion)
+        [Route("delItem")]
+        public string delItem([FromBody] UbicacionEntidad pItem)
         {
 
-            _srvUbicaciones.ubicacionEntidad = pUbicacion;
-            if (_srvUbicaciones.Eliminar())
+            if (_srvCRUD.Eliminar(pItem))
                 return "Registro eliminado.";
             else
                 return "Fallo.";
@@ -56,39 +58,29 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getUbicaciones")]
-        public IEnumerable<object> getUbicaciones()
+        [Route("getList")]
+        public IEnumerable<object> getList()
         {
-            var _listado = _srvUbicaciones.Listado();
-            return _listado;
-
-        }
-
-
-        [AcceptVerbs("POST")]
-        [HttpPost()]
-        [Route("getUbicacionById")]
-        public object getUbicacionById([FromBody] FiltrosEntidad _filtros)
-        {
-            return _srvUbicaciones.ListadoPorId(_filtros.idUbicacion);
+            return _srvCRUD.Listado();
 
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getUbicacionesFiltro")]
-        public object getUbicacionesFiltro([FromBody] FiltrosEntidad _filtros)
-        {
-            return _srvUbicaciones.ListadoFiltro(_filtros);
+        [Route("getItemById")]
+        public object getItemById([FromBody] FiltrosEntidad filtro) => _srvCRUD.ItemPorId(filtro.idUbicacion);
 
-        }
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getListFilter")]
+        public object getListFilter([FromBody] FiltrosEntidad filtro) => _srvCRUD.ListadoFiltro(filtro);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getTableroList")]
         public object getTableroList([FromBody] FiltrosEntidad _filtros)
         {
-            return _srvUbicaciones.TableroList(_filtros.pagina);
+            return _srvCRUD.TableroList(_filtros.pagina);
 
         }
     }

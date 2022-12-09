@@ -12,12 +12,12 @@ namespace MaqAPI.Servicios
     public class srvAccesos
     {
         public OperadorEntidad operadorEntidad { get; set; }
-        private srvOperadores _svrOPeradores = new srvOperadores();
+        private srvCRUD<OperadorEntidad> _srvCRUD = new srvCRUD<OperadorEntidad>(tipoCRUD.OPERADORES);
         public object Login() {
 
             try
             {
-                var _operadorEntity = _svrOPeradores.ListadoPorId(this.operadorEntidad.idOperador);
+                var _operadorEntity = _srvCRUD.ItemPorId(this.operadorEntidad.idOperador);
                 var _operador = JsonConvert.DeserializeObject<OperadorEntidad>(JsonConvert.SerializeObject(_operadorEntity, Newtonsoft.Json.Formatting.None));
 
                 if (_operador == null)

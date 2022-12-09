@@ -25,8 +25,8 @@ namespace MaqAPI.DTOMap
             List<UbicacionEntidad> _ubicacionEntidadList = new List<UbicacionEntidad>();
             _ubicacionEntidadList = JsonConvert.DeserializeObject<List<UbicacionEntidad>>(JsonConvert.SerializeObject(pUbicacionesEntity, Newtonsoft.Json.Formatting.None));
 
-            var _maquinariaABC = new MaquinariaABC();
-            var _catalogosABCMaq = new CatalogosABC(_maquinariaABC);
+            var _srvCRUD = new srvCRUD<MaquinariaEntidad>(tipoCRUD.OBRAS);
+
             List<MaquinariaEntidad> _maquinariaList = JsonConvert.DeserializeObject<List<MaquinariaEntidad>>(JsonConvert.SerializeObject(_catalogosABCMaq.Listado(), Newtonsoft.Json.Formatting.None));
 
             var _operadoresABC = new OperadoresABC();

@@ -15,7 +15,7 @@ namespace MaqAPI.Servicios
         bool Eliminar(T pItem);
         bool Eliminar(List<T> pListado);
         IEnumerable<object> Listado();
-        object ListadoPorId(object id);
+        object ItemPorId(object id);
 
         IEnumerable<object> ListadoFiltro(object filtro);
 

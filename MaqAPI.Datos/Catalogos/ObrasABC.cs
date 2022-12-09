@@ -9,81 +9,9 @@ using MaqAPI.Entidades;
 
 namespace MaqAPI.Datos.Catalogos
 {
-    public class ObrasABC : IConexion
+    public class ObrasABC<T> : IConexion<T>
     {
-        public ObraEntidad obraEntidad { get; set; }
-        private obra _obraEntity;
       
-        public bool Insert()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-                    _obraEntity = new obra();
-                    this._obraEntity.idObra = this.obraEntidad.idObra;
-                    this._obraEntity.Nombre = this.obraEntidad.Nombre;
-                    this._obraEntity.estatus = this.obraEntidad.estatus;
-                    this._obraEntity.fecha_alta = this.obraEntidad.fecha_alta;
-
-                    db.obras.Add(this._obraEntity);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
-        public bool Update()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._obraEntity = db.obras.Where(x => x.idObra == this.obraEntidad.idObra).FirstOrDefault();
-                    
-                    this._obraEntity.Nombre = this.obraEntidad.Nombre;
-                    this._obraEntity.estatus = this.obraEntidad.estatus;
-                    this._obraEntity.fecha_alta = this.obraEntidad.fecha_alta;
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
-        public bool Delete()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._obraEntity = db.obras.Where(x => x.idObra == this.obraEntidad.idObra).FirstOrDefault();
-
-                    db.obras.Remove(this._obraEntity);
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
         public IEnumerable<object> GetListAll()
         {
             using (var db = new MaquinariaEntities())
@@ -130,7 +58,7 @@ namespace MaqAPI.Datos.Catalogos
             {
                 try
                 {
-                    var _filtros = (FiltrosEntidad)filtro;
+                    var _filtros = filtro as FiltrosEntidad;
 
                     var _obraByID = db.obras
                         .Where(x => (x.idObra.Contains(_filtros.buscar) 
@@ -147,6 +75,76 @@ namespace MaqAPI.Datos.Catalogos
                     throw;
                 }
             }
+        }
+
+        public bool Insert(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as ObraEntidad;
+
+                    obra _obraEntity = new obra();
+                    _obraEntity.idObra = _item.idObra;
+                    _obraEntity.Nombre = _item.Nombre;
+                    _obraEntity.estatus = _item.estatus;
+                    _obraEntity.fecha_alta = _item.fecha_alta;
+
+                    db.obras.Add(_obraEntity);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Insert(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as ObraEntidad;
+                    var _obraEntity = db.obras.Where(x => x.idObra == _item.idObra).FirstOrDefault();
+
+                    _obraEntity.Nombre = _item.Nombre;
+                    _obraEntity.estatus = _item.estatus;
+                    _obraEntity.fecha_alta = _item.fecha_alta;
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Update(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(T pItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(List<T> pList)
+        {
+            throw new NotImplementedException();
         }
     }
 }

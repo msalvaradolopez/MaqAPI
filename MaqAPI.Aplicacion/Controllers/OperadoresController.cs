@@ -12,22 +12,20 @@ namespace MaqAPI.Aplicacion.Controllers
     [RoutePrefix("api/operadores")]
     public class OperadoresController : ApiController
     {
-        private srvOperadores _svrOPeradores = new srvOperadores();
+        private srvCRUD<OperadorEntidad> _srvCRUD;
 
-        public class Params
+        public OperadoresController()
         {
-            public string idOperador { get; set; }
-            public string filtro { get; set; }
+            _srvCRUD = new srvCRUD<OperadorEntidad>(tipoCRUD.OPERADORES);
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("insOperador")]
-        public string insOperador([FromBody] OperadorEntidad pOperador)
+        [Route("insItem")]
+        public string insItem([FromBody] OperadorEntidad pItem)
         {
 
-            _svrOPeradores.operadorEntidad = pOperador;
-            if (_svrOPeradores.Agregar())
+            if (_srvCRUD.Insertar(pItem))
                 return "Registro insertado.";
             else
                 return "Fallo.";
@@ -35,25 +33,23 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("updOperador")]
-        public string updOperador([FromBody] OperadorEntidad pOperador)
+        [Route("updItem")]
+        public string updObra([FromBody] OperadorEntidad pItem)
         {
 
-            _svrOPeradores.operadorEntidad = pOperador;
-            if (_svrOPeradores.Actualizar())
-                return "Registro Actualizado.";
+            if (_srvCRUD.Actualizar(pItem))
+                return "Registro actualizado.";
             else
                 return "Fallo.";
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("delOperador")]
-        public string delOperador([FromBody] OperadorEntidad pOperador)
+        [Route("delItem")]
+        public string delItem([FromBody] OperadorEntidad pItem)
         {
 
-            _svrOPeradores.operadorEntidad = pOperador;
-            if (_svrOPeradores.Eliminar())
+            if (_srvCRUD.Eliminar(pItem))
                 return "Registro eliminado.";
             else
                 return "Fallo.";
@@ -61,28 +57,27 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getOperadores")]
-        public IEnumerable<object> getOperadores()
+        [Route("getList")]
+        public IEnumerable<object> getList()
         {
-            return this._svrOPeradores.Listado();
+            return _srvCRUD.Listado();
 
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getOperadorById")]
-        public object getOperadorById([FromBody] FiltrosEntidad filtro)
+        [Route("getItemById")]
+        public object getItemById([FromBody] FiltrosEntidad filtro)
         {
-            return _svrOPeradores.ListadoPorId(filtro.idOperador);
-
+            return _srvCRUD.ItemPorId(filtro.idOperador);
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getOperadoresFiltro")]
-        public object getOperadoresFiltro([FromBody] FiltrosEntidad filtro)
+        [Route("getListFilter")]
+        public object getListFilter([FromBody] FiltrosEntidad filtro)
         {
-            return _svrOPeradores.ListadoFiltro(filtro);
+            return _srvCRUD.ListadoFiltro(filtro);
 
         }
     }

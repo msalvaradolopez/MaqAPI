@@ -1,6 +1,7 @@
 ﻿using MaqAPI.Datos.Interfaz;
 using MaqAPI.Datos.Operaciones;
 using MaqAPI.Entidades;
+using MaqAPI.DTOMap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,33 +21,37 @@ namespace MaqAPI.Servicios
 
         public bool Actualizar(T pItem)
         {
-            throw new NotImplementedException();
+            return this._objCRUD.Update(pItem);
         }
 
         public bool Actualizar(List<T> pListado)
         {
-            throw new NotImplementedException();
+            return this._objCRUD.Update(pListado);
         }
 
         public bool Eliminar(T pItem)
         {
-            throw new NotImplementedException();
+            return this._objCRUD.Delete(pItem);
         }
 
         public bool Eliminar(List<T> pListado)
         {
-            throw new NotImplementedException();
+            return this._objCRUD.Delete(pListado);
         }
 
         public bool Insertar(T pItem)
         {
-            this._objCRUD.Insert(pItem);
-            return true;
+            return this._objCRUD.Insert(pItem);
         }
 
         public bool insertar(List<T> pListado)
         {
-            throw new NotImplementedException();
+            return this._objCRUD.Insert(pListado);
+        }
+
+        public object ItemPorId(object id)
+        {
+            return this._objCRUD.GetListById(id);
         }
 
         public IEnumerable<object> Listado()
@@ -56,12 +61,23 @@ namespace MaqAPI.Servicios
 
         public IEnumerable<object> ListadoFiltro(object filtro)
         {
-            throw new NotImplementedException();
+            return this._objCRUD.GetListFilter(filtro);
         }
 
-        public object ListadoPorId(object id)
+        public IEnumerable<object> TableroList(int pagina)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                var _tableroDTOMap = new TableroDTOMap();
+
+                return _tableroDTOMap.createTableroList(pagina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Catalogos\MaquinariaABC.cs" />
+    <Compile Include="Catalogos\ObrasABC.cs" />
+    <Compile Include="Catalogos\OperadoresABC.cs" />
     <Compile Include="Interfaz\IConexion.cs" />
     <Compile Include="Models\bitseg.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
@@ -94,6 +97,7 @@
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\BitSegABC.cs" />
+    <Compile Include="Operaciones\UbicacionesABC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,10 +129,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Catalogos\" />
     <Folder Include="Consultas\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MaqAPI.DTO\MaqAPI.DTO.csproj">
+      <Project>{dd4e39e3-c148-445e-9263-a5522c819d2b}</Project>
+      <Name>MaqAPI.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MaqAPI.Entidades\MaqAPI.Entidades.csproj">
       <Project>{76775ef8-a75a-4a74-9863-bffe8b69d29a}</Project>
       <Name>MaqAPI.Entidades</Name>

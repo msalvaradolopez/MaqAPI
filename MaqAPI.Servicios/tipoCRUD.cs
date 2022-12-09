@@ -13,6 +13,7 @@ namespace MaqAPI.Servicios
         OPERADORES = 30,
         EQUIPO_CONSULTA = 40,
         TABLERO = 50,
-        BITSEG = 60
+        BITSEG = 60,
+        UBICACION = 70
     }
 }

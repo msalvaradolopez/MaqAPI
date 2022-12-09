@@ -44,12 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitSegDTO.cs" />
     <Compile Include="TableroDTO.cs" />
     <Compile Include="UbicacionesDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MaqAPI.Entidades\MaqAPI.Entidades.csproj">
+      <Project>{76775ef8-a75a-4a74-9863-bffe8b69d29a}</Project>
+      <Name>MaqAPI.Entidades</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

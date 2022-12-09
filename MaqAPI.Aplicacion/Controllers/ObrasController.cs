@@ -13,22 +13,20 @@ namespace MaqAPI.Aplicacion.Controllers
     public class ObrasController : ApiController
     {
 
-        private srvObras _srvObras = new srvObras();
+        private srvCRUD<ObraEntidad> _srvCRUD;
 
-        public class Params
+        public ObrasController()
         {
-            public string idObra { get; set; }
-            public string filtro { get; set; }
+            _srvCRUD = new srvCRUD<ObraEntidad>(tipoCRUD.OBRAS);
         }
-
+        
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("insObra")]
-        public string insObra([FromBody] ObraEntidad pObra)
+        [Route("insItem")]
+        public string insItem([FromBody] ObraEntidad pItem)
         {
 
-            _srvObras.obraEntidad = pObra;
-            if (_srvObras.Agregar())
+            if (_srvCRUD.Insertar(pItem))
                 return "Registro insertado.";
             else
                 return "Fallo.";
@@ -36,25 +34,23 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("updObra")]
-        public string updObra([FromBody] ObraEntidad pObra)
+        [Route("updItem")]
+        public string updObra([FromBody] ObraEntidad pItem)
         {
 
-            _srvObras.obraEntidad = pObra;
-            if (_srvObras.Actualizar())
-                return "Registro Actualizado.";
+            if (_srvCRUD.Actualizar(pItem))
+                return "Registro actualizado.";
             else
                 return "Fallo.";
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("delObra")]
-        public string delObra([FromBody] ObraEntidad pObra)
+        [Route("delItem")]
+        public string delItem([FromBody] ObraEntidad pItem)
         {
 
-            _srvObras.obraEntidad = pObra;
-            if (_srvObras.Eliminar())
+            if (_srvCRUD.Eliminar(pItem))
                 return "Registro eliminado.";
             else
                 return "Fallo.";
@@ -62,29 +58,21 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getObras")]
-        public IEnumerable<object> getObras()
+        [Route("getList")]
+        public IEnumerable<object> getList()
         {
-            return _srvObras.Listado();
+            return _srvCRUD.Listado();
 
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getObraById")]
-        public object getObraById([FromBody] FiltrosEntidad filtro)
-        {
-            return _srvObras.ListadoPorId(filtro.idObra);
-
-        }
+        [Route("getItemById")]
+        public object getItemById([FromBody] FiltrosEntidad filtro) => _srvCRUD.ItemPorId(filtro.idObra);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getObrasFiltro")]
-        public object getObrasFiltro([FromBody] FiltrosEntidad filtro)
-        {
-            return _srvObras.ListadoFiltro(filtro);
-
-        }
+        [Route("getListFilter")]
+        public object getListFilter([FromBody] FiltrosEntidad filtro) => _srvCRUD.ListadoFiltro(filtro);
     }
 }

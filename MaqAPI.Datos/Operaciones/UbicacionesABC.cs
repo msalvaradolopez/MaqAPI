@@ -9,32 +9,8 @@ using MaqAPI.Entidades;
 
 namespace MaqAPI.Datos.Operaciones
 {
-    public class UbicacionesABC : IConexion
+    public class UbicacionesABC<T> : IConexion<T>
     {
-        public UbicacionEntidad ubicacionEntidad { get; set; }
-        private ubicacion _ubicacionEntity;
-        public bool Delete()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._ubicacionEntity = db.ubicacions.Where(x => x.idUbicacion == this.ubicacionEntidad.idUbicacion).FirstOrDefault();
-
-                    db.ubicacions.Remove(this._ubicacionEntity);
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
         public IEnumerable<object> GetListAll()
         {
             using (var db = new MaquinariaEntities())
@@ -75,74 +51,6 @@ namespace MaqAPI.Datos.Operaciones
             }
         }
 
-        public bool Insert()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-                    this._ubicacionEntity = new ubicacion
-                    {
-                        idEconomico = this.ubicacionEntidad.idEconomico,
-                        idOperador = this.ubicacionEntidad.idOperador,
-                        idObra = this.ubicacionEntidad.idObra,
-                        fecha_alta = this.ubicacionEntidad.fecha_alta,
-                        comentarios = this.ubicacionEntidad.comentarios,
-                        idUsuario = this.ubicacionEntidad.idUsuario,
-                        fecha_ingreso = this.ubicacionEntidad.fecha_ingreso,
-                        hodometro = 0,
-                        odometro = this.ubicacionEntidad.odometro,
-                        sello = this.ubicacionEntidad.sello,
-                        litros = this.ubicacionEntidad.litros,
-                        horometro = this.ubicacionEntidad.horometro,
-                        ventana = this.ubicacionEntidad.ventana
-                    };
-
-                    db.ubicacions.Add(this._ubicacionEntity);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
-        public bool Update()
-        {
-            using (var db = new MaquinariaEntities())
-            {
-                try
-                {
-
-                    this._ubicacionEntity = db.ubicacions.Where(x => x.idUbicacion == this.ubicacionEntidad.idUbicacion).FirstOrDefault();
-
-                    this._ubicacionEntity.idOperador = this.ubicacionEntidad.idOperador;
-                    this._ubicacionEntity.idObra = this.ubicacionEntidad.idObra;
-                    this._ubicacionEntity.fecha_alta = this.ubicacionEntidad.fecha_alta;
-                    this._ubicacionEntity.comentarios = this.ubicacionEntidad.comentarios;
-                    this._ubicacionEntity.idUsuario = this.ubicacionEntidad.idUsuario;
-                    this._ubicacionEntity.fecha_ingreso = this.ubicacionEntidad.fecha_ingreso;
-                    this._ubicacionEntity.hodometro = 0;
-                    this._ubicacionEntity.odometro = this.ubicacionEntidad.odometro;
-                    this._ubicacionEntity.sello = this.ubicacionEntidad.sello;
-                    this._ubicacionEntity.litros = this.ubicacionEntidad.litros;
-                    this._ubicacionEntity.horometro = this.ubicacionEntidad.horometro;
-                    this._ubicacionEntity.ventana = this.ubicacionEntidad.ventana;
-
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-       
         public IEnumerable<object> GetListFilter(object filtro)
         {
             using (var db = new MaquinariaEntities())
@@ -179,6 +87,114 @@ namespace MaqAPI.Datos.Operaciones
                     throw;
                 }
             }
+        }
+
+        public bool Insert(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as UbicacionEntidad;
+
+                    var _ubicacionEntity = new ubicacion
+                    {
+                        idEconomico = _item.idEconomico,
+                        idOperador = _item.idOperador,
+                        idObra = _item.idObra,
+                        fecha_alta = _item.fecha_alta,
+                        comentarios = _item.comentarios,
+                        idUsuario = _item.idUsuario,
+                        fecha_ingreso = _item.fecha_ingreso,
+                        hodometro = 0,
+                        odometro = _item.odometro,
+                        sello = _item.sello,
+                        litros = _item.litros,
+                        horometro = _item.horometro,
+                        ventana = _item.ventana
+                    };
+
+                    db.ubicacions.Add(_ubicacionEntity);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Insert(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as UbicacionEntidad;
+
+                    var _ubicacionEntity = db.ubicacions.Where(x => x.idUbicacion == _item.idUbicacion).FirstOrDefault();
+
+                    _ubicacionEntity.idOperador = _item.idOperador;
+                    _ubicacionEntity.idObra = _item.idObra;
+                    _ubicacionEntity.fecha_alta = _item.fecha_alta;
+                    _ubicacionEntity.comentarios = _item.comentarios;
+                    _ubicacionEntity.idUsuario = _item.idUsuario;
+                    _ubicacionEntity.fecha_ingreso = _item.fecha_ingreso;
+                    _ubicacionEntity.hodometro = 0;
+                    _ubicacionEntity.odometro = _item.odometro;
+                    _ubicacionEntity.sello = _item.sello;
+                    _ubicacionEntity.litros = _item.litros;
+                    _ubicacionEntity.horometro = _item.horometro;
+                    _ubicacionEntity.ventana = _item.ventana;
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Update(List<T> pList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(T pItem)
+        {
+            using (var db = new MaquinariaEntities())
+            {
+                try
+                {
+                    var _item = pItem as UbicacionEntidad;
+                    var _ubicacionEntity = db.ubicacions.Where(x => x.idUbicacion == _item.idUbicacion).FirstOrDefault();
+
+                    db.ubicacions.Remove(_ubicacionEntity);
+
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Delete(List<T> pList)
+        {
+            throw new NotImplementedException();
         }
     }
 }

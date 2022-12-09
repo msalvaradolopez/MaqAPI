@@ -1,4 +1,5 @@
 ﻿using MaqAPI.Datos.Operaciones;
+using MaqAPI.Datos.Catalogos;
 using MaqAPI.Entidades;
 using MaqAPI.Datos.Interfaz;
 using System;
@@ -13,17 +14,23 @@ namespace MaqAPI.Servicios
     {
         public object srvFabrica(tipoCRUD pCRUDS)
         {
-            switch (pCRUDS)
-            {
-                case tipoCRUD.BITSEG:
-                    {
-                        return new BitSegABC<BitSegEntidad>();
-                    }
-                default:
-                    break;
-            }
+            if (tipoCRUD.OBRAS == pCRUDS)
+                return new ObrasABC<ObraEntidad>();
 
-            return "";
+            if (tipoCRUD.OPERADORES == pCRUDS)
+                return new OperadoresABC<OperadorEntidad>();
+
+            if (tipoCRUD.EQUIPOS == pCRUDS)
+                return new MaquinariaABC<MaquinariaEntidad>();
+
+            if (tipoCRUD.BITSEG == pCRUDS)
+                return new BitSegABC<BitSegEntidad>();
+
+            if (tipoCRUD.UBICACION == pCRUDS)
+                return new UbicacionesABC<UbicacionEntidad>();
+
+
+            return null;
         }
     }
 }

@@ -12,22 +12,20 @@ namespace MaqAPI.Aplicacion.Controllers
     [RoutePrefix("api/maquinaria")]
     public class MaquinariaController : ApiController
     {
-        private  srvMaquinaria _svrMaquinaria = new srvMaquinaria();
+        private srvCRUD<MaquinariaEntidad> _srvCRUD;
 
-        public class Params
+        public MaquinariaController()
         {
-            public string idEconomico { get; set; }
-            public string filtro { get; set; }
+            _srvCRUD = new srvCRUD<MaquinariaEntidad>(tipoCRUD.EQUIPOS);
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("insMaquinaria")]
-        public string insMaquinaria([FromBody] MaquinariaEntidad pMaquinaria)
+        [Route("insItem")]
+        public string insItem([FromBody] MaquinariaEntidad pItem)
         {
 
-            _svrMaquinaria.maquinariaEntidad = pMaquinaria;
-            if (_svrMaquinaria.Agregar())
+            if (_srvCRUD.Insertar(pItem))
                 return "Registro insertado.";
             else
                 return "Fallo.";
@@ -35,25 +33,23 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("updMaquinaria")]
-        public string updMaquinaria([FromBody] MaquinariaEntidad pMaquinaria)
+        [Route("updItem")]
+        public string updObra([FromBody] MaquinariaEntidad pItem)
         {
 
-            _svrMaquinaria.maquinariaEntidad = pMaquinaria;
-            if (_svrMaquinaria.Actualizar())
-                return "Registro Actualizado.";
+            if (_srvCRUD.Actualizar(pItem))
+                return "Registro actualizado.";
             else
                 return "Fallo.";
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("delMaquinaria")]
-        public string delMaquinaria([FromBody] MaquinariaEntidad pMaquinaria)
+        [Route("delItem")]
+        public string delItem([FromBody] MaquinariaEntidad pItem)
         {
 
-            _svrMaquinaria.maquinariaEntidad = pMaquinaria;
-            if (_svrMaquinaria.Eliminar())
+            if (_srvCRUD.Eliminar(pItem))
                 return "Registro eliminado.";
             else
                 return "Fallo.";
@@ -61,30 +57,21 @@ namespace MaqAPI.Aplicacion.Controllers
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getMaquinaria")]
-        public IEnumerable<object> getMaquinaria()
+        [Route("getList")]
+        public IEnumerable<object> getList()
         {
-            return _svrMaquinaria.Listado();
+            return _srvCRUD.Listado();
 
         }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getMaquinariaById")]
-        public object getMaquinariaById([FromBody] FiltrosEntidad filtro)
-        {
-            return _svrMaquinaria.ListadoPorId(filtro.idEconomico);
-
-        }
+        [Route("getItemById")]
+        public object getItemById([FromBody] FiltrosEntidad filtro) => _srvCRUD.ItemPorId(filtro.idEconomico);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
-        [Route("getMaquinariaFiltro")]
-        public object getMaquinariaFiltro([FromBody] FiltrosEntidad filtro)
-        {
-            return _svrMaquinaria.ListadoFiltro(filtro);
-
-        }
-
+        [Route("getListFilter")]
+        public object getListFilter([FromBody] FiltrosEntidad filtro) => _srvCRUD.ListadoFiltro(filtro);
     }
 }
