@@ -9,10 +9,18 @@
         <EntityTypeShape EntityType="MaquinariaModel.maquinaria" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MaquinariaModel.obra" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MaquinariaModel.operadore" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.ubicacion" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.ubicacion" Width="1.5" PointX="0.5" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MaquinariaModel.usuario" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.parametro" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.parametro" Width="1.5" PointX="3.125" PointY="6.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MaquinariaModel.bitseg" Width="1.5" PointX="7.375" PointY="3.75" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_maquinaria" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_obras" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_operadores" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_usuarios" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_maquinaria" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_obras" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_operadores" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_usuarios" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

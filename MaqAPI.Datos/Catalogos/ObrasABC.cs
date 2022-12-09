@@ -40,7 +40,14 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _obraByID = db.obras.Where(x => x.idObra == id.ToString()).FirstOrDefault();
+                    var _obraByID = db.obras.Where(x => x.idObra == id.ToString())
+                        .Select(x => new {
+                            x.idObra,
+                            x.Nombre,
+                            x.estatus,
+                            x.fecha_alta
+                        })
+                        .FirstOrDefault();
 
                     return _obraByID;
                 }
@@ -65,7 +72,13 @@ namespace MaqAPI.Datos.Catalogos
                                         || x.Nombre.Contains(_filtros.buscar))
                                     && (x.estatus == _filtros.estatus || _filtros.estatus == "0"))
                         .OrderBy(x => x.Nombre)
-                        .Select(x => x).ToList();
+                        .Select(x => new { 
+                            x.idObra,
+                            x.Nombre,
+                            x.estatus,
+                            x.fecha_alta
+                        })
+                        .ToList();
 
                     return _obraByID;
                 }

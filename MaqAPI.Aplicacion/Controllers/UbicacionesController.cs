@@ -35,7 +35,7 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("updItem")]
-        public string updObra([FromBody] UbicacionEntidad pItem)
+        public string updItem([FromBody] UbicacionEntidad pItem)
         {
 
             if (_srvCRUD.Actualizar(pItem))
@@ -73,12 +73,12 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getListFilter")]
-        public object getListFilter([FromBody] FiltrosEntidad filtro) => _srvCRUD.ListadoFiltro(filtro);
+        public IEnumerable<object> getListFilter([FromBody] FiltrosEntidad filtro) => _srvCRUD.ListadoFiltro(filtro);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("getTableroList")]
-        public object getTableroList([FromBody] FiltrosEntidad _filtros)
+        public IEnumerable<object> getTableroList([FromBody] FiltrosEntidad _filtros)
         {
             return _srvCRUD.TableroList(_filtros.pagina);
 

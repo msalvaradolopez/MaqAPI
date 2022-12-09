@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using MaqAPI.Datos.Interfaz;
 using MaqAPI.Datos.Models;
 using MaqAPI.Entidades;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MaqAPI.Datos.Operaciones
 {
@@ -39,7 +41,27 @@ namespace MaqAPI.Datos.Operaciones
                 try
                 {
                     int idUbicacion = Convert.ToInt32(id);
-                    var _ubucacionById = db.ubicacions.Where(x => x.idUbicacion == idUbicacion).FirstOrDefault();
+                    var _ubucacionById = db.ubicacions.Where(x => x.idUbicacion == idUbicacion)
+                        .Select(x => new {
+                            x.idUbicacion,
+                            x.idEconomico,
+                            x.idOperador,
+                            x.idObra,
+                            x.fecha_alta,
+                            x.comentarios,
+                            x.idUsuario,
+                            x.fecha_ingreso,
+                            x.hodometro,
+                            x.odometro,
+                            x.sello,
+                            x.litros,
+                            x.horometro,
+                            x.ventana,
+                            equipoNom = x.maquinaria.Tipo,
+                            operadorNom = x.operadores.Nombre,
+                            obraNom = x.obras.Nombre
+                        })
+                        .FirstOrDefault();
 
                     return _ubucacionById;
                 }
@@ -77,8 +99,29 @@ namespace MaqAPI.Datos.Operaciones
                             && ( x.idUsuario == _filtros.idUsuario || _filtros.idUsuario == "0" )
                                     )
                         .OrderBy(x => x.idEconomico)
-                        .Select(x => x).ToList();
+                        .Select(x => new { 
+                            x.idUbicacion, 
+                            x.idEconomico, 
+                            x.idOperador, 
+                            x.idObra, 
+                            x.fecha_alta, 
+                            x.comentarios,
+                            x.idUsuario,
+                            x.fecha_ingreso,
+                            x.hodometro,
+                            x.odometro,
+                            x.sello,
+                            x.litros,
+                            x.horometro,
+                            x.ventana,
+                            equipoNom = x.maquinaria.Tipo,
+                            operadorNom = x.operadores.Nombre,
+                            obraNom = x.obras.Nombre
+                        })
+                        .ToList();
 
+                    // var _listado = new List<UbicacionEntidad>();
+                    // _listado = JsonConvert.DeserializeObject<List<UbicacionEntidad>>(JsonConvert.SerializeObject(_obraByID, Newtonsoft.Json.Formatting.None));
                     return _obraByID;
                 }
                 catch (Exception)

@@ -34,7 +34,7 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("updItem")]
-        public string updObra([FromBody] OperadorEntidad pItem)
+        public string updItem([FromBody] OperadorEntidad pItem)
         {
 
             if (_srvCRUD.Actualizar(pItem))

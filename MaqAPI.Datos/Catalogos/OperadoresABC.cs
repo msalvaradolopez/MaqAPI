@@ -39,7 +39,16 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _operadorById = db.operadores.Where(x => x.idOperador == id.ToString()).FirstOrDefault();
+                    var _operadorById = db.operadores.Where(x => x.idOperador == id.ToString())
+                        .Select(x => new {
+                            x.idOperador,
+                            x.Nombre,
+                            x.fecha_alta,
+                            x.estatus,
+                            x.categoria,
+                            x.passw
+                        })
+                        .FirstOrDefault();
 
                     return _operadorById;
                 }
@@ -65,7 +74,15 @@ namespace MaqAPI.Datos.Catalogos
                                     || x.Nombre.Contains(_filtros.buscar))
                                     && (x.estatus == _filtros.estatus || _filtros.estatus == "0"))
                         .OrderBy(x => x.Nombre)
-                        .Select(x => x).ToList();
+                        .Select(x => new { 
+                            x.idOperador, 
+                            x.Nombre, 
+                            x.fecha_alta, 
+                            x.estatus, 
+                            x.categoria, 
+                            x.passw 
+                        })
+                        .ToList();
 
                     return _obraByID;
                 }

@@ -28,5 +28,10 @@ namespace MaqAPI.Datos.Models
         public Nullable<int> litros { get; set; }
         public Nullable<int> horometro { get; set; }
         public string ventana { get; set; }
+    
+        public virtual maquinaria maquinaria { get; set; }
+        public virtual obra obras { get; set; }
+        public virtual operadore operadores { get; set; }
+        public virtual operadore operadores1 { get; set; }
     }
 }

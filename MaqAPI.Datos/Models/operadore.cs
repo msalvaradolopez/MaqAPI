@@ -14,11 +14,29 @@ namespace MaqAPI.Datos.Models
     
     public partial class operadore
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public operadore()
+        {
+            this.bitseg = new HashSet<bitseg>();
+            this.bitseg1 = new HashSet<bitseg>();
+            this.ubicacion = new HashSet<ubicacion>();
+            this.ubicacion1 = new HashSet<ubicacion>();
+        }
+    
         public string idOperador { get; set; }
         public string Nombre { get; set; }
         public string estatus { get; set; }
         public System.DateTime fecha_alta { get; set; }
         public string categoria { get; set; }
         public string passw { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<bitseg> bitseg { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<bitseg> bitseg1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ubicacion> ubicacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ubicacion> ubicacion1 { get; set; }
     }
 }

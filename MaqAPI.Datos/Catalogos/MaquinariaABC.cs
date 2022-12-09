@@ -39,7 +39,14 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _maquinariaById = db.maquinarias.Where(x => x.idEconomico == id.ToString()).FirstOrDefault();
+                    var _maquinariaById = db.maquinarias.Where(x => x.idEconomico == id.ToString())
+                        .Select(x => new {
+                            x.idEconomico,
+                            x.Tipo,
+                            x.estatus,
+                            x.fecha_alta
+                        })
+                        .FirstOrDefault();
 
                     return _maquinariaById;
                 }
@@ -64,7 +71,13 @@ namespace MaqAPI.Datos.Catalogos
                                     || x.Tipo.Contains(_filtros.buscar))
                                     && (x.estatus == _filtros.estatus  || _filtros.estatus == "0"))
                         .OrderBy(x=> x.Tipo)
-                        .Select(x => x).ToList();
+                        .Select(x => new { 
+                            x.idEconomico,
+                            x.Tipo,
+                            x.estatus,
+                            x.fecha_alta
+                        })
+                        .ToList();
 
                     return _obraByID;
                 }
