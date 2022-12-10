@@ -14,17 +14,17 @@ namespace MaqAPI.Aplicacion.Controllers
     {
 
         private srvCRUD<BitSegEntidad> _srvCRUD;
-        public BitSegController() {
-            _srvCRUD = new srvCRUD<BitSegEntidad>(tipoCRUD.BITSEG);
-        }
+        public BitSegController() => _srvCRUD = new srvCRUD<BitSegEntidad>(tipoCRUD.BITSEG);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("insItem")]
-        public object insItem([FromBody] BitSegEntidad pItem)
-        {
-            return _srvCRUD.Insertar(pItem);
-        }
+        public object insItem([FromBody] BitSegEntidad pItem) => _srvCRUD.Insertar(pItem);
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("updItem")]
+        public object updItem([FromBody] BitSegEntidad pItem) => _srvCRUD.Actualizar(pItem);
 
         [AcceptVerbs("POST")]
         [HttpPost()]

@@ -14,31 +14,18 @@ namespace MaqAPI.Aplicacion.Controllers
     {
         private srvCRUD<OperadorEntidad> _srvCRUD;
 
-        public OperadoresController()
-        {
-            _srvCRUD = new srvCRUD<OperadorEntidad>(tipoCRUD.OPERADORES);
-        }
+        public OperadoresController() => _srvCRUD = new srvCRUD<OperadorEntidad>(tipoCRUD.OPERADORES);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("insItem")]
-        public object insItem([FromBody] OperadorEntidad pItem)
-        {
-            return _srvCRUD.Insertar(pItem);
-        }
+        public object insItem([FromBody] OperadorEntidad pItem) => _srvCRUD.Insertar(pItem);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("updItem")]
-        public string updItem([FromBody] OperadorEntidad pItem)
-        {
-
-            if (_srvCRUD.Actualizar(pItem))
-                return "Registro actualizado.";
-            else
-                return "Fallo.";
-        }
-
+        public object updItem([FromBody] OperadorEntidad pItem) => _srvCRUD.Actualizar(pItem);
+                
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("delItem")]

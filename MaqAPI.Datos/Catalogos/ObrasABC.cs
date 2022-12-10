@@ -120,7 +120,7 @@ namespace MaqAPI.Datos.Catalogos
             throw new NotImplementedException();
         }
 
-        public bool Update(T pItem)
+        public object Update(T pItem)
         {
             using (var db = new MaquinariaEntities())
             {
@@ -134,7 +134,7 @@ namespace MaqAPI.Datos.Catalogos
                     _obraEntity.fecha_alta = _item.fecha_alta;
 
                     db.SaveChanges();
-                    return true;
+                    return _item;
                 }
                 catch (Exception)
                 {

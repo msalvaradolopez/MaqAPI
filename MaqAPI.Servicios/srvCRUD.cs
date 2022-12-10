@@ -19,7 +19,7 @@ namespace MaqAPI.Servicios
             this._objCRUD = srvFactoryCRUD.srvFabrica(pCRUDS) as IConexion<T>;
         }
 
-        public bool Actualizar(T pItem)
+        public object Actualizar(T pItem)
         {
             return this._objCRUD.Update(pItem);
         }

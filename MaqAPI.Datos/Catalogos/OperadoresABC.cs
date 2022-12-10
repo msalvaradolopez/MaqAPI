@@ -72,7 +72,9 @@ namespace MaqAPI.Datos.Catalogos
                     var _obraByID = db.operadores
                         .Where(x => (x.idOperador.Contains(_filtros.buscar)
                                     || x.Nombre.Contains(_filtros.buscar))
-                                    && (x.estatus == _filtros.estatus || _filtros.estatus == "0"))
+                                    && (x.estatus == _filtros.estatus || _filtros.estatus == "0")
+                                    && (x.categoria == _filtros.categoria || _filtros.categoria == "0")
+                                    )
                         .OrderBy(x => x.Nombre)
                         .Select(x => new { 
                             x.idOperador, 
@@ -129,7 +131,7 @@ namespace MaqAPI.Datos.Catalogos
             throw new NotImplementedException();
         }
 
-        public bool Update(T pItem)
+        public object Update(T pItem)
         {
             using (var db = new MaquinariaEntities())
             {
@@ -145,7 +147,7 @@ namespace MaqAPI.Datos.Catalogos
                     _OperadorEntity.passw = _item.passw;
 
                     db.SaveChanges();
-                    return true;
+                    return _item;
                 }
                 catch (Exception)
                 {

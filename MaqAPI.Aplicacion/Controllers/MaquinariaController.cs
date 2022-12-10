@@ -14,31 +14,18 @@ namespace MaqAPI.Aplicacion.Controllers
     {
         private srvCRUD<MaquinariaEntidad> _srvCRUD;
 
-        public MaquinariaController()
-        {
-            _srvCRUD = new srvCRUD<MaquinariaEntidad>(tipoCRUD.EQUIPOS);
-        }
+        public MaquinariaController() => _srvCRUD = new srvCRUD<MaquinariaEntidad>(tipoCRUD.EQUIPOS);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("insItem")]
-        public object insItem([FromBody] MaquinariaEntidad pItem)
-        {
-
-            return _srvCRUD.Insertar(pItem);
-        }
+        public object insItem([FromBody] MaquinariaEntidad pItem) => _srvCRUD.Insertar(pItem);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("updItem")]
-        public string updItem([FromBody] MaquinariaEntidad pItem)
-        {
-
-            if (_srvCRUD.Actualizar(pItem))
-                return "Registro actualizado.";
-            else
-                return "Fallo.";
-        }
+        public object updItem([FromBody] MaquinariaEntidad pItem) => _srvCRUD.Actualizar(pItem);
+        
 
         [AcceptVerbs("POST")]
         [HttpPost()]

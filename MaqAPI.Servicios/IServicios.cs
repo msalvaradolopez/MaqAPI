@@ -10,7 +10,7 @@ namespace MaqAPI.Servicios
     {
         object Insertar(T pItem);
         bool insertar(List<T> pListado);
-        bool Actualizar(T pItem);
+        object Actualizar(T pItem);
         bool Actualizar(List<T> pListado);
         bool Eliminar(T pItem);
         bool Eliminar(List<T> pListado);

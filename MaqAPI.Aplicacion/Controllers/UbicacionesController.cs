@@ -15,31 +15,18 @@ namespace MaqAPI.Aplicacion.Controllers
 
         private srvCRUD<UbicacionEntidad> _srvCRUD;
 
-        public UbicacionesController()
-        {
-            _srvCRUD = new srvCRUD<UbicacionEntidad>(tipoCRUD.UBICACION);
-        }
-
+        public UbicacionesController() => _srvCRUD = new srvCRUD<UbicacionEntidad>(tipoCRUD.UBICACION);
+        
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("insItem")]
-        public object insItem([FromBody] UbicacionEntidad pItem)
-        {
-            return _srvCRUD.Insertar(pItem);
-        }
+        public object insItem([FromBody] UbicacionEntidad pItem) => _srvCRUD.Insertar(pItem);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("updItem")]
-        public string updItem([FromBody] UbicacionEntidad pItem)
-        {
-
-            if (_srvCRUD.Actualizar(pItem))
-                return "Registro actualizado.";
-            else
-                return "Fallo.";
-        }
-
+        public object updItem([FromBody] UbicacionEntidad pItem) => _srvCRUD.Actualizar(pItem);
+        
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("delItem")]

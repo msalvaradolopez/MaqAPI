@@ -15,30 +15,17 @@ namespace MaqAPI.Aplicacion.Controllers
 
         private srvCRUD<ObraEntidad> _srvCRUD;
 
-        public ObrasController()
-        {
-            _srvCRUD = new srvCRUD<ObraEntidad>(tipoCRUD.OBRAS);
-        }
-        
+        public ObrasController() => _srvCRUD = new srvCRUD<ObraEntidad>(tipoCRUD.OBRAS);
+
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("insItem")]
-        public object insItem([FromBody] ObraEntidad pItem)
-        {
-            return _srvCRUD.Insertar(pItem);
-        }
+        public object insItem([FromBody] ObraEntidad pItem) => _srvCRUD.Insertar(pItem);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("updItem")]
-        public string updItem([FromBody] ObraEntidad pItem)
-        {
-
-            if (_srvCRUD.Actualizar(pItem))
-                return "Registro actualizado.";
-            else
-                return "Fallo.";
-        }
+        public object updItem([FromBody] ObraEntidad pItem) => _srvCRUD.Actualizar(pItem);
 
         [AcceptVerbs("POST")]
         [HttpPost()]

@@ -264,7 +264,7 @@ namespace MaqAPI.Datos.Operaciones
 
                         _List.ForEach(_Item =>
                         {
-                           var _bitSegEntity = new bitseg
+                            var _bitSegEntity = new bitseg
                             {
                                 docBitacora = _docBitacora,
                                 fecha = _Item.fecha,
@@ -318,12 +318,7 @@ namespace MaqAPI.Datos.Operaciones
             }
         }
 
-        public bool Update(T pItem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(List<T> pList)
+        public object Update(T pItem)
         {
             using (var db = new MaquinariaEntities())
             {
@@ -331,97 +326,155 @@ namespace MaqAPI.Datos.Operaciones
                 {
                     try
                     {
-                        var _List = pList as List<BitSegEntidad>;
+                        var _Item = pItem as BitSegEntidad;
 
-                        _List.ForEach(item =>
-                        {
-                            var _bitSegEntity = db.bitseg.Where(x => x.idBitacora == item.idBitacora).FirstOrDefault();
+                        var _bitSegEntity = db.bitseg.Where(x => x.idBitacora == _Item.idBitacora).FirstOrDefault();
 
-                            _bitSegEntity.fecha = item.fecha;
-                            _bitSegEntity.idOperador = item.idOperador;
-                            _bitSegEntity.idEconomico = item.idEconomico;
-                            _bitSegEntity.idObra = item.idObra;
-                            _bitSegEntity.area = item.area;
-                            _bitSegEntity.hora_inicio = item.hora_inicio;
-                            _bitSegEntity.hora_termino = item.hora_termino;
-                            _bitSegEntity.actividad = item.actividad;
-                            _bitSegEntity.pto_exacto = item.pto_exacto;
-                            _bitSegEntity.chequeo_medico = item.chequeo_medico;
-                            _bitSegEntity.chequeo_medico_obs = item.chequeo_medico_obs;
-                            _bitSegEntity.checklist_maq_equip = item.checklist_maq_equip;
-                            _bitSegEntity.checklist_maq_equip_obs = item.checklist_maq_equip_obs;
-                            _bitSegEntity.apr = item.apr;
-                            _bitSegEntity.apr_obs = item.apr_obs;
-                            _bitSegEntity.permiso_instancia = item.permiso_instancia;
-                            _bitSegEntity.permiso_instancia_obs = item.permiso_instancia_obs;
-                            _bitSegEntity.dc3 = item.dc3;
-                            _bitSegEntity.dc3_obs = item.dc3_obs;
-                            _bitSegEntity.extintor = item.extintor;
-                            _bitSegEntity.extintor_obs = item.extintor_obs;
-                            _bitSegEntity.kit_antiderrames = item.kit_antiderrames;
-                            _bitSegEntity.kit_antiderrames_obs = item.kit_antiderrames_obs;
-                            _bitSegEntity.platica_5min = item.platica_5min;
-                            _bitSegEntity.platica_5min_obs = item.platica_5min_obs;
-                            _bitSegEntity.epp = item.epp;
-                            _bitSegEntity.epp_obs = item.epp_obs;
-                            _bitSegEntity.otro = item.otro;
-                            _bitSegEntity.otro_descrip = item.otro_descrip;
-                            _bitSegEntity.otro_obs = item.otro_obs;
-                            _bitSegEntity.idUsuario = item.idUsuario;
+                        _bitSegEntity.fecha = _Item.fecha;
+                        _bitSegEntity.idSupervisor = _Item.idSupervisor;
+                        _bitSegEntity.idEconomico = _Item.idEconomico;
+                        _bitSegEntity.idOperador = _Item.idOperador;
+                        _bitSegEntity.idObra = _Item.idObra;
+                        _bitSegEntity.area = _Item.area;
+                        _bitSegEntity.hora_inicio = _Item.hora_inicio;
+                        _bitSegEntity.hora_termino = _Item.hora_termino;
+                        _bitSegEntity.actividad = _Item.actividad;
+                        _bitSegEntity.pto_exacto = _Item.pto_exacto;
+                        _bitSegEntity.chequeo_medico = _Item.chequeo_medico;
+                        _bitSegEntity.chequeo_medico_obs = _Item.chequeo_medico_obs;
+                        _bitSegEntity.checklist_maq_equip = _Item.checklist_maq_equip;
+                        _bitSegEntity.checklist_maq_equip_obs = _Item.checklist_maq_equip_obs;
+                        _bitSegEntity.apr = _Item.apr;
+                        _bitSegEntity.apr_obs = _Item.apr_obs;
+                        _bitSegEntity.permiso_instancia = _Item.permiso_instancia;
+                        _bitSegEntity.permiso_instancia_obs = _Item.permiso_instancia_obs;
+                        _bitSegEntity.dc3 = _Item.dc3;
+                        _bitSegEntity.dc3_obs = _Item.dc3_obs;
+                        _bitSegEntity.extintor = _Item.extintor;
+                        _bitSegEntity.extintor_obs = _Item.extintor_obs;
+                        _bitSegEntity.kit_antiderrames = _Item.kit_antiderrames;
+                        _bitSegEntity.kit_antiderrames_obs = _Item.kit_antiderrames_obs;
+                        _bitSegEntity.platica_5min = _Item.platica_5min;
+                        _bitSegEntity.platica_5min_obs = _Item.platica_5min_obs;
+                        _bitSegEntity.epp = _Item.epp;
+                        _bitSegEntity.epp_obs = _Item.epp_obs;
+                        _bitSegEntity.otro = _Item.otro;
+                        _bitSegEntity.otro_descrip = _Item.otro_descrip;
+                        _bitSegEntity.otro_obs = _Item.otro_obs;
+                        _bitSegEntity.idUsuario = _Item.idUsuario;
 
-                            db.SaveChanges();
-                        });
-
-                        transaction.Commit();
-                        return true;
-                    }
+                        db.SaveChanges();
+                    transaction.Commit();
+                    return _Item;
+                }
                     catch (Exception)
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
+                {
+                    transaction.Rollback();
+                    throw;
                 }
             }
         }
-
-        #region ESPECIAL PARA INSERTAR REGISTROS A DTO LISTADO DE BITACORA SEGURIDAD.
-        private List<BitSegDTO> getEncabezadoBitacoraSeguridad(List<BitSegEntidad> pBitacoraSegFiltrada)
-        {
-
-            var _ListadoEncabezado = pBitacoraSegFiltrada
-                .GroupBy(g => new { g.docBitacora, g.fecha, g.idSupervisor, g.idObra, g.area, g.hora_inicio, g.hora_termino, g.supervisorNom, g.obraNom })
-                .Select(x => new BitSegDTO
-                {
-                    docBitacora = x.Key.docBitacora,
-                    fecha = x.Key.fecha,
-                    idSupervisor = x.Key.idSupervisor,
-                    idObra = x.Key.idObra,
-                    area = x.Key.area,
-                    hora_inicio = x.Key.hora_inicio,
-                    hora_termino = x.Key.hora_termino,
-                    supervisorNom = x.Key.supervisorNom,
-                    obraNom = x.Key.obraNom
-                })
-                .ToList();
-
-            return _ListadoEncabezado;
-        }
-
-        private List<BitSegDTO> getDetailBitacoraSeguridad(List<BitSegDTO> pBitSegEncabezadosDTO, List<BitSegEntidad> pBitacoraSegFiltrada)
-        {
-            pBitSegEncabezadosDTO.ForEach(itemBitSegEncabezado =>
-            {
-                var _ListadoBitSeg = pBitacoraSegFiltrada.Where(x => x.docBitacora == itemBitSegEncabezado.docBitacora).ToList();
-                itemBitSegEncabezado.ListadoBitSeg = new List<BitSegEntidad>();
-                _ListadoBitSeg.ForEach(x =>
-                {
-                    itemBitSegEncabezado.ListadoBitSeg.Add(x);
-                });
-            });
-
-            return pBitSegEncabezadosDTO;
-        }
-        #endregion
-
     }
+
+    public bool Update(List<T> pList)
+    {
+        using (var db = new MaquinariaEntities())
+        {
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var _List = pList as List<BitSegEntidad>;
+
+                    _List.ForEach(item =>
+                    {
+                        var _bitSegEntity = db.bitseg.Where(x => x.idBitacora == item.idBitacora).FirstOrDefault();
+
+                        _bitSegEntity.fecha = item.fecha;
+                        _bitSegEntity.idOperador = item.idOperador;
+                        _bitSegEntity.idEconomico = item.idEconomico;
+                        _bitSegEntity.idObra = item.idObra;
+                        _bitSegEntity.area = item.area;
+                        _bitSegEntity.hora_inicio = item.hora_inicio;
+                        _bitSegEntity.hora_termino = item.hora_termino;
+                        _bitSegEntity.actividad = item.actividad;
+                        _bitSegEntity.pto_exacto = item.pto_exacto;
+                        _bitSegEntity.chequeo_medico = item.chequeo_medico;
+                        _bitSegEntity.chequeo_medico_obs = item.chequeo_medico_obs;
+                        _bitSegEntity.checklist_maq_equip = item.checklist_maq_equip;
+                        _bitSegEntity.checklist_maq_equip_obs = item.checklist_maq_equip_obs;
+                        _bitSegEntity.apr = item.apr;
+                        _bitSegEntity.apr_obs = item.apr_obs;
+                        _bitSegEntity.permiso_instancia = item.permiso_instancia;
+                        _bitSegEntity.permiso_instancia_obs = item.permiso_instancia_obs;
+                        _bitSegEntity.dc3 = item.dc3;
+                        _bitSegEntity.dc3_obs = item.dc3_obs;
+                        _bitSegEntity.extintor = item.extintor;
+                        _bitSegEntity.extintor_obs = item.extintor_obs;
+                        _bitSegEntity.kit_antiderrames = item.kit_antiderrames;
+                        _bitSegEntity.kit_antiderrames_obs = item.kit_antiderrames_obs;
+                        _bitSegEntity.platica_5min = item.platica_5min;
+                        _bitSegEntity.platica_5min_obs = item.platica_5min_obs;
+                        _bitSegEntity.epp = item.epp;
+                        _bitSegEntity.epp_obs = item.epp_obs;
+                        _bitSegEntity.otro = item.otro;
+                        _bitSegEntity.otro_descrip = item.otro_descrip;
+                        _bitSegEntity.otro_obs = item.otro_obs;
+                        _bitSegEntity.idUsuario = item.idUsuario;
+
+                        db.SaveChanges();
+                    });
+
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
+    }
+
+    #region ESPECIAL PARA INSERTAR REGISTROS A DTO LISTADO DE BITACORA SEGURIDAD.
+    private List<BitSegDTO> getEncabezadoBitacoraSeguridad(List<BitSegEntidad> pBitacoraSegFiltrada)
+    {
+
+        var _ListadoEncabezado = pBitacoraSegFiltrada
+            .GroupBy(g => new { g.docBitacora, g.fecha, g.idSupervisor, g.idObra, g.area, g.hora_inicio, g.hora_termino, g.supervisorNom, g.obraNom })
+            .Select(x => new BitSegDTO
+            {
+                docBitacora = x.Key.docBitacora,
+                fecha = x.Key.fecha,
+                idSupervisor = x.Key.idSupervisor,
+                idObra = x.Key.idObra,
+                area = x.Key.area,
+                hora_inicio = x.Key.hora_inicio,
+                hora_termino = x.Key.hora_termino,
+                supervisorNom = x.Key.supervisorNom,
+                obraNom = x.Key.obraNom
+            })
+            .ToList();
+
+        return _ListadoEncabezado;
+    }
+
+    private List<BitSegDTO> getDetailBitacoraSeguridad(List<BitSegDTO> pBitSegEncabezadosDTO, List<BitSegEntidad> pBitacoraSegFiltrada)
+    {
+        pBitSegEncabezadosDTO.ForEach(itemBitSegEncabezado =>
+        {
+            var _ListadoBitSeg = pBitacoraSegFiltrada.Where(x => x.docBitacora == itemBitSegEncabezado.docBitacora).ToList();
+            itemBitSegEncabezado.ListadoBitSeg = new List<BitSegEntidad>();
+            _ListadoBitSeg.ForEach(x =>
+            {
+                itemBitSegEncabezado.ListadoBitSeg.Add(x);
+            });
+        });
+
+        return pBitSegEncabezadosDTO;
+    }
+    #endregion
+
+}
 }

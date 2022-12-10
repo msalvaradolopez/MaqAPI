@@ -174,7 +174,7 @@ namespace MaqAPI.Datos.Operaciones
             throw new NotImplementedException();
         }
 
-        public bool Update(T pItem)
+        public object Update(T pItem)
         {
             using (var db = new MaquinariaEntities())
             {
@@ -198,7 +198,7 @@ namespace MaqAPI.Datos.Operaciones
                     _ubicacionEntity.ventana = _item.ventana;
 
                     db.SaveChanges();
-                    return true;
+                    return _item;
                 }
                 catch (Exception)
                 {

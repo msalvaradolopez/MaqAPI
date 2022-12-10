@@ -12,7 +12,7 @@ namespace MaqAPI.Datos.Interfaz
 
         Boolean Insert(List<T> pList);
 
-        Boolean Update(T pItem);
+        object Update(T pItem);
         Boolean Update(List<T> pList);
 
         Boolean Delete(T pItem);
