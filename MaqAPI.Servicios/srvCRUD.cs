@@ -39,7 +39,7 @@ namespace MaqAPI.Servicios
             return this._objCRUD.Delete(pListado);
         }
 
-        public bool Insertar(T pItem)
+        public object Insertar(T pItem)
         {
             return this._objCRUD.Insert(pItem);
         }

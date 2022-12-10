@@ -94,7 +94,7 @@ namespace MaqAPI.Datos.Catalogos
             }
         }
 
-        public bool Insert(T pItem)
+        public object Insert(T pItem)
         {
             using (var db = new MaquinariaEntities())
             {
@@ -114,7 +114,7 @@ namespace MaqAPI.Datos.Catalogos
 
                     db.operadores.Add(_OperadorEntity);
                     db.SaveChanges();
-                    return true;
+                    return _item;
                 }
                 catch (Exception)
                 {

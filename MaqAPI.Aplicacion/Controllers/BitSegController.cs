@@ -21,13 +21,9 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("insItem")]
-        public string insItem([FromBody] BitSegEntidad pItem)
+        public object insItem([FromBody] BitSegEntidad pItem)
         {
-
-            if (_srvCRUD.Insertar(pItem))
-                return "Registro insertado.";
-            else
-                return "Fallo.";
+            return _srvCRUD.Insertar(pItem);
         }
 
         [AcceptVerbs("POST")]

@@ -132,7 +132,7 @@ namespace MaqAPI.Datos.Operaciones
             }
         }
 
-        public bool Insert(T pItem)
+        public object Insert(T pItem)
         {
             using (var db = new MaquinariaEntities())
             {
@@ -159,7 +159,7 @@ namespace MaqAPI.Datos.Operaciones
 
                     db.ubicacions.Add(_ubicacionEntity);
                     db.SaveChanges();
-                    return true;
+                    return _item;
                 }
                 catch (Exception)
                 {

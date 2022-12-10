@@ -8,7 +8,7 @@ namespace MaqAPI.Servicios
 {
     public interface IServicios<T>
     {
-        bool Insertar(T pItem);
+        object Insertar(T pItem);
         bool insertar(List<T> pListado);
         bool Actualizar(T pItem);
         bool Actualizar(List<T> pListado);

@@ -8,7 +8,7 @@ namespace MaqAPI.Datos.Interfaz
 {
     public interface IConexion<T>
     {
-        Boolean Insert(T pItem);
+        object Insert(T pItem);
 
         Boolean Insert(List<T> pList);
 

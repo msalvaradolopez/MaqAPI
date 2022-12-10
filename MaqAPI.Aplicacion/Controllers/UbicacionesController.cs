@@ -23,13 +23,9 @@ namespace MaqAPI.Aplicacion.Controllers
         [AcceptVerbs("POST")]
         [HttpPost()]
         [Route("insItem")]
-        public string insItem([FromBody] UbicacionEntidad pItem)
+        public object insItem([FromBody] UbicacionEntidad pItem)
         {
-
-            if (_srvCRUD.Insertar(pItem))
-                return "Registro insertado.";
-            else
-                return "Fallo.";
+            return _srvCRUD.Insertar(pItem);
         }
 
         [AcceptVerbs("POST")]

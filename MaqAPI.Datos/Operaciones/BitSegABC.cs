@@ -14,7 +14,6 @@ namespace MaqAPI.Datos.Operaciones
 {
     public class BitSegABC<T> : IConexion<T>
     {
-        private bitseg _bitSegEntity;
 
         public bool Delete(T pItem)
         {
@@ -24,8 +23,8 @@ namespace MaqAPI.Datos.Operaciones
             {
                 try
                 {
-                    this._bitSegEntity = db.bitseg.Where(x => x.idBitacora == _Item.idBitacora).FirstOrDefault();
-                    db.bitseg.Remove(this._bitSegEntity);
+                    var _bitSegEntity = db.bitseg.Where(x => x.idBitacora == _Item.idBitacora).FirstOrDefault();
+                    db.bitseg.Remove(_bitSegEntity);
                     db.SaveChanges();
 
                     return true;
@@ -48,8 +47,8 @@ namespace MaqAPI.Datos.Operaciones
 
                     _List.ForEach(item =>
                     {
-                        this._bitSegEntity = db.bitseg.Where(x => x.idBitacora == item.idBitacora).FirstOrDefault();
-                        db.bitseg.Remove(this._bitSegEntity);
+                        var _bitSegEntity = db.bitseg.Where(x => x.idBitacora == item.idBitacora).FirstOrDefault();
+                        db.bitseg.Remove(_bitSegEntity);
                     });
 
                     db.SaveChanges();
@@ -113,9 +112,10 @@ namespace MaqAPI.Datos.Operaciones
                                 )
                                 && (x.idUsuario == _filtros.idUsuario || _filtros.idUsuario == "0")
                               )
-                        .Select(x => new BitSegEntidad {
+                        .Select(x => new BitSegEntidad
+                        {
                             idBitacora = x.idBitacora,
-                            docBitacora =x.docBitacora,
+                            docBitacora = x.docBitacora,
                             fecha = x.fecha,
                             idSupervisor = x.idSupervisor,
                             idObra = x.idObra,
@@ -167,64 +167,82 @@ namespace MaqAPI.Datos.Operaciones
             }
         }
 
-        public bool Insert(T pItem)
+        public object Insert(T pItem)
         {
             using (var db = new MaquinariaEntities())
             {
-                try
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    var _Item = pItem as BitSegEntidad;
-
-                    int _docBitacora = 0;
-                    var _valor = db.parametros.Where(x => x.nombre == "docBitacora").Select(x => x.valor).FirstOrDefault();
-                    if (!string.IsNullOrEmpty(_valor))
-                        _docBitacora++;
-
-                    this._bitSegEntity = new bitseg
+                    try
                     {
-                        docBitacora = _docBitacora,
-                        fecha = _Item.fecha,
-                        idOperador = _Item.idOperador,
-                        idEconomico = _Item.idEconomico,
-                        idObra = _Item.idObra,
-                        area = _Item.area,
-                        hora_inicio = _Item.hora_inicio,
-                        hora_termino = _Item.hora_termino,
-                        actividad = _Item.actividad,
-                        pto_exacto = _Item.pto_exacto,
-                        chequeo_medico = _Item.chequeo_medico,
-                        chequeo_medico_obs = _Item.chequeo_medico_obs,
-                        checklist_maq_equip = _Item.checklist_maq_equip,
-                        checklist_maq_equip_obs = _Item.checklist_maq_equip_obs,
-                        apr = _Item.apr,
-                        apr_obs = _Item.apr_obs,
-                        permiso_instancia = _Item.permiso_instancia,
-                        permiso_instancia_obs = _Item.permiso_instancia_obs,
-                        dc3 = _Item.dc3,
-                        dc3_obs = _Item.dc3_obs,
-                        extintor = _Item.extintor,
-                        extintor_obs = _Item.extintor_obs,
-                        kit_antiderrames = _Item.kit_antiderrames,
-                        kit_antiderrames_obs = _Item.kit_antiderrames_obs,
-                        platica_5min = _Item.platica_5min,
-                        platica_5min_obs = _Item.platica_5min_obs,
-                        epp = _Item.epp,
-                        epp_obs = _Item.epp_obs,
-                        otro = _Item.otro,
-                        otro_descrip = _Item.otro_descrip,
-                        otro_obs = _Item.otro_obs,
-                        idUsuario = _Item.idUsuario
-                    };
+                        long _docBitacora = 0;
+                        long _idBitacora = 0;
+                        var _Item = pItem as BitSegEntidad;
 
-                    db.bitseg.Add(this._bitSegEntity);
+                        _idBitacora = _Item.idBitacora;
+                        if (_idBitacora != 0)
+                            throw new Exception("El registro ya existe.");
 
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception)
-                {
+                        _docBitacora = _Item.docBitacora;
+                        if (_docBitacora == 0)
+                        {
+                            var _params = db.parametros.Where(x => x.nombre == "docBitacora").Select(x => x).FirstOrDefault();
+                            if (!string.IsNullOrEmpty(_params.valor))
+                                _docBitacora = Convert.ToInt32(_params.valor);
 
-                    throw;
+                            _docBitacora++;
+                            _Item.docBitacora = _docBitacora;
+                            _params.valor = _docBitacora.ToString();
+                        }
+
+                        var _bitSegEntity = new bitseg
+                        {
+                            docBitacora = _docBitacora,
+                            fecha = _Item.fecha,
+                            idSupervisor = _Item.idSupervisor,
+                            idObra = _Item.idObra,
+                            area = _Item.area,
+                            hora_inicio = _Item.hora_inicio,
+                            hora_termino = _Item.hora_termino,
+                            idEconomico = _Item.idEconomico,
+                            actividad = _Item.actividad,
+                            pto_exacto = _Item.pto_exacto,
+                            chequeo_medico = _Item.chequeo_medico,
+                            chequeo_medico_obs = _Item.chequeo_medico_obs,
+                            checklist_maq_equip = _Item.checklist_maq_equip,
+                            checklist_maq_equip_obs = _Item.checklist_maq_equip_obs,
+                            apr = _Item.apr,
+                            apr_obs = _Item.apr_obs,
+                            permiso_instancia = _Item.permiso_instancia,
+                            permiso_instancia_obs = _Item.permiso_instancia_obs,
+                            dc3 = _Item.dc3,
+                            dc3_obs = _Item.dc3_obs,
+                            extintor = _Item.extintor,
+                            extintor_obs = _Item.extintor_obs,
+                            kit_antiderrames = _Item.kit_antiderrames,
+                            kit_antiderrames_obs = _Item.kit_antiderrames_obs,
+                            platica_5min = _Item.platica_5min,
+                            platica_5min_obs = _Item.platica_5min_obs,
+                            epp = _Item.epp,
+                            epp_obs = _Item.epp_obs,
+                            otro = _Item.otro,
+                            otro_descrip = _Item.otro_descrip,
+                            otro_obs = _Item.otro_obs,
+                            idUsuario = _Item.idUsuario
+                        };
+
+                        db.bitseg.Add(_bitSegEntity);
+
+                        db.SaveChanges();
+                        transaction.Commit();
+                        _Item.idBitacora = _bitSegEntity.idBitacora;
+                        return _Item;
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
         }
@@ -246,7 +264,7 @@ namespace MaqAPI.Datos.Operaciones
 
                         _List.ForEach(_Item =>
                         {
-                            this._bitSegEntity = new bitseg
+                           var _bitSegEntity = new bitseg
                             {
                                 docBitacora = _docBitacora,
                                 fecha = _Item.fecha,
@@ -282,7 +300,7 @@ namespace MaqAPI.Datos.Operaciones
                                 idUsuario = _Item.idUsuario
                             };
 
-                            db.bitseg.Add(this._bitSegEntity);
+                            db.bitseg.Add(_bitSegEntity);
 
                             db.SaveChanges();
                         });
@@ -317,39 +335,39 @@ namespace MaqAPI.Datos.Operaciones
 
                         _List.ForEach(item =>
                         {
-                            this._bitSegEntity = db.bitseg.Where(x => x.idBitacora == item.idBitacora).FirstOrDefault();
+                            var _bitSegEntity = db.bitseg.Where(x => x.idBitacora == item.idBitacora).FirstOrDefault();
 
-                            this._bitSegEntity.fecha = item.fecha;
-                            this._bitSegEntity.idOperador = item.idOperador;
-                            this._bitSegEntity.idEconomico = item.idEconomico;
-                            this._bitSegEntity.idObra = item.idObra;
-                            this._bitSegEntity.area = item.area;
-                            this._bitSegEntity.hora_inicio = item.hora_inicio;
-                            this._bitSegEntity.hora_termino = item.hora_termino;
-                            this._bitSegEntity.actividad = item.actividad;
-                            this._bitSegEntity.pto_exacto = item.pto_exacto;
-                            this._bitSegEntity.chequeo_medico = item.chequeo_medico;
-                            this._bitSegEntity.chequeo_medico_obs = item.chequeo_medico_obs;
-                            this._bitSegEntity.checklist_maq_equip = item.checklist_maq_equip;
-                            this._bitSegEntity.checklist_maq_equip_obs = item.checklist_maq_equip_obs;
-                            this._bitSegEntity.apr = item.apr;
-                            this._bitSegEntity.apr_obs = item.apr_obs;
-                            this._bitSegEntity.permiso_instancia = item.permiso_instancia;
-                            this._bitSegEntity.permiso_instancia_obs = item.permiso_instancia_obs;
-                            this._bitSegEntity.dc3 = item.dc3;
-                            this._bitSegEntity.dc3_obs = item.dc3_obs;
-                            this._bitSegEntity.extintor = item.extintor;
-                            this._bitSegEntity.extintor_obs = item.extintor_obs;
-                            this._bitSegEntity.kit_antiderrames = item.kit_antiderrames;
-                            this._bitSegEntity.kit_antiderrames_obs = item.kit_antiderrames_obs;
-                            this._bitSegEntity.platica_5min = item.platica_5min;
-                            this._bitSegEntity.platica_5min_obs = item.platica_5min_obs;
-                            this._bitSegEntity.epp = item.epp;
-                            this._bitSegEntity.epp_obs = item.epp_obs;
-                            this._bitSegEntity.otro = item.otro;
-                            this._bitSegEntity.otro_descrip = item.otro_descrip;
-                            this._bitSegEntity.otro_obs = item.otro_obs;
-                            this._bitSegEntity.idUsuario = item.idUsuario;
+                            _bitSegEntity.fecha = item.fecha;
+                            _bitSegEntity.idOperador = item.idOperador;
+                            _bitSegEntity.idEconomico = item.idEconomico;
+                            _bitSegEntity.idObra = item.idObra;
+                            _bitSegEntity.area = item.area;
+                            _bitSegEntity.hora_inicio = item.hora_inicio;
+                            _bitSegEntity.hora_termino = item.hora_termino;
+                            _bitSegEntity.actividad = item.actividad;
+                            _bitSegEntity.pto_exacto = item.pto_exacto;
+                            _bitSegEntity.chequeo_medico = item.chequeo_medico;
+                            _bitSegEntity.chequeo_medico_obs = item.chequeo_medico_obs;
+                            _bitSegEntity.checklist_maq_equip = item.checklist_maq_equip;
+                            _bitSegEntity.checklist_maq_equip_obs = item.checklist_maq_equip_obs;
+                            _bitSegEntity.apr = item.apr;
+                            _bitSegEntity.apr_obs = item.apr_obs;
+                            _bitSegEntity.permiso_instancia = item.permiso_instancia;
+                            _bitSegEntity.permiso_instancia_obs = item.permiso_instancia_obs;
+                            _bitSegEntity.dc3 = item.dc3;
+                            _bitSegEntity.dc3_obs = item.dc3_obs;
+                            _bitSegEntity.extintor = item.extintor;
+                            _bitSegEntity.extintor_obs = item.extintor_obs;
+                            _bitSegEntity.kit_antiderrames = item.kit_antiderrames;
+                            _bitSegEntity.kit_antiderrames_obs = item.kit_antiderrames_obs;
+                            _bitSegEntity.platica_5min = item.platica_5min;
+                            _bitSegEntity.platica_5min_obs = item.platica_5min_obs;
+                            _bitSegEntity.epp = item.epp;
+                            _bitSegEntity.epp_obs = item.epp_obs;
+                            _bitSegEntity.otro = item.otro;
+                            _bitSegEntity.otro_descrip = item.otro_descrip;
+                            _bitSegEntity.otro_obs = item.otro_obs;
+                            _bitSegEntity.idUsuario = item.idUsuario;
 
                             db.SaveChanges();
                         });
