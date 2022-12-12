@@ -30,8 +30,8 @@ namespace MaqAPI.Datos.Models
         public string ventana { get; set; }
     
         public virtual maquinaria maquinaria { get; set; }
-        public virtual obra obras { get; set; }
-        public virtual operadore operadores { get; set; }
-        public virtual operadore operadores1 { get; set; }
+        public virtual obras obras { get; set; }
+        public virtual operadores operadores { get; set; }
+        public virtual operadores operadores1 { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace MaqAPI.Datos.Operaciones
                 try
                 {
 
-                    var _listado = db.ubicacions
+                    var _listado = db.ubicacion
                         .OrderBy(x => x.idEconomico)
                         .Select(x => x).ToList();
 
@@ -41,7 +41,7 @@ namespace MaqAPI.Datos.Operaciones
                 try
                 {
                     int idUbicacion = Convert.ToInt32(id);
-                    var _ubucacionById = db.ubicacions.Where(x => x.idUbicacion == idUbicacion)
+                    var _ubucacionById = db.ubicacion.Where(x => x.idUbicacion == idUbicacion)
                         .Select(x => new {
                             x.idUbicacion,
                             x.idEconomico,
@@ -84,7 +84,7 @@ namespace MaqAPI.Datos.Operaciones
                     _filtros.idUsuario = _filtros.idUsuario == null ? "0" : _filtros.idUsuario;
                     var _todos = (_filtros.idEconomico == null && _filtros.idOperador == null && _filtros.idObra == null);
 
-                    var _obraByID = db.ubicacions
+                    var _obraByID = db.ubicacion
                         .Where(x =>
                             (
                                 (x.idEconomico == _filtros.idEconomico || _todos)
@@ -157,7 +157,7 @@ namespace MaqAPI.Datos.Operaciones
                         ventana = _item.ventana
                     };
 
-                    db.ubicacions.Add(_ubicacionEntity);
+                    db.ubicacion.Add(_ubicacionEntity);
                     db.SaveChanges();
                     return _item;
                 }
@@ -182,7 +182,7 @@ namespace MaqAPI.Datos.Operaciones
                 {
                     var _item = pItem as UbicacionEntidad;
 
-                    var _ubicacionEntity = db.ubicacions.Where(x => x.idUbicacion == _item.idUbicacion).FirstOrDefault();
+                    var _ubicacionEntity = db.ubicacion.Where(x => x.idUbicacion == _item.idUbicacion).FirstOrDefault();
 
                     _ubicacionEntity.idOperador = _item.idOperador;
                     _ubicacionEntity.idObra = _item.idObra;
@@ -220,9 +220,9 @@ namespace MaqAPI.Datos.Operaciones
                 try
                 {
                     var _item = pItem as UbicacionEntidad;
-                    var _ubicacionEntity = db.ubicacions.Where(x => x.idUbicacion == _item.idUbicacion).FirstOrDefault();
+                    var _ubicacionEntity = db.ubicacion.Where(x => x.idUbicacion == _item.idUbicacion).FirstOrDefault();
 
-                    db.ubicacions.Remove(_ubicacionEntity);
+                    db.ubicacion.Remove(_ubicacionEntity);
 
                     db.SaveChanges();
                     return true;

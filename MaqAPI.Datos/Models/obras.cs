@@ -12,10 +12,10 @@ namespace MaqAPI.Datos.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class obra
+    public partial class obras
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public obra()
+        public obras()
         {
             this.bitseg = new HashSet<bitseg>();
             this.ubicacion = new HashSet<ubicacion>();

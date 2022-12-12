@@ -151,7 +151,7 @@ namespace MaqAPI.Datos.Operaciones
                             equipoNom = x.maquinaria.Tipo,
                             obraNom = x.obras.Nombre,
                             operadorNom = x.operadores.Nombre,
-                            supervisorNom = x.operadores11.Nombre
+                            supervisorNom = x.operadores1.Nombre
                         })
                         .ToList();
 
@@ -205,6 +205,7 @@ namespace MaqAPI.Datos.Operaciones
                             hora_inicio = _Item.hora_inicio,
                             hora_termino = _Item.hora_termino,
                             idEconomico = _Item.idEconomico,
+                            idOperador = _Item.idOperador,
                             actividad = _Item.actividad,
                             pto_exacto = _Item.pto_exacto,
                             chequeo_medico = _Item.chequeo_medico,
@@ -236,11 +237,13 @@ namespace MaqAPI.Datos.Operaciones
                         db.SaveChanges();
                         transaction.Commit();
                         _Item.idBitacora = _bitSegEntity.idBitacora;
+                        _Item.docBitacora = _bitSegEntity.docBitacora;
                         return _Item;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
+                        var _error = ex.Message.ToString();
                         throw;
                     }
                 }
@@ -268,12 +271,13 @@ namespace MaqAPI.Datos.Operaciones
                             {
                                 docBitacora = _docBitacora,
                                 fecha = _Item.fecha,
-                                idOperador = _Item.idOperador,
-                                idEconomico = _Item.idEconomico,
+                                idSupervisor = _Item.idSupervisor,
                                 idObra = _Item.idObra,
                                 area = _Item.area,
                                 hora_inicio = _Item.hora_inicio,
                                 hora_termino = _Item.hora_termino,
+                                idEconomico = _Item.idEconomico,
+                                idOperador = _Item.idOperador,
                                 actividad = _Item.actividad,
                                 pto_exacto = _Item.pto_exacto,
                                 chequeo_medico = _Item.chequeo_medico,
@@ -391,12 +395,13 @@ namespace MaqAPI.Datos.Operaciones
                         var _bitSegEntity = db.bitseg.Where(x => x.idBitacora == item.idBitacora).FirstOrDefault();
 
                         _bitSegEntity.fecha = item.fecha;
-                        _bitSegEntity.idOperador = item.idOperador;
-                        _bitSegEntity.idEconomico = item.idEconomico;
+                        _bitSegEntity.idSupervisor = item.idSupervisor;
                         _bitSegEntity.idObra = item.idObra;
                         _bitSegEntity.area = item.area;
                         _bitSegEntity.hora_inicio = item.hora_inicio;
                         _bitSegEntity.hora_termino = item.hora_termino;
+                        _bitSegEntity.idEconomico = item.idEconomico;
+                        _bitSegEntity.idOperador = item.idOperador;
                         _bitSegEntity.actividad = item.actividad;
                         _bitSegEntity.pto_exacto = item.pto_exacto;
                         _bitSegEntity.chequeo_medico = item.chequeo_medico;

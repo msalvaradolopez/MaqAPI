@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="bitseg">
           <Key>
             <PropertyRef Name="idBitacora" />
@@ -87,12 +87,9 @@
           <Property Name="categoria" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="passw" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="parametros">
           <Key>
             <PropertyRef Name="nombre" />
-            <PropertyRef Name="valor" />
           </Key>
           <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="valor" Type="varchar" MaxLength="10" Nullable="false" />
@@ -245,14 +242,9 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obras" EntityType="Self.obras" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="operadores" EntityType="Self.operadores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="parametros" EntityType="Self.parametros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="parametros" EntityType="Self.parametros" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [parametros].[nombre] AS [nombre], 
-    [parametros].[valor] AS [valor]
-    FROM [dbo].[parametros] AS [parametros]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_bitseg_maquinaria" Association="Self.FK_bitseg_maquinaria">
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="bitseg" EntitySet="bitseg" />
@@ -290,10 +282,55 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             <End Role="ubicacion" EntitySet="ubicacion" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MaquinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bitseg">
+          <Key>
+            <PropertyRef Name="idBitacora" />
+          </Key>
+          <Property Name="idBitacora" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="docBitacora" Type="Int64" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idSupervisor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idObra" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="hora_inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="hora_termino" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idEconomico" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="actividad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pto_exacto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="chequeo_medico" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="chequeo_medico_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="checklist_maq_equip" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="checklist_maq_equip_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="apr" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="apr_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="permiso_instancia" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="permiso_instancia_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="dc3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="dc3_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="extintor" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="extintor_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="kit_antiderrames" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="kit_antiderrames_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="platica_5min" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="platica_5min_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="epp" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="epp_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="otro" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="otro_descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="otro_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="idUsuario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="maquinaria" Relationship="Self.FK_bitseg_maquinaria" FromRole="bitseg" ToRole="maquinaria" />
+          <NavigationProperty Name="obras" Relationship="Self.FK_bitseg_obras" FromRole="bitseg" ToRole="obras" />
+          <NavigationProperty Name="operadores" Relationship="Self.FK_bitseg_operadores" FromRole="bitseg" ToRole="operadores" />
+          <NavigationProperty Name="operadores1" Relationship="Self.FK_bitseg_supervisor" FromRole="bitseg" ToRole="operadores" />
+          <NavigationProperty Name="operadores2" Relationship="Self.FK_bitseg_usuarios" FromRole="bitseg" ToRole="operadores" />
+        </EntityType>
         <EntityType Name="diesel">
           <Key>
             <PropertyRef Name="idDiesel" />
@@ -316,10 +353,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <Property Name="Tipo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="bitseg" Relationship="MaquinariaModel.FK_bitseg_maquinaria" FromRole="maquinaria" ToRole="bitseg" />
-          <NavigationProperty Name="ubicacion" Relationship="MaquinariaModel.FK_ubicacion_maquinaria" FromRole="maquinaria" ToRole="ubicacion" />
+          <NavigationProperty Name="bitseg" Relationship="Self.FK_bitseg_maquinaria" FromRole="maquinaria" ToRole="bitseg" />
+          <NavigationProperty Name="ubicacion" Relationship="Self.FK_ubicacion_maquinaria" FromRole="maquinaria" ToRole="ubicacion" />
         </EntityType>
-        <EntityType Name="obra">
+        <EntityType Name="obras">
           <Key>
             <PropertyRef Name="idObra" />
           </Key>
@@ -327,10 +364,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="bitseg" Relationship="MaquinariaModel.FK_bitseg_obras" FromRole="obra" ToRole="bitseg" />
-          <NavigationProperty Name="ubicacion" Relationship="MaquinariaModel.FK_ubicacion_obras" FromRole="obra" ToRole="ubicacion" />
+          <NavigationProperty Name="bitseg" Relationship="Self.FK_bitseg_obras" FromRole="obras" ToRole="bitseg" />
+          <NavigationProperty Name="ubicacion" Relationship="Self.FK_ubicacion_obras" FromRole="obras" ToRole="ubicacion" />
         </EntityType>
-        <EntityType Name="operadore">
+        <EntityType Name="operadores">
           <Key>
             <PropertyRef Name="idOperador" />
           </Key>
@@ -340,11 +377,18 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="categoria" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="passw" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="bitseg" Relationship="MaquinariaModel.FK_bitseg_operadores" FromRole="operadore" ToRole="bitseg" />
-          <NavigationProperty Name="bitseg1" Relationship="MaquinariaModel.FK_bitseg_usuarios" FromRole="operadore" ToRole="bitseg" />
-          <NavigationProperty Name="ubicacion" Relationship="MaquinariaModel.FK_ubicacion_operadores" FromRole="operadore" ToRole="ubicacion" />
-          <NavigationProperty Name="ubicacion1" Relationship="MaquinariaModel.FK_ubicacion_usuarios" FromRole="operadore" ToRole="ubicacion" />
-          <NavigationProperty Name="bitseg11" Relationship="MaquinariaModel.FK_bitseg_supervisor" FromRole="operadore" ToRole="bitseg" />
+          <NavigationProperty Name="bitseg" Relationship="Self.FK_bitseg_operadores" FromRole="operadores" ToRole="bitseg" />
+          <NavigationProperty Name="bitseg1" Relationship="Self.FK_bitseg_supervisor" FromRole="operadores" ToRole="bitseg" />
+          <NavigationProperty Name="bitseg2" Relationship="Self.FK_bitseg_usuarios" FromRole="operadores" ToRole="bitseg" />
+          <NavigationProperty Name="ubicacion" Relationship="Self.FK_ubicacion_operadores" FromRole="operadores" ToRole="ubicacion" />
+          <NavigationProperty Name="ubicacion1" Relationship="Self.FK_ubicacion_usuarios" FromRole="operadores" ToRole="ubicacion" />
+        </EntityType>
+        <EntityType Name="parametros">
+          <Key>
+            <PropertyRef Name="nombre" />
+          </Key>
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="valor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="ubicacion">
           <Key>
@@ -364,12 +408,12 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <Property Name="litros" Type="Int32" />
           <Property Name="horometro" Type="Int32" />
           <Property Name="ventana" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="maquinaria" Relationship="MaquinariaModel.FK_ubicacion_maquinaria" FromRole="ubicacion" ToRole="maquinaria" />
-          <NavigationProperty Name="obras" Relationship="MaquinariaModel.FK_ubicacion_obras" FromRole="ubicacion" ToRole="obra" />
-          <NavigationProperty Name="operadores" Relationship="MaquinariaModel.FK_ubicacion_operadores" FromRole="ubicacion" ToRole="operadore" />
-          <NavigationProperty Name="operadores1" Relationship="MaquinariaModel.FK_ubicacion_usuarios" FromRole="ubicacion" ToRole="operadore" />
+          <NavigationProperty Name="maquinaria" Relationship="Self.FK_ubicacion_maquinaria" FromRole="ubicacion" ToRole="maquinaria" />
+          <NavigationProperty Name="obras" Relationship="Self.FK_ubicacion_obras" FromRole="ubicacion" ToRole="obras" />
+          <NavigationProperty Name="operadores" Relationship="Self.FK_ubicacion_operadores" FromRole="ubicacion" ToRole="operadores" />
+          <NavigationProperty Name="operadores1" Relationship="Self.FK_ubicacion_usuarios" FromRole="ubicacion" ToRole="operadores" />
         </EntityType>
-        <EntityType Name="usuario">
+        <EntityType Name="usuarios">
           <Key>
             <PropertyRef Name="idUsuario" />
           </Key>
@@ -380,111 +424,9 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           <Property Name="TipoEmpleado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
-        <EntityType Name="parametro">
-          <Key>
-            <PropertyRef Name="nombre" />
-            <PropertyRef Name="valor" />
-          </Key>
-          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="valor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityContainer Name="MaquinariaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="diesels" EntityType="Self.diesel" />
-          <EntitySet Name="maquinarias" EntityType="Self.maquinaria" />
-          <EntitySet Name="obras" EntityType="Self.obra" />
-          <EntitySet Name="operadores" EntityType="Self.operadore" />
-          <EntitySet Name="ubicacions" EntityType="Self.ubicacion" />
-          <EntitySet Name="usuarios" EntityType="Self.usuario" />
-          <EntitySet Name="parametros" EntityType="Self.parametro" />
-          <FunctionImport Name="spConsultaUbicacionPaginado">
-            <Parameter Name="intRenglones" Mode="In" Type="Int32" />
-            <Parameter Name="intPagina" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <EntitySet Name="bitseg" EntityType="MaquinariaModel.bitseg" />
-          <AssociationSet Name="FK_bitseg_maquinaria" Association="MaquinariaModel.FK_bitseg_maquinaria">
-            <End Role="maquinaria" EntitySet="maquinarias" />
-            <End Role="bitseg" EntitySet="bitseg" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bitseg_obras" Association="MaquinariaModel.FK_bitseg_obras">
-            <End Role="obra" EntitySet="obras" />
-            <End Role="bitseg" EntitySet="bitseg" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bitseg_operadores" Association="MaquinariaModel.FK_bitseg_operadores">
-            <End Role="operadore" EntitySet="operadores" />
-            <End Role="bitseg" EntitySet="bitseg" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bitseg_usuarios" Association="MaquinariaModel.FK_bitseg_usuarios">
-            <End Role="operadore" EntitySet="operadores" />
-            <End Role="bitseg" EntitySet="bitseg" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ubicacion_maquinaria" Association="MaquinariaModel.FK_ubicacion_maquinaria">
-            <End Role="maquinaria" EntitySet="maquinarias" />
-            <End Role="ubicacion" EntitySet="ubicacions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ubicacion_obras" Association="MaquinariaModel.FK_ubicacion_obras">
-            <End Role="obra" EntitySet="obras" />
-            <End Role="ubicacion" EntitySet="ubicacions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ubicacion_operadores" Association="MaquinariaModel.FK_ubicacion_operadores">
-            <End Role="operadore" EntitySet="operadores" />
-            <End Role="ubicacion" EntitySet="ubicacions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ubicacion_usuarios" Association="MaquinariaModel.FK_ubicacion_usuarios">
-            <End Role="operadore" EntitySet="operadores" />
-            <End Role="ubicacion" EntitySet="ubicacions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bitseg_supervisor" Association="MaquinariaModel.FK_bitseg_supervisor">
-            <End Role="operadore" EntitySet="operadores" />
-            <End Role="bitseg" EntitySet="bitseg" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="bitseg">
-          <Key>
-            <PropertyRef Name="idBitacora" />
-          </Key>
-          <Property Name="idBitacora" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="docBitacora" Type="Int64" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="idOperador" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="idObra" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="hora_inicio" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="hora_termino" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="idEconomico" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="actividad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="pto_exacto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="chequeo_medico" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="chequeo_medico_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="checklist_maq_equip" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="checklist_maq_equip_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="apr" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="apr_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="permiso_instancia" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="permiso_instancia_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="dc3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="dc3_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="extintor" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="extintor_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="kit_antiderrames" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="kit_antiderrames_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="platica_5min" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="platica_5min_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="epp" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="epp_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="otro" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="otro_descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="otro_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="idUsuario" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="maquinaria" Relationship="MaquinariaModel.FK_bitseg_maquinaria" FromRole="bitseg" ToRole="maquinaria" />
-          <NavigationProperty Name="obras" Relationship="MaquinariaModel.FK_bitseg_obras" FromRole="bitseg" ToRole="obra" />
-          <NavigationProperty Name="operadores" Relationship="MaquinariaModel.FK_bitseg_operadores" FromRole="bitseg" ToRole="operadore" />
-          <NavigationProperty Name="operadores1" Relationship="MaquinariaModel.FK_bitseg_usuarios" FromRole="bitseg" ToRole="operadore" />
-          <Property Name="idSupervisor" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="operadores11" Relationship="MaquinariaModel.FK_bitseg_supervisor" FromRole="bitseg" ToRole="operadore" />
-        </EntityType>
         <Association Name="FK_bitseg_maquinaria">
-          <End Type="MaquinariaModel.maquinaria" Role="maquinaria" Multiplicity="1" />
-          <End Type="MaquinariaModel.bitseg" Role="bitseg" Multiplicity="*" />
+          <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
+          <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="maquinaria">
               <PropertyRef Name="idEconomico" />
@@ -495,10 +437,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_bitseg_obras">
-          <End Type="MaquinariaModel.obra" Role="obra" Multiplicity="1" />
-          <End Type="MaquinariaModel.bitseg" Role="bitseg" Multiplicity="*" />
+          <End Role="obras" Type="Self.obras" Multiplicity="1" />
+          <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="obra">
+            <Principal Role="obras">
               <PropertyRef Name="idObra" />
             </Principal>
             <Dependent Role="bitseg">
@@ -507,10 +449,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_bitseg_operadores">
-          <End Type="MaquinariaModel.operadore" Role="operadore" Multiplicity="1" />
-          <End Type="MaquinariaModel.bitseg" Role="bitseg" Multiplicity="*" />
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="operadore">
+            <Principal Role="operadores">
               <PropertyRef Name="idOperador" />
             </Principal>
             <Dependent Role="bitseg">
@@ -518,11 +460,23 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_bitseg_usuarios">
-          <End Type="MaquinariaModel.operadore" Role="operadore" Multiplicity="1" />
-          <End Type="MaquinariaModel.bitseg" Role="bitseg" Multiplicity="*" />
+        <Association Name="FK_bitseg_supervisor">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="operadore">
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="bitseg">
+              <PropertyRef Name="idSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bitseg_usuarios">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
               <PropertyRef Name="idOperador" />
             </Principal>
             <Dependent Role="bitseg">
@@ -531,8 +485,8 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ubicacion_maquinaria">
-          <End Type="MaquinariaModel.maquinaria" Role="maquinaria" Multiplicity="1" />
-          <End Type="MaquinariaModel.ubicacion" Role="ubicacion" Multiplicity="*" />
+          <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="maquinaria">
               <PropertyRef Name="idEconomico" />
@@ -543,10 +497,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ubicacion_obras">
-          <End Type="MaquinariaModel.obra" Role="obra" Multiplicity="1" />
-          <End Type="MaquinariaModel.ubicacion" Role="ubicacion" Multiplicity="*" />
+          <End Role="obras" Type="Self.obras" Multiplicity="1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="obra">
+            <Principal Role="obras">
               <PropertyRef Name="idObra" />
             </Principal>
             <Dependent Role="ubicacion">
@@ -555,10 +509,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ubicacion_operadores">
-          <End Type="MaquinariaModel.operadore" Role="operadore" Multiplicity="1" />
-          <End Type="MaquinariaModel.ubicacion" Role="ubicacion" Multiplicity="*" />
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="operadore">
+            <Principal Role="operadores">
               <PropertyRef Name="idOperador" />
             </Principal>
             <Dependent Role="ubicacion">
@@ -567,10 +521,10 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ubicacion_usuarios">
-          <End Type="MaquinariaModel.operadore" Role="operadore" Multiplicity="1" />
-          <End Type="MaquinariaModel.ubicacion" Role="ubicacion" Multiplicity="*" />
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="operadore">
+            <Principal Role="operadores">
               <PropertyRef Name="idOperador" />
             </Principal>
             <Dependent Role="ubicacion">
@@ -578,25 +532,103 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_bitseg_supervisor">
-          <End Type="MaquinariaModel.operadore" Role="operadore" Multiplicity="1" />
-          <End Type="MaquinariaModel.bitseg" Role="bitseg" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="operadore">
-              <PropertyRef Name="idOperador" />
-            </Principal>
-            <Dependent Role="bitseg">
-              <PropertyRef Name="idSupervisor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityContainer Name="MaquinariaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bitseg" EntityType="Self.bitseg" />
+          <EntitySet Name="diesel" EntityType="Self.diesel" />
+          <EntitySet Name="maquinaria" EntityType="Self.maquinaria" />
+          <EntitySet Name="obras" EntityType="Self.obras" />
+          <EntitySet Name="operadores" EntityType="Self.operadores" />
+          <EntitySet Name="parametros" EntityType="Self.parametros" />
+          <EntitySet Name="ubicacion" EntityType="Self.ubicacion" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" />
+          <AssociationSet Name="FK_bitseg_maquinaria" Association="Self.FK_bitseg_maquinaria">
+            <End Role="maquinaria" EntitySet="maquinaria" />
+            <End Role="bitseg" EntitySet="bitseg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bitseg_obras" Association="Self.FK_bitseg_obras">
+            <End Role="obras" EntitySet="obras" />
+            <End Role="bitseg" EntitySet="bitseg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bitseg_operadores" Association="Self.FK_bitseg_operadores">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="bitseg" EntitySet="bitseg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bitseg_supervisor" Association="Self.FK_bitseg_supervisor">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="bitseg" EntitySet="bitseg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bitseg_usuarios" Association="Self.FK_bitseg_usuarios">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="bitseg" EntitySet="bitseg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ubicacion_maquinaria" Association="Self.FK_ubicacion_maquinaria">
+            <End Role="maquinaria" EntitySet="maquinaria" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ubicacion_obras" Association="Self.FK_ubicacion_obras">
+            <End Role="obras" EntitySet="obras" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ubicacion_operadores" Association="Self.FK_ubicacion_operadores">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ubicacion_usuarios" Association="Self.FK_ubicacion_usuarios">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <FunctionImport Name="spConsultaUbicacionPaginado">
+            <Parameter Name="intRenglones" Mode="In" Type="Int32" />
+            <Parameter Name="intPagina" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MaquinariaModelStoreContainer" CdmEntityContainer="MaquinariaEntities">
-          <EntitySetMapping Name="diesels">
+          <EntitySetMapping Name="bitseg">
+            <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
+              <MappingFragment StoreEntitySet="bitseg">
+                <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
+                <ScalarProperty Name="docBitacora" ColumnName="docBitacora" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="idSupervisor" ColumnName="idSupervisor" />
+                <ScalarProperty Name="idObra" ColumnName="idObra" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="hora_termino" ColumnName="hora_termino" />
+                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="actividad" ColumnName="actividad" />
+                <ScalarProperty Name="pto_exacto" ColumnName="pto_exacto" />
+                <ScalarProperty Name="chequeo_medico" ColumnName="chequeo_medico" />
+                <ScalarProperty Name="chequeo_medico_obs" ColumnName="chequeo_medico_obs" />
+                <ScalarProperty Name="checklist_maq_equip" ColumnName="checklist_maq_equip" />
+                <ScalarProperty Name="checklist_maq_equip_obs" ColumnName="checklist_maq_equip_obs" />
+                <ScalarProperty Name="apr" ColumnName="apr" />
+                <ScalarProperty Name="apr_obs" ColumnName="apr_obs" />
+                <ScalarProperty Name="permiso_instancia" ColumnName="permiso_instancia" />
+                <ScalarProperty Name="permiso_instancia_obs" ColumnName="permiso_instancia_obs" />
+                <ScalarProperty Name="dc3" ColumnName="dc3" />
+                <ScalarProperty Name="dc3_obs" ColumnName="dc3_obs" />
+                <ScalarProperty Name="extintor" ColumnName="extintor" />
+                <ScalarProperty Name="extintor_obs" ColumnName="extintor_obs" />
+                <ScalarProperty Name="kit_antiderrames" ColumnName="kit_antiderrames" />
+                <ScalarProperty Name="kit_antiderrames_obs" ColumnName="kit_antiderrames_obs" />
+                <ScalarProperty Name="platica_5min" ColumnName="platica_5min" />
+                <ScalarProperty Name="platica_5min_obs" ColumnName="platica_5min_obs" />
+                <ScalarProperty Name="epp" ColumnName="epp" />
+                <ScalarProperty Name="epp_obs" ColumnName="epp_obs" />
+                <ScalarProperty Name="otro" ColumnName="otro" />
+                <ScalarProperty Name="otro_descrip" ColumnName="otro_descrip" />
+                <ScalarProperty Name="otro_obs" ColumnName="otro_obs" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="diesel">
             <EntityTypeMapping TypeName="MaquinariaModel.diesel">
               <MappingFragment StoreEntitySet="diesel">
                 <ScalarProperty Name="idDiesel" ColumnName="idDiesel" />
@@ -611,7 +643,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="maquinarias">
+          <EntitySetMapping Name="maquinaria">
             <EntityTypeMapping TypeName="MaquinariaModel.maquinaria">
               <MappingFragment StoreEntitySet="maquinaria">
                 <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
@@ -622,7 +654,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="obras">
-            <EntityTypeMapping TypeName="MaquinariaModel.obra">
+            <EntityTypeMapping TypeName="MaquinariaModel.obras">
               <MappingFragment StoreEntitySet="obras">
                 <ScalarProperty Name="idObra" ColumnName="idObra" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -632,7 +664,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="operadores">
-            <EntityTypeMapping TypeName="MaquinariaModel.operadore">
+            <EntityTypeMapping TypeName="MaquinariaModel.operadores">
               <MappingFragment StoreEntitySet="operadores">
                 <ScalarProperty Name="idOperador" ColumnName="idOperador" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -643,7 +675,15 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ubicacions">
+          <EntitySetMapping Name="parametros">
+            <EntityTypeMapping TypeName="MaquinariaModel.parametros">
+              <MappingFragment StoreEntitySet="parametros">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ubicacion">
             <EntityTypeMapping TypeName="MaquinariaModel.ubicacion">
               <MappingFragment StoreEntitySet="ubicacion">
                 <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
@@ -664,7 +704,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="usuarios">
-            <EntityTypeMapping TypeName="MaquinariaModel.usuario">
+            <EntityTypeMapping TypeName="MaquinariaModel.usuarios">
               <MappingFragment StoreEntitySet="usuarios">
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -675,55 +715,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="parametros">
-            <EntityTypeMapping TypeName="MaquinariaModel.parametro">
-              <MappingFragment StoreEntitySet="parametros">
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="valor" ColumnName="valor" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaquinariaModel.Store.spConsultaUbicacionPaginado" />
-          <EntitySetMapping Name="bitseg">
-            <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
-              <MappingFragment StoreEntitySet="bitseg">
-                <ScalarProperty Name="idSupervisor" ColumnName="idSupervisor" />
-                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
-                <ScalarProperty Name="otro_obs" ColumnName="otro_obs" />
-                <ScalarProperty Name="otro_descrip" ColumnName="otro_descrip" />
-                <ScalarProperty Name="otro" ColumnName="otro" />
-                <ScalarProperty Name="epp_obs" ColumnName="epp_obs" />
-                <ScalarProperty Name="epp" ColumnName="epp" />
-                <ScalarProperty Name="platica_5min_obs" ColumnName="platica_5min_obs" />
-                <ScalarProperty Name="platica_5min" ColumnName="platica_5min" />
-                <ScalarProperty Name="kit_antiderrames_obs" ColumnName="kit_antiderrames_obs" />
-                <ScalarProperty Name="kit_antiderrames" ColumnName="kit_antiderrames" />
-                <ScalarProperty Name="extintor_obs" ColumnName="extintor_obs" />
-                <ScalarProperty Name="extintor" ColumnName="extintor" />
-                <ScalarProperty Name="dc3_obs" ColumnName="dc3_obs" />
-                <ScalarProperty Name="dc3" ColumnName="dc3" />
-                <ScalarProperty Name="permiso_instancia_obs" ColumnName="permiso_instancia_obs" />
-                <ScalarProperty Name="permiso_instancia" ColumnName="permiso_instancia" />
-                <ScalarProperty Name="apr_obs" ColumnName="apr_obs" />
-                <ScalarProperty Name="apr" ColumnName="apr" />
-                <ScalarProperty Name="checklist_maq_equip_obs" ColumnName="checklist_maq_equip_obs" />
-                <ScalarProperty Name="checklist_maq_equip" ColumnName="checklist_maq_equip" />
-                <ScalarProperty Name="chequeo_medico_obs" ColumnName="chequeo_medico_obs" />
-                <ScalarProperty Name="chequeo_medico" ColumnName="chequeo_medico" />
-                <ScalarProperty Name="pto_exacto" ColumnName="pto_exacto" />
-                <ScalarProperty Name="actividad" ColumnName="actividad" />
-                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
-                <ScalarProperty Name="hora_termino" ColumnName="hora_termino" />
-                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
-                <ScalarProperty Name="area" ColumnName="area" />
-                <ScalarProperty Name="idObra" ColumnName="idObra" />
-                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="docBitacora" ColumnName="docBitacora" />
-                <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -738,7 +730,7 @@ advertencia 6002: La tabla o vista 'Maquinaria.dbo.parametros' no tiene definida
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />

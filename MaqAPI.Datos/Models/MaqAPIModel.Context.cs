@@ -27,14 +27,14 @@ namespace MaqAPI.Datos.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<diesel> diesels { get; set; }
-        public virtual DbSet<maquinaria> maquinarias { get; set; }
-        public virtual DbSet<obra> obras { get; set; }
-        public virtual DbSet<operadore> operadores { get; set; }
-        public virtual DbSet<ubicacion> ubicacions { get; set; }
-        public virtual DbSet<usuario> usuarios { get; set; }
-        public virtual DbSet<parametro> parametros { get; set; }
         public virtual DbSet<bitseg> bitseg { get; set; }
+        public virtual DbSet<diesel> diesel { get; set; }
+        public virtual DbSet<maquinaria> maquinaria { get; set; }
+        public virtual DbSet<obras> obras { get; set; }
+        public virtual DbSet<operadores> operadores { get; set; }
+        public virtual DbSet<parametros> parametros { get; set; }
+        public virtual DbSet<ubicacion> ubicacion { get; set; }
+        public virtual DbSet<usuarios> usuarios { get; set; }
     
         public virtual int spConsultaUbicacionPaginado(Nullable<int> intRenglones, Nullable<int> intPagina)
         {

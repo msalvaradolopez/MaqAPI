@@ -81,19 +81,19 @@
     <Compile Include="Models\maquinaria.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\obra.cs">
+    <Compile Include="Models\obras.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\operadore.cs">
+    <Compile Include="Models\operadores.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\parametro.cs">
+    <Compile Include="Models\parametros.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ubicacion.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\usuario.cs">
+    <Compile Include="Models\usuarios.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\BitSegABC.cs" />
@@ -101,29 +101,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="Models\MaqAPIModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MaqAPIModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="Models\MaqAPIModel.edmx.diagram">
       <DependentUpon>MaqAPIModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Models\MaqAPIModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MaqAPIModel.Context.cs</LastGenOutput>
-      <DependentUpon>MaqAPIModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\MaqAPIModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MaqAPIModel.edmx</DependentUpon>
-      <LastGenOutput>MaqAPIModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -140,6 +126,18 @@
       <Project>{76775ef8-a75a-4a74-9863-bffe8b69d29a}</Project>
       <Name>MaqAPI.Entidades</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\MaqAPIModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MaqAPIModel.edmx</DependentUpon>
+      <LastGenOutput>MaqAPIModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MaqAPIModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MaqAPIModel.edmx</DependentUpon>
+      <LastGenOutput>MaqAPIModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

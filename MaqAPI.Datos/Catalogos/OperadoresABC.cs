@@ -104,7 +104,7 @@ namespace MaqAPI.Datos.Catalogos
                 {
                     var _item = pItem as OperadorEntidad;
 
-                    var _OperadorEntity = new operadore
+                    var _OperadorEntity = new operadores
                     {
                         idOperador = _item.idOperador,
                         Nombre = _item.Nombre,

@@ -18,7 +18,7 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _maquinariaList = db.maquinarias
+                    var _maquinariaList = db.maquinaria
                         .OrderBy(x=>x.Tipo)
                         .Select(x => x).ToList();
 
@@ -39,7 +39,7 @@ namespace MaqAPI.Datos.Catalogos
                 try
                 {
 
-                    var _maquinariaById = db.maquinarias.Where(x => x.idEconomico == id.ToString())
+                    var _maquinariaById = db.maquinaria.Where(x => x.idEconomico == id.ToString())
                         .Select(x => new {
                             x.idEconomico,
                             x.Tipo,
@@ -66,7 +66,7 @@ namespace MaqAPI.Datos.Catalogos
                 {
                     var _filtros = (FiltrosEntidad)filtro;
 
-                    var _obraByID = db.maquinarias
+                    var _obraByID = db.maquinaria
                         .Where(x => (x.idEconomico.Contains(_filtros.buscar)
                                     || x.Tipo.Contains(_filtros.buscar))
                                     && (x.estatus == _filtros.estatus  || _filtros.estatus == "0"))
@@ -103,7 +103,7 @@ namespace MaqAPI.Datos.Catalogos
                     _maquinariaEntity.estatus = _item.estatus;
                     _maquinariaEntity.fecha_alta = _item.fecha_alta;
 
-                    db.maquinarias.Add(_maquinariaEntity);
+                    db.maquinaria.Add(_maquinariaEntity);
                     db.SaveChanges();
                     return _item;
                 }
@@ -128,7 +128,7 @@ namespace MaqAPI.Datos.Catalogos
                 {
                     var _item = pItem as MaquinariaEntidad;
 
-                    var _maquinariaEntity = db.maquinarias.Where(x => x.idEconomico == _item.idEconomico).FirstOrDefault();
+                    var _maquinariaEntity = db.maquinaria.Where(x => x.idEconomico == _item.idEconomico).FirstOrDefault();
 
                     _maquinariaEntity.Tipo = _item.Tipo;
                     _maquinariaEntity.estatus = _item.estatus;
@@ -158,9 +158,9 @@ namespace MaqAPI.Datos.Catalogos
                 {
                     var _item = pItem as MaquinariaEntidad;
 
-                    var _maquinariaEntity = db.maquinarias.Where(x => x.idEconomico == _item.idEconomico).FirstOrDefault();
+                    var _maquinariaEntity = db.maquinaria.Where(x => x.idEconomico == _item.idEconomico).FirstOrDefault();
 
-                    db.maquinarias.Remove(_maquinariaEntity);
+                    db.maquinaria.Remove(_maquinariaEntity);
 
                     db.SaveChanges();
                     return true;

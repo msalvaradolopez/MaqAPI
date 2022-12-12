@@ -97,7 +97,7 @@ namespace MaqAPI.Datos.Catalogos
                 {
                     var _item = pItem as ObraEntidad;
 
-                    obra _obraEntity = new obra();
+                    obras _obraEntity = new obras();
                     _obraEntity.idObra = _item.idObra;
                     _obraEntity.Nombre = _item.Nombre;
                     _obraEntity.estatus = _item.estatus;

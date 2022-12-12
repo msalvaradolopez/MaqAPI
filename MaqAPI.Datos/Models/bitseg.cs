@@ -17,12 +17,13 @@ namespace MaqAPI.Datos.Models
         public long idBitacora { get; set; }
         public long docBitacora { get; set; }
         public System.DateTime fecha { get; set; }
-        public string idOperador { get; set; }
+        public string idSupervisor { get; set; }
         public string idObra { get; set; }
         public string area { get; set; }
         public System.DateTime hora_inicio { get; set; }
         public System.DateTime hora_termino { get; set; }
         public string idEconomico { get; set; }
+        public string idOperador { get; set; }
         public string actividad { get; set; }
         public string pto_exacto { get; set; }
         public string chequeo_medico { get; set; }
@@ -47,12 +48,11 @@ namespace MaqAPI.Datos.Models
         public string otro_descrip { get; set; }
         public string otro_obs { get; set; }
         public string idUsuario { get; set; }
-        public string idSupervisor { get; set; }
     
         public virtual maquinaria maquinaria { get; set; }
-        public virtual obra obras { get; set; }
-        public virtual operadore operadores { get; set; }
-        public virtual operadore operadores1 { get; set; }
-        public virtual operadore operadores11 { get; set; }
+        public virtual obras obras { get; set; }
+        public virtual operadores operadores { get; set; }
+        public virtual operadores operadores1 { get; set; }
+        public virtual operadores operadores2 { get; set; }
     }
 }

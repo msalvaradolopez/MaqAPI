@@ -12,9 +12,13 @@ namespace MaqAPI.Datos.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class parametro
+    public partial class usuarios
     {
-        public string nombre { get; set; }
-        public string valor { get; set; }
+        public string idUsuario { get; set; }
+        public string Nombre { get; set; }
+        public string passw { get; set; }
+        public string estatus { get; set; }
+        public string TipoEmpleado { get; set; }
+        public System.DateTime fecha_alta { get; set; }
     }
 }
