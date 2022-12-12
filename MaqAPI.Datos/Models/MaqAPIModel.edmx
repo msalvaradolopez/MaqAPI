@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="bitseg">
           <Key>
             <PropertyRef Name="idBitacora" />
@@ -43,6 +43,10 @@
           <Property Name="otro_descrip" Type="varchar" MaxLength="50" />
           <Property Name="otro_obs" Type="varchar" MaxLength="255" />
           <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="horaInicio" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="minutosInicio" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="horaTermino" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="minutosTermino" Type="varchar" MaxLength="2" Nullable="false" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -282,8 +286,7 @@
             <End Role="ubicacion" EntitySet="ubicacion" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MaquinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -330,6 +333,11 @@
           <NavigationProperty Name="operadores" Relationship="Self.FK_bitseg_operadores" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores1" Relationship="Self.FK_bitseg_supervisor" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores2" Relationship="Self.FK_bitseg_usuarios" FromRole="bitseg" ToRole="operadores" />
+          <Property Name="horaInico" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="minutosInicio" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="horaTermino" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="minutosTermino" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="horaInicio" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -591,6 +599,10 @@
           <EntitySetMapping Name="bitseg">
             <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
               <MappingFragment StoreEntitySet="bitseg">
+                <ScalarProperty Name="horaInicio" ColumnName="horaInicio" />
+                <ScalarProperty Name="minutosTermino" ColumnName="minutosTermino" />
+                <ScalarProperty Name="horaTermino" ColumnName="horaTermino" />
+                <ScalarProperty Name="minutosInicio" ColumnName="minutosInicio" />
                 <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
                 <ScalarProperty Name="docBitacora" ColumnName="docBitacora" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />

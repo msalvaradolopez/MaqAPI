@@ -151,7 +151,11 @@ namespace MaqAPI.Datos.Operaciones
                             equipoNom = x.maquinaria.Tipo,
                             obraNom = x.obras.Nombre,
                             operadorNom = x.operadores.Nombre,
-                            supervisorNom = x.operadores1.Nombre
+                            supervisorNom = x.operadores1.Nombre,
+                            horaInicio = x.horaInico,
+                            minutosInicio = x.minutosInicio,
+                            horaTermino = x.horaTermino,
+                            minutosTermino = x.minutosTermino
                         })
                         .ToList();
 
@@ -229,7 +233,11 @@ namespace MaqAPI.Datos.Operaciones
                             otro = _Item.otro,
                             otro_descrip = _Item.otro_descrip,
                             otro_obs = _Item.otro_obs,
-                            idUsuario = _Item.idUsuario
+                            idUsuario = _Item.idUsuario,
+                            horaInicio = _Item.horaInicio,
+                            minutosInicio = _Item.minutosInicio,
+                            horaTermino = _Item.horaTermino,
+                            minutosTermino = _Item.minutosTermino
                         };
 
                         db.bitseg.Add(_bitSegEntity);
@@ -301,7 +309,11 @@ namespace MaqAPI.Datos.Operaciones
                                 otro = _Item.otro,
                                 otro_descrip = _Item.otro_descrip,
                                 otro_obs = _Item.otro_obs,
-                                idUsuario = _Item.idUsuario
+                                idUsuario = _Item.idUsuario,
+                                horaInicio = _Item.horaInicio,
+                                minutosInicio = _Item.minutosInicio,
+                                horaTermino = _Item.horaTermino,
+                                minutosTermino = _Item.minutosTermino
                             };
 
                             db.bitseg.Add(_bitSegEntity);
@@ -366,6 +378,10 @@ namespace MaqAPI.Datos.Operaciones
                         _bitSegEntity.otro_descrip = _Item.otro_descrip;
                         _bitSegEntity.otro_obs = _Item.otro_obs;
                         _bitSegEntity.idUsuario = _Item.idUsuario;
+                        _bitSegEntity.horaInicio = _Item.horaInicio;
+                        _bitSegEntity.minutosInicio = _Item.minutosInicio;
+                        _bitSegEntity.horaTermino = _Item.horaTermino;
+                        _bitSegEntity.minutosTermino = _Item.minutosTermino;
 
                         db.SaveChanges();
                     transaction.Commit();
@@ -426,6 +442,10 @@ namespace MaqAPI.Datos.Operaciones
                         _bitSegEntity.otro_descrip = item.otro_descrip;
                         _bitSegEntity.otro_obs = item.otro_obs;
                         _bitSegEntity.idUsuario = item.idUsuario;
+                        _bitSegEntity.horaInicio = item.horaInicio;
+                        _bitSegEntity.minutosInicio = item.minutosInicio;
+                        _bitSegEntity.horaTermino = item.horaTermino;
+                        _bitSegEntity.minutosTermino = item.minutosTermino;
 
                         db.SaveChanges();
                     });

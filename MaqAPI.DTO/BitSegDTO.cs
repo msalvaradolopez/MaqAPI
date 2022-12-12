@@ -19,6 +19,10 @@ namespace MaqAPI.DTO
         public DateTime hora_termino { get; set; }
         public string supervisorNom { get; set; }
         public string obraNom { get; set; }
+        public string horaInicio { get; set; }
+        public string minutosInicio { get; set; }
+        public string horaTermino { get; set; }
+        public string minutosTermino { get; set; }
         public List<BitSegEntidad> ListadoBitSeg { get; set; }
     }
 }
