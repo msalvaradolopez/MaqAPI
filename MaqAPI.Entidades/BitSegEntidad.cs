@@ -47,8 +47,6 @@ namespace MaqAPI.Entidades
         public string obraNom { get; set; }
         public string operadorNom { get; set; }
         public string horaInicio { get; set; }
-        public string minutosInicio { get; set; }
         public string horaTermino { get; set; }
-        public string minutosTermino { get; set; }
     }
 }

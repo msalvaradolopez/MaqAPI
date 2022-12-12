@@ -48,11 +48,8 @@ namespace MaqAPI.Datos.Models
         public string otro_descrip { get; set; }
         public string otro_obs { get; set; }
         public string idUsuario { get; set; }
-        public string horaInico { get; set; }
-        public string minutosInicio { get; set; }
-        public string horaTermino { get; set; }
-        public string minutosTermino { get; set; }
         public string horaInicio { get; set; }
+        public string horaTermino { get; set; }
     
         public virtual maquinaria maquinaria { get; set; }
         public virtual obras obras { get; set; }

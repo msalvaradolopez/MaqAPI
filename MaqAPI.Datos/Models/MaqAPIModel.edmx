@@ -43,10 +43,8 @@
           <Property Name="otro_descrip" Type="varchar" MaxLength="50" />
           <Property Name="otro_obs" Type="varchar" MaxLength="255" />
           <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="horaInicio" Type="varchar" MaxLength="2" Nullable="false" />
-          <Property Name="minutosInicio" Type="varchar" MaxLength="2" Nullable="false" />
-          <Property Name="horaTermino" Type="varchar" MaxLength="2" Nullable="false" />
-          <Property Name="minutosTermino" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="horaInicio" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="horaTermino" Type="varchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -328,16 +326,13 @@
           <Property Name="otro_descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="otro_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="idUsuario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="horaInicio" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="horaTermino" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="maquinaria" Relationship="Self.FK_bitseg_maquinaria" FromRole="bitseg" ToRole="maquinaria" />
           <NavigationProperty Name="obras" Relationship="Self.FK_bitseg_obras" FromRole="bitseg" ToRole="obras" />
           <NavigationProperty Name="operadores" Relationship="Self.FK_bitseg_operadores" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores1" Relationship="Self.FK_bitseg_supervisor" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores2" Relationship="Self.FK_bitseg_usuarios" FromRole="bitseg" ToRole="operadores" />
-          <Property Name="horaInico" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="minutosInicio" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="horaTermino" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="minutosTermino" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="horaInicio" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -599,10 +594,6 @@
           <EntitySetMapping Name="bitseg">
             <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
               <MappingFragment StoreEntitySet="bitseg">
-                <ScalarProperty Name="horaInicio" ColumnName="horaInicio" />
-                <ScalarProperty Name="minutosTermino" ColumnName="minutosTermino" />
-                <ScalarProperty Name="horaTermino" ColumnName="horaTermino" />
-                <ScalarProperty Name="minutosInicio" ColumnName="minutosInicio" />
                 <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
                 <ScalarProperty Name="docBitacora" ColumnName="docBitacora" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
@@ -637,6 +628,8 @@
                 <ScalarProperty Name="otro_descrip" ColumnName="otro_descrip" />
                 <ScalarProperty Name="otro_obs" ColumnName="otro_obs" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="horaInicio" ColumnName="horaInicio" />
+                <ScalarProperty Name="horaTermino" ColumnName="horaTermino" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
