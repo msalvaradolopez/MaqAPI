@@ -20,5 +20,6 @@ namespace MaqAPI.Entidades
         public long idBitacora { get; set; }
         public long docBitacora { get; set; }
         public string categoria { get; set; }
+        public string htmlFormato { get; set; }
     }
 }

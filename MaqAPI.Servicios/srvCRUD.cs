@@ -2,6 +2,7 @@
 using MaqAPI.Datos.Operaciones;
 using MaqAPI.Entidades;
 using MaqAPI.DTOMap;
+using MaqAPI.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,16 @@ namespace MaqAPI.Servicios
     public class srvCRUD<T> : IServicios<T>
     {
         private IConexion<T> _objCRUD;
+        private IFormats _objFormatos;
         public srvCRUD(tipoCRUD pCRUDS)
         {
             var srvFactoryCRUD = new srvFactoryCRUD();
             this._objCRUD = srvFactoryCRUD.srvFabrica(pCRUDS) as IConexion<T>;
+            this._objFormatos = srvFactoryCRUD.srvFabrica(pCRUDS) as IFormats;
         }
+
+        public string FormatoBASE64(BitSegDTO pItem) => this._objFormatos.FormatBASE64(pItem);
+
 
         public object Actualizar(T pItem)
         {

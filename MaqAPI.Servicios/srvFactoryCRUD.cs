@@ -29,6 +29,9 @@ namespace MaqAPI.Servicios
             if (tipoCRUD.UBICACION == pCRUDS)
                 return new UbicacionesABC<UbicacionEntidad>();
 
+            if (tipoCRUD.BITSEG_FORMATO_PDFbase64 == pCRUDS)
+                return new BitSegABC<ObraEntidad>();
+
 
             return null;
         }

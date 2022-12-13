@@ -1,5 +1,6 @@
 ﻿using MaqAPI.Entidades;
 using MaqAPI.Servicios;
+using MaqAPI.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace MaqAPI.Aplicacion.Controllers
 
         private srvCRUD<BitSegEntidad> _srvCRUD;
         public BitSegController() => _srvCRUD = new srvCRUD<BitSegEntidad>(tipoCRUD.BITSEG);
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getPDF")]
+        public string getPDF([FromBody] BitSegDTO pItem) => _srvCRUD.FormatoBASE64(pItem);
 
         [AcceptVerbs("POST")]
         [HttpPost()]
@@ -80,6 +86,5 @@ namespace MaqAPI.Aplicacion.Controllers
             return _srvCRUD.ListadoFiltro(_filtros);
 
         }
-
     }
 }

@@ -31,11 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.3\lib\itextsharp.xmlworker.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -57,6 +66,7 @@
     <Compile Include="Catalogos\ObrasABC.cs" />
     <Compile Include="Catalogos\OperadoresABC.cs" />
     <Compile Include="Interfaz\IConexion.cs" />
+    <Compile Include="Interfaz\IFormats.cs" />
     <Compile Include="Models\bitseg.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
@@ -125,6 +135,10 @@
     <ProjectReference Include="..\MaqAPI.Entidades\MaqAPI.Entidades.csproj">
       <Project>{76775ef8-a75a-4a74-9863-bffe8b69d29a}</Project>
       <Name>MaqAPI.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaqAPI.Utilerias\MaqAPI.Utilerias.csproj">
+      <Project>{a5b2f741-ba03-49de-9e9a-cc5987653bc6}</Project>
+      <Name>MaqAPI.Utilerias</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

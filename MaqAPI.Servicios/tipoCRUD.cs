@@ -14,6 +14,7 @@ namespace MaqAPI.Servicios
         EQUIPO_CONSULTA = 40,
         TABLERO = 50,
         BITSEG = 60,
-        UBICACION = 70
+        UBICACION = 70,
+        BITSEG_FORMATO_PDFbase64 = 80
     }
 }
