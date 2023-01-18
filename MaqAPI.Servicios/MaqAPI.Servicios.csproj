@@ -61,6 +61,10 @@
     <Compile Include="tipoCRUD.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MaqAPI.DAO\MaqAPI.DAO.csproj">
+      <Project>{204c1597-123b-45c0-bae5-1c0813c3f5b9}</Project>
+      <Name>MaqAPI.DAO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MaqAPI.Datos\MaqAPI.Datos.csproj">
       <Project>{caf30796-d408-45c6-87c0-b10eeb0e71d3}</Project>
       <Name>MaqAPI.Datos</Name>

@@ -1,6 +1,7 @@
 ﻿using MaqAPI.Datos.Operaciones;
 using MaqAPI.Datos.Catalogos;
 using MaqAPI.Entidades;
+using MaqAPI.DAO;
 using MaqAPI.Datos.Interfaz;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,9 @@ namespace MaqAPI.Servicios
 
             if (tipoCRUD.BITSEG_FORMATO_PDFbase64 == pCRUDS)
                 return new BitSegABC<ObraEntidad>();
+
+            if (tipoCRUD.INSPEC == pCRUDS)
+                return new InsPecDAO();
 
 
             return null;

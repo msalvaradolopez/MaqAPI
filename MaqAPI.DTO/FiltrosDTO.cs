@@ -14,6 +14,11 @@ namespace MaqAPI.DTO
         public string idSupervisor { get; set; }
         public string idEconomico { get; set; }
         public string idOperador { get; set; }
+        public string idResponsableMtto { get; set; }
         public string turno { get; set; }
+        public string buscar { get; set; }
+        public int mes { get; set; }
+        public int anno { get; set; }
+        public int dia { get; set; }
     }
 }

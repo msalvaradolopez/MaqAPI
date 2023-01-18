@@ -70,7 +70,13 @@
     <Compile Include="Models\bitseg.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Demo.cs">
+      <DependentUpon>MaqAPIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\diesel.cs">
+      <DependentUpon>MaqAPIModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\inspec.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MaqAPIModel.Context.cs">

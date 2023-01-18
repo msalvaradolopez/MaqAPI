@@ -12,16 +12,9 @@ namespace MaqAPI.Datos.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class diesel
+    public partial class Demo
     {
-        public int idDiesel { get; set; }
-        public string idEconomico { get; set; }
-        public string idOperador { get; set; }
-        public string idObra { get; set; }
-        public System.DateTime fecha_alta { get; set; }
-        public decimal hodometro { get; set; }
-        public decimal litros { get; set; }
-        public string idUsuario { get; set; }
-        public System.DateTime fecha_ingreso { get; set; }
+        public int idUsuario { get; set; }
+        public string Nombre { get; set; }
     }
 }
