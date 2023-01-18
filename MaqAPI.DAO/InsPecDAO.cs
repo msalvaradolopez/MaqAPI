@@ -83,11 +83,11 @@ namespace MaqAPI.DAO
                             claxon_obs = x.claxon_obs,
                             cinturon_seguridad = x.cinturon_seguridad,
                             cinturon_seguridad_obs = x.cinturon_seguridad_obs,
-                            nomSupervisor = x.operadores.Nombre,
-                            nomOperador = x.operadores1.Nombre,
-                            nomResponsableMtto = x.operadores2.Nombre,
+                            nomSupervisor = x.operadores2.Nombre,
+                            nomOperador = x.operadores.Nombre,
+                            nomResponsableMtto = x.operadores1.Nombre,
                             nomEquipo = x.maquinaria.Tipo
-                            
+
                         })
                         .FirstOrDefault();
 
@@ -163,9 +163,9 @@ namespace MaqAPI.DAO
                             claxon_obs = x.claxon_obs,
                             cinturon_seguridad = x.cinturon_seguridad,
                             cinturon_seguridad_obs = x.cinturon_seguridad_obs,
-                            nomSupervisor = x.operadores.Nombre,
-                            nomOperador = x.operadores1.Nombre,
-                            nomResponsableMtto = x.operadores2.Nombre,
+                            nomSupervisor = x.operadores2.Nombre,
+                            nomOperador = x.operadores.Nombre,
+                            nomResponsableMtto = x.operadores1.Nombre,
                             nomEquipo = x.maquinaria.Tipo
                         })
                         .ToList();
