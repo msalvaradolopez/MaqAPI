@@ -82,7 +82,7 @@ namespace MaqAPI.Datos.Operaciones
                     var _filtros = (FiltrosEntidad)filtro;
 
                     _filtros.idUsuario = _filtros.idUsuario == null ? "0" : _filtros.idUsuario;
-                    var _todos = (_filtros.idEconomico == null && _filtros.idOperador == null && _filtros.idObra == null);
+                    var _todos = (_filtros.idEconomico == "" && _filtros.idOperador == "" && _filtros.idObra == "");
 
                     var _obraByID = db.ubicacion
                         .Where(x =>

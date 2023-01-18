@@ -215,7 +215,7 @@ namespace MaqAPI.Datos.Operaciones
                     var _filtros = filtro as FiltrosEntidad;
 
                     _filtros.idUsuario = _filtros.idUsuario == null ? "0" : _filtros.idUsuario;
-                    var _todos = (_filtros.idEconomico == null && _filtros.idOperador == null && _filtros.idObra == null);
+                    var _todos = (_filtros.idEconomico == "" && _filtros.idOperador == "" && _filtros.idObra == "");
 
                     List<BitSegEntidad> _Listado = db.bitseg
                         .Where(x =>
