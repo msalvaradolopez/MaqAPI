@@ -200,8 +200,28 @@ namespace MaqAPI.DAO
                 try
                 {
 
+                    int _docInspreccion = 0;
+                    int _idInspreccion = 0;
+
+                    _idInspreccion = pItem.idInspeccion;
+                    if (_idInspreccion != 0)
+                        throw new Exception("El registro ya existe.");
+
+                    _docInspreccion = pItem.docInspeccion;
+                    if (_docInspreccion == 0)
+                    {
+                        var _params = db.parametros.Where(x => x.nombre == "docInspeccion").Select(x => x).FirstOrDefault();
+                        if (!string.IsNullOrEmpty(_params.valor))
+                            _docInspreccion = Convert.ToInt32(_params.valor);
+
+                        _docInspreccion++;
+                        pItem.docInspeccion = _docInspreccion;
+                        _params.valor = _docInspreccion.ToString();
+                    }
+
+
                     var _ItemModel = new inspec();
-                    _ItemModel.idInspeccion = pItem.idInspeccion;
+
                     _ItemModel.docInspeccion = pItem.docInspeccion;
                     _ItemModel.fecha = pItem.fecha;
                     _ItemModel.idSupervisor = pItem.idSupervisor;
@@ -244,14 +264,15 @@ namespace MaqAPI.DAO
                     _ItemModel.cinturon_seguridad_obs = pItem.cinturon_seguridad_obs;
 
 
-                    pItem.idInspeccion = _ItemModel.idInspeccion;
                     db.inspec.Add(_ItemModel);
                     db.SaveChanges();
+
+                    pItem.idInspeccion = _ItemModel.idInspeccion;
                     return pItem;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    var _error = ex.Message.ToString();
                     throw;
                 }
             }

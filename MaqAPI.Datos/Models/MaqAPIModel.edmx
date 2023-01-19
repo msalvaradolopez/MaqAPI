@@ -67,16 +67,9 @@
           <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="fecha_ingreso" Type="date" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="inspec">
           <Key>
             <PropertyRef Name="idInspeccion" />
-            <PropertyRef Name="docInspeccion" />
-            <PropertyRef Name="fecha" />
-            <PropertyRef Name="idSupervisor" />
-            <PropertyRef Name="idEconomico" />
-            <PropertyRef Name="idOperador" />
           </Key>
           <Property Name="idInspeccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="docInspeccion" Type="int" Nullable="false" />
@@ -350,57 +343,13 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
           <EntitySet Name="bitseg" EntityType="Self.bitseg" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Demo" EntityType="Self.Demo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="diesel" EntityType="Self.diesel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inspec" EntityType="Self.inspec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="obras" EntityType="Self.obras" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="operadores" EntityType="Self.operadores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="parametros" EntityType="Self.parametros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="inspec" EntityType="Self.inspec" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [inspec].[idInspeccion] AS [idInspeccion], 
-    [inspec].[docInspeccion] AS [docInspeccion], 
-    [inspec].[fecha] AS [fecha], 
-    [inspec].[idSupervisor] AS [idSupervisor], 
-    [inspec].[idEconomico] AS [idEconomico], 
-    [inspec].[idOperador] AS [idOperador], 
-    [inspec].[turno] AS [turno], 
-    [inspec].[horometro] AS [horometro], 
-    [inspec].[idResponsableMtto] AS [idResponsableMtto], 
-    [inspec].[frenos] AS [frenos], 
-    [inspec].[frenos_obs] AS [frenos_obs], 
-    [inspec].[alarma_rev] AS [alarma_rev], 
-    [inspec].[alarma_rev_obs] AS [alarma_rev_obs], 
-    [inspec].[nivel_aceite] AS [nivel_aceite], 
-    [inspec].[nivel_aceite_obs] AS [nivel_aceite_obs], 
-    [inspec].[motor] AS [motor], 
-    [inspec].[motor_obs] AS [motor_obs], 
-    [inspec].[transmision] AS [transmision], 
-    [inspec].[transmision_obs] AS [transmision_obs], 
-    [inspec].[fugas_aceite] AS [fugas_aceite], 
-    [inspec].[fugas_aceite_obs] AS [fugas_aceite_obs], 
-    [inspec].[nivel_agua] AS [nivel_agua], 
-    [inspec].[nivel_agua_obs] AS [nivel_agua_obs], 
-    [inspec].[extinguidor] AS [extinguidor], 
-    [inspec].[extinguidor_obs] AS [extinguidor_obs], 
-    [inspec].[luces] AS [luces], 
-    [inspec].[luces_obs] AS [luces_obs], 
-    [inspec].[torreta] AS [torreta], 
-    [inspec].[torreta_obs] AS [torreta_obs], 
-    [inspec].[neumaticos] AS [neumaticos], 
-    [inspec].[neumaticos_obs] AS [neumaticos_obs], 
-    [inspec].[pernos_bujes] AS [pernos_bujes], 
-    [inspec].[pernos_bujes_obs] AS [pernos_bujes_obs], 
-    [inspec].[direccion] AS [direccion], 
-    [inspec].[direccion_obs] AS [direccion_obs], 
-    [inspec].[espejos_retrovisores] AS [espejos_retrovisores], 
-    [inspec].[espejos_retrovisores_obs] AS [espejos_retrovisores_obs], 
-    [inspec].[claxon] AS [claxon], 
-    [inspec].[claxon_obs] AS [claxon_obs], 
-    [inspec].[cinturon_seguridad] AS [cinturon_seguridad], 
-    [inspec].[cinturon_seguridad_obs] AS [cinturon_seguridad_obs]
-    FROM [dbo].[inspec] AS [inspec]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_bitseg_maquinaria" Association="Self.FK_bitseg_maquinaria">
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="bitseg" EntitySet="bitseg" />
@@ -526,6 +475,56 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
           <Property Name="idUsuario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fecha_ingreso" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
+        <EntityType Name="inspec">
+          <Key>
+            <PropertyRef Name="idInspeccion" />
+          </Key>
+          <Property Name="idInspeccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="docInspeccion" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idSupervisor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idEconomico" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="turno" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="horometro" Type="Int32" />
+          <Property Name="idResponsableMtto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="frenos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="frenos_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="alarma_rev" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="alarma_rev_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="nivel_aceite" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="nivel_aceite_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="motor" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="motor_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="transmision" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="transmision_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fugas_aceite" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fugas_aceite_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="nivel_agua" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="nivel_agua_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="extinguidor" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="extinguidor_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="luces" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="luces_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="torreta" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="torreta_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="neumaticos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="neumaticos_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="pernos_bujes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="pernos_bujes_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="direccion_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="espejos_retrovisores" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="espejos_retrovisores_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="claxon" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="claxon_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="cinturon_seguridad" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="cinturon_seguridad_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="maquinaria" Relationship="Self.FK_inspec_maquinaria" FromRole="inspec" ToRole="maquinaria" />
+          <NavigationProperty Name="operadores" Relationship="Self.FK_inspec_operadores" FromRole="inspec" ToRole="operadores" />
+          <NavigationProperty Name="operadores1" Relationship="Self.FK_inspec_ResponsableMtto" FromRole="inspec" ToRole="operadores" />
+          <NavigationProperty Name="operadores2" Relationship="Self.FK_inspec_supervisor" FromRole="inspec" ToRole="operadores" />
+        </EntityType>
         <EntityType Name="maquinaria">
           <Key>
             <PropertyRef Name="idEconomico" />
@@ -609,61 +608,6 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
           <Property Name="TipoEmpleado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
-        <EntityType Name="inspec">
-          <Key>
-            <PropertyRef Name="idInspeccion" />
-            <PropertyRef Name="docInspeccion" />
-            <PropertyRef Name="fecha" />
-            <PropertyRef Name="idSupervisor" />
-            <PropertyRef Name="idEconomico" />
-            <PropertyRef Name="idOperador" />
-          </Key>
-          <Property Name="idInspeccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="docInspeccion" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="idSupervisor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="idEconomico" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="turno" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="horometro" Type="Int32" />
-          <Property Name="idResponsableMtto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="frenos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="frenos_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="alarma_rev" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="alarma_rev_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="nivel_aceite" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="nivel_aceite_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="motor" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="motor_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="transmision" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="transmision_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="fugas_aceite" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="fugas_aceite_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="nivel_agua" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="nivel_agua_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="extinguidor" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="extinguidor_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="luces" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="luces_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="torreta" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="torreta_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="neumaticos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="neumaticos_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="pernos_bujes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="pernos_bujes_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="direccion" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="direccion_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="espejos_retrovisores" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="espejos_retrovisores_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="claxon" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="claxon_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="cinturon_seguridad" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="cinturon_seguridad_obs" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="maquinaria" Relationship="Self.FK_inspec_maquinaria" FromRole="inspec" ToRole="maquinaria" />
-          <NavigationProperty Name="operadores" Relationship="Self.FK_inspec_operadores" FromRole="inspec" ToRole="operadores" />
-          <NavigationProperty Name="operadores1" Relationship="Self.FK_inspec_ResponsableMtto" FromRole="inspec" ToRole="operadores" />
-          <NavigationProperty Name="operadores2" Relationship="Self.FK_inspec_supervisor" FromRole="inspec" ToRole="operadores" />
-        </EntityType>
         <Association Name="FK_bitseg_maquinaria">
           <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
           <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
@@ -736,30 +680,6 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ubicacion_maquinaria">
-          <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
-          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="maquinaria">
-              <PropertyRef Name="idEconomico" />
-            </Principal>
-            <Dependent Role="ubicacion">
-              <PropertyRef Name="idEconomico" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ubicacion_obras">
-          <End Role="obras" Type="Self.obras" Multiplicity="1" />
-          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="obras">
-              <PropertyRef Name="idObra" />
-            </Principal>
-            <Dependent Role="ubicacion">
-              <PropertyRef Name="idObra" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_inspec_operadores">
           <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
           <End Role="inspec" Type="Self.inspec" Multiplicity="*" />
@@ -796,6 +716,30 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ubicacion_maquinaria">
+          <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maquinaria">
+              <PropertyRef Name="idEconomico" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="idEconomico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ubicacion_obras">
+          <End Role="obras" Type="Self.obras" Multiplicity="1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obras">
+              <PropertyRef Name="idObra" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="idObra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ubicacion_operadores">
           <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
           <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
@@ -824,13 +768,13 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
           <EntitySet Name="bitseg" EntityType="Self.bitseg" />
           <EntitySet Name="Demo" EntityType="Self.Demo" />
           <EntitySet Name="diesel" EntityType="Self.diesel" />
+          <EntitySet Name="inspec" EntityType="Self.inspec" />
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" />
           <EntitySet Name="obras" EntityType="Self.obras" />
           <EntitySet Name="operadores" EntityType="Self.operadores" />
           <EntitySet Name="parametros" EntityType="Self.parametros" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" />
           <EntitySet Name="usuarios" EntityType="Self.usuarios" />
-          <EntitySet Name="inspec" EntityType="Self.inspec" />
           <AssociationSet Name="FK_bitseg_maquinaria" Association="Self.FK_bitseg_maquinaria">
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="bitseg" EntitySet="bitseg" />
@@ -855,14 +799,6 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="inspec" EntitySet="inspec" />
           </AssociationSet>
-          <AssociationSet Name="FK_ubicacion_maquinaria" Association="Self.FK_ubicacion_maquinaria">
-            <End Role="maquinaria" EntitySet="maquinaria" />
-            <End Role="ubicacion" EntitySet="ubicacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ubicacion_obras" Association="Self.FK_ubicacion_obras">
-            <End Role="obras" EntitySet="obras" />
-            <End Role="ubicacion" EntitySet="ubicacion" />
-          </AssociationSet>
           <AssociationSet Name="FK_inspec_operadores" Association="Self.FK_inspec_operadores">
             <End Role="operadores" EntitySet="operadores" />
             <End Role="inspec" EntitySet="inspec" />
@@ -874,6 +810,14 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
           <AssociationSet Name="FK_inspec_supervisor" Association="Self.FK_inspec_supervisor">
             <End Role="operadores" EntitySet="operadores" />
             <End Role="inspec" EntitySet="inspec" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ubicacion_maquinaria" Association="Self.FK_ubicacion_maquinaria">
+            <End Role="maquinaria" EntitySet="maquinaria" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ubicacion_obras" Association="Self.FK_ubicacion_obras">
+            <End Role="obras" EntitySet="obras" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
           </AssociationSet>
           <AssociationSet Name="FK_ubicacion_operadores" Association="Self.FK_ubicacion_operadores">
             <End Role="operadores" EntitySet="operadores" />
@@ -959,6 +903,53 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="inspec">
+            <EntityTypeMapping TypeName="MaquinariaModel.inspec">
+              <MappingFragment StoreEntitySet="inspec">
+                <ScalarProperty Name="idInspeccion" ColumnName="idInspeccion" />
+                <ScalarProperty Name="docInspeccion" ColumnName="docInspeccion" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="idSupervisor" ColumnName="idSupervisor" />
+                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="turno" ColumnName="turno" />
+                <ScalarProperty Name="horometro" ColumnName="horometro" />
+                <ScalarProperty Name="idResponsableMtto" ColumnName="idResponsableMtto" />
+                <ScalarProperty Name="frenos" ColumnName="frenos" />
+                <ScalarProperty Name="frenos_obs" ColumnName="frenos_obs" />
+                <ScalarProperty Name="alarma_rev" ColumnName="alarma_rev" />
+                <ScalarProperty Name="alarma_rev_obs" ColumnName="alarma_rev_obs" />
+                <ScalarProperty Name="nivel_aceite" ColumnName="nivel_aceite" />
+                <ScalarProperty Name="nivel_aceite_obs" ColumnName="nivel_aceite_obs" />
+                <ScalarProperty Name="motor" ColumnName="motor" />
+                <ScalarProperty Name="motor_obs" ColumnName="motor_obs" />
+                <ScalarProperty Name="transmision" ColumnName="transmision" />
+                <ScalarProperty Name="transmision_obs" ColumnName="transmision_obs" />
+                <ScalarProperty Name="fugas_aceite" ColumnName="fugas_aceite" />
+                <ScalarProperty Name="fugas_aceite_obs" ColumnName="fugas_aceite_obs" />
+                <ScalarProperty Name="nivel_agua" ColumnName="nivel_agua" />
+                <ScalarProperty Name="nivel_agua_obs" ColumnName="nivel_agua_obs" />
+                <ScalarProperty Name="extinguidor" ColumnName="extinguidor" />
+                <ScalarProperty Name="extinguidor_obs" ColumnName="extinguidor_obs" />
+                <ScalarProperty Name="luces" ColumnName="luces" />
+                <ScalarProperty Name="luces_obs" ColumnName="luces_obs" />
+                <ScalarProperty Name="torreta" ColumnName="torreta" />
+                <ScalarProperty Name="torreta_obs" ColumnName="torreta_obs" />
+                <ScalarProperty Name="neumaticos" ColumnName="neumaticos" />
+                <ScalarProperty Name="neumaticos_obs" ColumnName="neumaticos_obs" />
+                <ScalarProperty Name="pernos_bujes" ColumnName="pernos_bujes" />
+                <ScalarProperty Name="pernos_bujes_obs" ColumnName="pernos_bujes_obs" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="direccion_obs" ColumnName="direccion_obs" />
+                <ScalarProperty Name="espejos_retrovisores" ColumnName="espejos_retrovisores" />
+                <ScalarProperty Name="espejos_retrovisores_obs" ColumnName="espejos_retrovisores_obs" />
+                <ScalarProperty Name="claxon" ColumnName="claxon" />
+                <ScalarProperty Name="claxon_obs" ColumnName="claxon_obs" />
+                <ScalarProperty Name="cinturon_seguridad" ColumnName="cinturon_seguridad" />
+                <ScalarProperty Name="cinturon_seguridad_obs" ColumnName="cinturon_seguridad_obs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="maquinaria">
             <EntityTypeMapping TypeName="MaquinariaModel.maquinaria">
               <MappingFragment StoreEntitySet="maquinaria">
@@ -1028,53 +1019,6 @@ warning 6002: The table/view 'Maquinaria.dbo.inspec' does not have a primary key
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
                 <ScalarProperty Name="TipoEmpleado" ColumnName="TipoEmpleado" />
                 <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="inspec">
-            <EntityTypeMapping TypeName="MaquinariaModel.inspec">
-              <MappingFragment StoreEntitySet="inspec">
-                <ScalarProperty Name="idInspeccion" ColumnName="idInspeccion" />
-                <ScalarProperty Name="docInspeccion" ColumnName="docInspeccion" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="idSupervisor" ColumnName="idSupervisor" />
-                <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
-                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
-                <ScalarProperty Name="turno" ColumnName="turno" />
-                <ScalarProperty Name="horometro" ColumnName="horometro" />
-                <ScalarProperty Name="idResponsableMtto" ColumnName="idResponsableMtto" />
-                <ScalarProperty Name="frenos" ColumnName="frenos" />
-                <ScalarProperty Name="frenos_obs" ColumnName="frenos_obs" />
-                <ScalarProperty Name="alarma_rev" ColumnName="alarma_rev" />
-                <ScalarProperty Name="alarma_rev_obs" ColumnName="alarma_rev_obs" />
-                <ScalarProperty Name="nivel_aceite" ColumnName="nivel_aceite" />
-                <ScalarProperty Name="nivel_aceite_obs" ColumnName="nivel_aceite_obs" />
-                <ScalarProperty Name="motor" ColumnName="motor" />
-                <ScalarProperty Name="motor_obs" ColumnName="motor_obs" />
-                <ScalarProperty Name="transmision" ColumnName="transmision" />
-                <ScalarProperty Name="transmision_obs" ColumnName="transmision_obs" />
-                <ScalarProperty Name="fugas_aceite" ColumnName="fugas_aceite" />
-                <ScalarProperty Name="fugas_aceite_obs" ColumnName="fugas_aceite_obs" />
-                <ScalarProperty Name="nivel_agua" ColumnName="nivel_agua" />
-                <ScalarProperty Name="nivel_agua_obs" ColumnName="nivel_agua_obs" />
-                <ScalarProperty Name="extinguidor" ColumnName="extinguidor" />
-                <ScalarProperty Name="extinguidor_obs" ColumnName="extinguidor_obs" />
-                <ScalarProperty Name="luces" ColumnName="luces" />
-                <ScalarProperty Name="luces_obs" ColumnName="luces_obs" />
-                <ScalarProperty Name="torreta" ColumnName="torreta" />
-                <ScalarProperty Name="torreta_obs" ColumnName="torreta_obs" />
-                <ScalarProperty Name="neumaticos" ColumnName="neumaticos" />
-                <ScalarProperty Name="neumaticos_obs" ColumnName="neumaticos_obs" />
-                <ScalarProperty Name="pernos_bujes" ColumnName="pernos_bujes" />
-                <ScalarProperty Name="pernos_bujes_obs" ColumnName="pernos_bujes_obs" />
-                <ScalarProperty Name="direccion" ColumnName="direccion" />
-                <ScalarProperty Name="direccion_obs" ColumnName="direccion_obs" />
-                <ScalarProperty Name="espejos_retrovisores" ColumnName="espejos_retrovisores" />
-                <ScalarProperty Name="espejos_retrovisores_obs" ColumnName="espejos_retrovisores_obs" />
-                <ScalarProperty Name="claxon" ColumnName="claxon" />
-                <ScalarProperty Name="claxon_obs" ColumnName="claxon_obs" />
-                <ScalarProperty Name="cinturon_seguridad" ColumnName="cinturon_seguridad" />
-                <ScalarProperty Name="cinturon_seguridad_obs" ColumnName="cinturon_seguridad_obs" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
