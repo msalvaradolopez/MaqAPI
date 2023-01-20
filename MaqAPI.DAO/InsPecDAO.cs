@@ -237,7 +237,7 @@ namespace MaqAPI.DAO
                     _ItemModel.nivel_aceite = pItem.nivel_aceite;
                     _ItemModel.nivel_aceite_obs = pItem.nivel_aceite_obs;
                     _ItemModel.motor = pItem.motor;
-                    _ItemModel.motor_obs = pItem.motor;
+                    _ItemModel.motor_obs = pItem.motor_obs;
                     _ItemModel.transmision = pItem.transmision;
                     _ItemModel.transmision_obs = pItem.transmision_obs;
                     _ItemModel.fugas_aceite = pItem.fugas_aceite;
@@ -303,7 +303,7 @@ namespace MaqAPI.DAO
                     _ItemModel.nivel_aceite = pItem.nivel_aceite;
                     _ItemModel.nivel_aceite_obs = pItem.nivel_aceite_obs;
                     _ItemModel.motor = pItem.motor;
-                    _ItemModel.motor_obs = pItem.motor;
+                    _ItemModel.motor_obs = pItem.motor_obs;
                     _ItemModel.transmision = pItem.transmision;
                     _ItemModel.transmision_obs = pItem.transmision_obs;
                     _ItemModel.fugas_aceite = pItem.fugas_aceite;
