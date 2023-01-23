@@ -50,5 +50,14 @@ namespace MaqAPI.Datos.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spConsultaUbicacionPaginado", intRenglonesParameter, intPaginaParameter);
         }
+    
+        public virtual ObjectResult<spInsPecSemana_Result> spInsPecSemana(Nullable<int> idInspeccion)
+        {
+            var idInspeccionParameter = idInspeccion.HasValue ?
+                new ObjectParameter("idInspeccion", idInspeccion) :
+                new ObjectParameter("idInspeccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spInsPecSemana_Result>("spInsPecSemana", idInspeccionParameter);
+        }
     }
 }

@@ -15,11 +15,13 @@ namespace MaqAPI.Aplicacion.Controllers
     {
         private ICatalogoItem<InsPecDTO> _objCRUD;
         private IConsultaItem<InsPecDTO> _objConsultas;
+        private IFormatos<InsPecDTO> _objFormatos;
         private srvFactoryCRUD _srvFactoryCRUD = new srvFactoryCRUD();
 
         public InsPecController() {
             _objCRUD = _srvFactoryCRUD.srvFabrica(tipoCRUD.INSPEC) as ICatalogoItem<InsPecDTO>;
             _objConsultas = _srvFactoryCRUD.srvFabrica(tipoCRUD.INSPEC) as IConsultaItem<InsPecDTO>;
+            _objFormatos = _srvFactoryCRUD.srvFabrica(tipoCRUD.INSPEC) as IFormatos<InsPecDTO>;
         } 
 
         [AcceptVerbs("POST")]
@@ -46,5 +48,10 @@ namespace MaqAPI.Aplicacion.Controllers
         [HttpPost()]
         [Route("getListFilter")]
         public List<InsPecDTO> getListFilter([FromBody] FiltrosDTO pFiltro) => _objConsultas.GetItemList(pFiltro);
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getPDF")]
+        public string getPDF([FromBody] InsPecDTO pItem) => _objFormatos.getPDF(pItem);
     }
 }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using MaqAPI.Interface;
 using MaqAPI.DTO;
 using MaqAPI.Datos.Models;
+using MaqAPI.Utilerias;
+using System.Data.SqlClient;
 
 namespace MaqAPI.DAO
 {
-    public class InsPecDAO : ICatalogoItem<InsPecDTO>, IConsultaItem<InsPecDTO>
+    public class InsPecDAO : ICatalogoItem<InsPecDTO>, IConsultaItem<InsPecDTO>, IFormatos<InsPecDTO>
     {
         public bool DeleteItem(InsPecDTO pItem)
         {
@@ -190,6 +192,291 @@ namespace MaqAPI.DAO
 
                     throw;
                 }
+            }
+        }
+
+        public string getPDF(InsPecDTO pItem)
+        {
+            try
+            {
+                var _html = getHTML(pItem);
+                
+                generaPDF _generaPDF = new generaPDF();
+                return _generaPDF.createPDFtoBASE64(_html);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string getHTML(InsPecDTO pItem) {
+            try
+            {
+
+                var _headerHTML = getHeaderHTML(pItem);
+                var _detailHTML = getDetailHTML(pItem);
+                var _footerHTML = getFooterHTML();
+                return _headerHTML + _detailHTML + _footerHTML;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string getHeaderHTML(InsPecDTO pItem) {
+            try
+            {
+                var _docInspreccion = pItem.docInspeccion;
+                var _fecha = pItem.fecha;
+                var _supervisorNom = pItem.nomSupervisor;
+                var _idEconomico = pItem.idEconomico;
+                var _nomUnidad = pItem.nomEquipo;
+                var _nomOperador = pItem.nomOperador;
+                var _nomResponsableMtto = pItem.nomResponsableMtto;
+                var _turno = pItem.turno;
+                var _horometro = pItem.horometro;
+
+                var _nomTurno = "";
+
+                if (_turno == "M")
+                    _nomTurno = "Matutino";
+
+                if (_turno == "V")
+                    _nomTurno = "Vespertino";
+
+                if (_turno == "N")
+                    _nomTurno = "Nocturno";
+
+                string stringHTMLaux = "<table align='center' border='0' cellpadding='1' cellspacing='1' style='height:10px;width:100%'><tbody><tr><td style='text-align:center'><p><span style='font-size:22px'><strong>GRUPO BITESA</strong></span></p><p><span style='font-size:14px'><strong><u>LISTA DE INSPECCI&Oacute;N ANTES DE INICIO DE TURNO A LA UNIDAD M&Oacute;VIL</u></strong></span></p><p>&nbsp;</p><p style='text-align:right'><span style='font-size:10px'><strong># Inspecci&oacute;n: _docInspeccion</strong></span></p></td></tr></tbody></table><table border='0' cellpadding='5' cellspacing='1' style='height:30px;width:100%'><tbody><tr><td style='text-align:right;width:85px'><span style='font-size:8px'>FECHA</span></td><td style='background-color:#ccc;width:365px'><span style='font-size:8px'>_fecha</span></td><td style='text-align:right;width:175px'><span style='font-size:8px'>SUPERVISOR:</span></td><td style='background-color:#ccc;width:508px'><span style='font-size:8px'>_supervisorNom</span></td></tr><tr><td style='text-align:right;width:85px'><span style='font-size:8px'>UNIDAD:</span></td><td style='background-color:#ccc;width:365px'><span style='font-size:8px'>_nomEquipo</span></td><td style='text-align:right;width:175px'><span style='font-size:8px'>OPERADOR</span></td><td style='background-color:#ccc;width:508px'><span style='font-size:8px'>_nomOperador</span></td></tr><tr><td style='text-align:right;width:85px'><span style='font-size:8px'>TURNO:</span></td><td style='background-color:#ccc;width:365px'><span style='font-size:8px'>_turno</span></td><td style='text-align:right;width:175px'><span style='font-size:8px'>RESPONSABLE MTTO:</span></td><td style='background-color:#ccc;width:508px'><span style='font-size:8px'>_nomResponsableMtto</span></td></tr><tr><td style='text-align:right;width:85px'><span style='font-size:8px'>Hor&oacute;metro</span></td><td style='background-color:#ccc;width:365px'><span style='font-size:8px'>_horometro</span></td><td style='text-align:right;width:175px'>&nbsp;</td><td style='background-color:#ccc;width:508px'>&nbsp;</td></tr></tbody></table>";
+
+                string stringHTML = stringHTMLaux.Replace("_docInspeccion", _docInspreccion.ToString())
+                    .Replace("_fecha", _fecha.ToString())
+                    .Replace("_supervisorNom", _supervisorNom)
+                    .Replace("_nomEquipo", _nomUnidad)
+                    .Replace("_nomOperador", _nomOperador)
+                    .Replace("_turno", _nomTurno)
+                    .Replace("_nomResponsableMtto", _nomResponsableMtto)
+                    .Replace("_horometro", _horometro.ToString());
+
+                return stringHTML;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string getDetailHTML(InsPecDTO pItem) {
+            using (var db = new MaquinariaEntities())
+            {
+
+                try
+                {
+                    var _List = new List<InsPecSemanaDTO>();
+
+
+                    var IntInspeccion = new SqlParameter("@idInspeccion", pItem.idInspeccion);
+
+                    _List = db.Database
+                   .SqlQuery<InsPecSemanaDTO>("spInsPecSemana @idInspeccion", IntInspeccion)
+                   .ToList();
+
+                    var stringHTML = "<p>&nbsp;</p><table border='1' cellpadding='5' cellspacing='0' style='height:30px;width:100%'><tbody><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>No</span></td><td style='background-color:#ccc;text-align:center;width:200px'><span style='font-size:8px'>DESCRIPCION</span></td><td style='background-color:#ccc;text-align:center;width:70px'><span style='font-size:8px'>L</span></td><td style='background-color:#ccc;text-align:center;width:70px'><span style='font-size:8px'>M</span></td><td style='background-color:#ccc;text-align:center;width:70px'><span style='font-size:8px'>M</span></td><td style='background-color:#ccc;text-align:center;width:70px'><span style='font-size:8px'>J</span></td><td style='background-color:#ccc;text-align:center;width:70px'><span style='font-size:8px'>V</span></td><td style='background-color:#ccc;text-align:center;width:70px'><span style='font-size:8px'>S</span></td><td style='background-color:#ccc;text-align:center;width:70px'><span style='font-size:8px'>D</span></td><td style='background-color:#ccc;text-align:center;width:250px'><span style='font-size:8px'>OBSERVACIONES</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>1</span></td><td style='width:134px'><span style='font-size:8px'>FRENOS</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_frenos_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_frenos_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_frenos_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_frenos_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_frenos_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_frenos_S</span></td><td style='text-align:center;width:150px'><span style='font-size:8px'>_frenos_D</span></td><td style='width:558px'><span style='font-size:8px'>_frenos_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>2</span></td><td style='width:134px'><span style='font-size:8px'>ALARMA/REV</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_alarma_rev_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_alarma_rev_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_alarma_rev_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_alarma_rev_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_alarma_rev_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_alarma_rev_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_alarma_rev_D</span></td><td style='width:558px'><span style='font-size:8px'>_alarma_rev_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>3</span></td><td style='width:134px'><span style='font-size:8px'>NIVEL/ACEITE</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_nivel_aceite_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_aceite_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_aceite_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_nivel_aceite_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_nivel_aceite_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_aceite_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_aceite_D</span></td><td style='width:558px'><span style='font-size:8px'>_nivel_aceite_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>4</span></td><td style='width:134px'><span style='font-size:8px'>MOTOR</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_motor_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_motor_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_motor_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_motor_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_motor_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_motor_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_motor_D</span></td><td style='width:558px'><span style='font-size:8px'>_motor_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>5</span></td><td style='width:134px'><span style='font-size:8px'>TRANSMISI&Oacute;N</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_transmision_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_transmision_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_transmision_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_transmision_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_transmision_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_transmision_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_transmision_D</span></td><td style='width:558px'><span style='font-size:8px'>_transmision_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>6</span></td><td style='width:134px'><span style='font-size:8px'>FUGAS DE ACEITE</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_fugas_aceite_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_fugas_aceite_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_fugas_aceite_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_fugas_aceite_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_fugas_aceite_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_fugas_aceite_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_fugas_aceite_D</span></td><td style='width:558px'><span style='font-size:8px'>_fugas_aceite_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>7</span></td><td style='width:134px'><span style='font-size:8px'>NIVEL/AGUA</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_nivel_agua_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_agua_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_agua_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_nivel_agua_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_nivel_agua_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_agua_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_nivel_agua_D</span></td><td style='width:558px'><span style='font-size:8px'>_nivel_agua_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>8</span></td><td style='width:134px'><span style='font-size:8px'>EXTINGUIDOR</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_extinguidor_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_extinguidor_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_extinguidor_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_extinguidor_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_extinguidor_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_extinguidor_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_extinguidor_D</span></td><td style='width:558px'><span style='font-size:8px'>_extinguidor_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>9</span></td><td style='width:134px'><span style='font-size:8px'>LUCES</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_luces_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_luces_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_luces_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_luces_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_luces_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_luces_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_luces_D</span></td><td style='width:558px'><span style='font-size:8px'>_luces_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>10</span></td><td style='width:134px'><span style='font-size:8px'>TORRETA</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_torreta_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_torreta_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_torreta_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_torreta_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_torreta_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_torreta_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_torreta_D</span></td><td style='width:558px'><span style='font-size:8px'>_torreta_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>11</span></td><td style='width:134px'><span style='font-size:8px'>NEUM&Aacute;TICOS</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_neumaticos_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_neumaticos_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_neumaticos_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_neumaticos_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_neumaticos_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_neumaticos_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_neumaticos_D</span></td><td style='width:558px'><span style='font-size:8px'>_neumaticos_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>12</span></td><td style='width:134px'><span style='font-size:8px'>PERNOS/BUJES</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_pernos_bujes_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_pernos_bujes_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_pernos_bujes_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_pernos_bujes_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_pernos_bujes_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_pernos_bujes_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_pernos_bujes_D</span></td><td style='width:558px'><span style='font-size:8px'>_pernos_bujes_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>13</span></td><td style='width:134px'><span style='font-size:8px'>DIRECCI&Oacute;N</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_direccion_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_direccion_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_direccion_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_direccion_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_direccion_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_direccion_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_direccion_D</span></td><td style='width:558px'><span style='font-size:8px'>_direccion_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>14</span></td><td style='width:134px'><span style='font-size:8px'>ESPEJOS RETROVISORES</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_espejos_retrovisores_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_espejos_retrovisores_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_espejos_retrovisores_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_espejos_retrovisores_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_espejos_retrovisores_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_espejos_retrovisores_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_espejos_retrovisores_D</span></td><td style='width:558px'><span style='font-size:8px'>_espejos_retrovisores_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>15</span></td><td style='width:134px'><span style='font-size:8px'>CLAXON</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_claxon_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_claxon_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_claxon_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_claxon_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_claxon_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_claxon_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_claxon_D</span></td><td style='width:558px'><span style='font-size:8px'>_claxon_obs</span></td></tr><tr><td colspan='1' style='text-align:center;width:85px'><span style='font-size:8px'>16</span></td><td style='width:134px'><span style='font-size:8px'>CONTURON DE SEGURIDAD</span></td><td style='text-align:center;width:46px'><span style='font-size:8px'>_cinturon_seguridad_L</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_cinturon_seguridad_M</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_cinturon_seguridad_X</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_cinturon_seguridad_J</span></td><td style='text-align:center;width:53px'><span style='font-size:8px'>_cinturon_seguridad_V</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_cinturon_seguridad_S</span></td><td style='text-align:center;width:37px'><span style='font-size:8px'>_cinturon_seguridad_D</span></td><td style='width:558px'><span style='font-size:8px'>_cinturon_seguridad_obs</span></td></tr></tbody></table>";
+
+                    _List.ForEach(item =>
+                    {
+                        if (item.concepto == "frenos")
+                            stringHTML = stringHTML.Replace("_frenos_L", item.lunes)
+                            .Replace("_frenos_M", item.martes)
+                            .Replace("_frenos_X", item.miercoles)
+                            .Replace("_frenos_J", item.jueves)
+                            .Replace("_frenos_V", item.viernes)
+                            .Replace("_frenos_S", item.sabado)
+                            .Replace("_frenos_D", item.domingo)
+                            .Replace("_frenos_obs", item.observaciones);
+
+                        if (item.concepto == "alarma_rev")
+                            stringHTML = stringHTML.Replace("_alarma_rev_L", item.lunes)
+                            .Replace("_alarma_rev_M", item.martes)
+                            .Replace("_alarma_rev_X", item.miercoles)
+                            .Replace("_alarma_rev_J", item.jueves)
+                            .Replace("_alarma_rev_V", item.viernes)
+                            .Replace("_alarma_rev_S", item.sabado)
+                            .Replace("_alarma_rev_D", item.domingo)
+                            .Replace("_alarma_rev_obs", item.observaciones);
+
+                        if (item.concepto == "nivel_aceite")
+                            stringHTML = stringHTML.Replace("_nivel_aceite_L", item.lunes)
+                            .Replace("_nivel_aceite_M", item.martes)
+                            .Replace("_nivel_aceite_X", item.miercoles)
+                            .Replace("_nivel_aceite_J", item.jueves)
+                            .Replace("_nivel_aceite_V", item.viernes)
+                            .Replace("_nivel_aceite_S", item.sabado)
+                            .Replace("_nivel_aceite_D", item.domingo)
+                            .Replace("_nivel_aceite_obs", item.observaciones);
+
+                        if (item.concepto == "motor")
+                            stringHTML = stringHTML.Replace("_motor_L", item.lunes)
+                            .Replace("_motor_M", item.martes)
+                            .Replace("_motor_X", item.miercoles)
+                            .Replace("_motor_J", item.jueves)
+                            .Replace("_motor_V", item.viernes)
+                            .Replace("_motor_S", item.sabado)
+                            .Replace("_motor_D", item.domingo)
+                            .Replace("_motor_obs", item.observaciones);
+
+                        if (item.concepto == "transmision")
+                            stringHTML = stringHTML.Replace("_transmision_L", item.lunes)
+                            .Replace("_transmision_M", item.martes)
+                            .Replace("_transmision_X", item.miercoles)
+                            .Replace("_transmision_J", item.jueves)
+                            .Replace("_transmision_V", item.viernes)
+                            .Replace("_transmision_S", item.sabado)
+                            .Replace("_transmision_D", item.domingo)
+                            .Replace("_transmision_obs", item.observaciones);
+
+                        if (item.concepto == "fugas_aceite")
+                            stringHTML = stringHTML.Replace("_fugas_aceite_L", item.lunes)
+                            .Replace("_fugas_aceite_M", item.martes)
+                            .Replace("_fugas_aceite_X", item.miercoles)
+                            .Replace("_fugas_aceite_J", item.jueves)
+                            .Replace("_fugas_aceite_V", item.viernes)
+                            .Replace("_fugas_aceite_S", item.sabado)
+                            .Replace("_fugas_aceite_D", item.domingo)
+                            .Replace("_fugas_aceite_obs", item.observaciones);
+
+                        if (item.concepto == "nivel_agua")
+                            stringHTML = stringHTML.Replace("_nivel_agua_L", item.lunes)
+                            .Replace("_nivel_agua_M", item.martes)
+                            .Replace("_nivel_agua_X", item.miercoles)
+                            .Replace("_nivel_agua_J", item.jueves)
+                            .Replace("_nivel_agua_V", item.viernes)
+                            .Replace("_nivel_agua_S", item.sabado)
+                            .Replace("_nivel_agua_D", item.domingo)
+                            .Replace("_nivel_agua_obs", item.observaciones);
+
+                        if (item.concepto == "extinguidor")
+                            stringHTML = stringHTML.Replace("_extinguidor_L", item.lunes)
+                            .Replace("_extinguidor_M", item.martes)
+                            .Replace("_extinguidor_X", item.miercoles)
+                            .Replace("_extinguidor_J", item.jueves)
+                            .Replace("_extinguidor_V", item.viernes)
+                            .Replace("_extinguidor_S", item.sabado)
+                            .Replace("_extinguidor_D", item.domingo)
+                            .Replace("_extinguidor_obs", item.observaciones);
+
+                        if (item.concepto == "luces")
+                            stringHTML = stringHTML.Replace("_luces_L", item.lunes)
+                            .Replace("_luces_M", item.martes)
+                            .Replace("_luces_X", item.miercoles)
+                            .Replace("_luces_J", item.jueves)
+                            .Replace("_luces_V", item.viernes)
+                            .Replace("_luces_S", item.sabado)
+                            .Replace("_luces_D", item.domingo)
+                            .Replace("_luces_obs", item.observaciones);
+
+                        if (item.concepto == "torreta")
+                            stringHTML = stringHTML.Replace("_torreta_L", item.lunes)
+                            .Replace("_torreta_M", item.martes)
+                            .Replace("_torreta_X", item.miercoles)
+                            .Replace("_torreta_J", item.jueves)
+                            .Replace("_torreta_V", item.viernes)
+                            .Replace("_torreta_S", item.sabado)
+                            .Replace("_torreta_D", item.domingo)
+                            .Replace("_torreta_obs", item.observaciones);
+
+                        if (item.concepto == "neumaticos")
+                            stringHTML = stringHTML.Replace("_neumaticos_L", item.lunes)
+                            .Replace("_neumaticos_M", item.martes)
+                            .Replace("_neumaticos_X", item.miercoles)
+                            .Replace("_neumaticos_J", item.jueves)
+                            .Replace("_neumaticos_V", item.viernes)
+                            .Replace("_neumaticos_S", item.sabado)
+                            .Replace("_neumaticos_D", item.domingo)
+                            .Replace("_neumaticos_obs", item.observaciones);
+
+                        if (item.concepto == "pernos_bujes")
+                            stringHTML = stringHTML.Replace("_pernos_bujes_L", item.lunes)
+                            .Replace("_pernos_bujes_M", item.martes)
+                            .Replace("_pernos_bujes_X", item.miercoles)
+                            .Replace("_pernos_bujes_J", item.jueves)
+                            .Replace("_pernos_bujes_V", item.viernes)
+                            .Replace("_pernos_bujes_S", item.sabado)
+                            .Replace("_pernos_bujes_D", item.domingo)
+                            .Replace("_pernos_bujes_obs", item.observaciones);
+
+                        if (item.concepto == "direccion")
+                            stringHTML = stringHTML.Replace("_direccion_L", item.lunes)
+                            .Replace("_direccion_M", item.martes)
+                            .Replace("_direccion_X", item.miercoles)
+                            .Replace("_direccion_J", item.jueves)
+                            .Replace("_direccion_V", item.viernes)
+                            .Replace("_direccion_S", item.sabado)
+                            .Replace("_direccion_D", item.domingo)
+                            .Replace("_direccion_obs", item.observaciones);
+
+                        if (item.concepto == "espejos_retrovisores")
+                            stringHTML = stringHTML.Replace("_espejos_retrovisores_L", item.lunes)
+                            .Replace("_espejos_retrovisores_M", item.martes)
+                            .Replace("_espejos_retrovisores_X", item.miercoles)
+                            .Replace("_espejos_retrovisores_J", item.jueves)
+                            .Replace("_espejos_retrovisores_V", item.viernes)
+                            .Replace("_espejos_retrovisores_S", item.sabado)
+                            .Replace("_espejos_retrovisores_D", item.domingo)
+                            .Replace("_espejos_retrovisores_obs", item.observaciones);
+
+                        if (item.concepto == "claxon")
+                            stringHTML = stringHTML.Replace("_claxon_L", item.lunes)
+                            .Replace("_claxon_M", item.martes)
+                            .Replace("_claxon_X", item.miercoles)
+                            .Replace("_claxon_J", item.jueves)
+                            .Replace("_claxon_V", item.viernes)
+                            .Replace("_claxon_S", item.sabado)
+                            .Replace("_claxon_D", item.domingo)
+                            .Replace("_claxon_obs", item.observaciones);
+
+                        if (item.concepto == "cinturon_seguridad")
+                            stringHTML = stringHTML.Replace("_cinturon_seguridad_L", item.lunes)
+                            .Replace("_cinturon_seguridad_M", item.martes)
+                            .Replace("_cinturon_seguridad_X", item.miercoles)
+                            .Replace("_cinturon_seguridad_J", item.jueves)
+                            .Replace("_cinturon_seguridad_V", item.viernes)
+                            .Replace("_cinturon_seguridad_S", item.sabado)
+                            .Replace("_cinturon_seguridad_D", item.domingo)
+                            .Replace("_cinturon_seguridad_obs", item.observaciones);
+
+
+
+                    });
+
+                    
+                    return stringHTML;
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        private string getFooterHTML() {
+            try
+            {
+                var stringHTML = "<p>&nbsp;</p><table border='1' cellpadding='1' cellspacing='0' style='width:100%'><tbody><tr><td style='width:481px'><span style='font-size:8px'>FIRMA DEL OPERADOR</span></td><td rowspan='6' style='width:53px'>&nbsp;</td><td style='width:633px'><span style='font-size:8px'>FIRMA DE MANTENIMIENTO</span></td></tr><tr><td style='width:481px'><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></td><td style='width:633px'>&nbsp;</td></tr><tr><td style='width:481px'><span style='font-size:8px'>FECHA</span></td><td style='width:633px'><span style='font-size:8px'>FECHA</span></td></tr><tr><td style='width:481px'><span style='font-size:8px'>FIRMA DEL SUPERVISOR</span></td><td style='width:633px'><span style='font-size:8px'>FIRMA DE SEGURIDAD</span></td></tr><tr><td style='width:481px'><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></td><td style='width:633px'>&nbsp;</td></tr><tr><td style='width:481px'><span style='font-size:8px'>FECHA</span></td><td style='width:633px'><span style='font-size:8px'>FECHA</span></td></tr></tbody></table><p>&nbsp;</p>";
+
+                return stringHTML;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

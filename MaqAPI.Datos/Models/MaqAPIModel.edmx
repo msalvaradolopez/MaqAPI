@@ -339,6 +339,9 @@
           <Parameter Name="intRenglones" Type="int" Mode="In" />
           <Parameter Name="intPagina" Type="int" Mode="In" />
         </Function>
+        <Function Name="spInsPecSemana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idInspeccion" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="MaquinariaModelStoreContainer">
           <EntitySet Name="bitseg" EntityType="Self.bitseg" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Demo" EntityType="Self.Demo" Schema="dbo" store:Type="Tables" />
@@ -831,7 +834,21 @@
             <Parameter Name="intRenglones" Mode="In" Type="Int32" />
             <Parameter Name="intPagina" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spInsPecSemana" ReturnType="Collection(MaquinariaModel.spInsPecSemana_Result)">
+            <Parameter Name="idInspeccion" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="spInsPecSemana_Result">
+          <Property Type="String" Name="concepto" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="lunes" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="martes" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="miercoles" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="jueves" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="viernes" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="sabado" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="domingo" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="observaciones" Nullable="true" MaxLength="255" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1023,6 +1040,21 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaquinariaModel.Store.spConsultaUbicacionPaginado" />
+          <FunctionImportMapping FunctionImportName="spInsPecSemana" FunctionName="MaquinariaModel.Store.spInsPecSemana">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MaquinariaModel.spInsPecSemana_Result">
+                <ScalarProperty Name="concepto" ColumnName="concepto" />
+                <ScalarProperty Name="lunes" ColumnName="lunes" />
+                <ScalarProperty Name="martes" ColumnName="martes" />
+                <ScalarProperty Name="miercoles" ColumnName="miercoles" />
+                <ScalarProperty Name="jueves" ColumnName="jueves" />
+                <ScalarProperty Name="viernes" ColumnName="viernes" />
+                <ScalarProperty Name="sabado" ColumnName="sabado" />
+                <ScalarProperty Name="domingo" ColumnName="domingo" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

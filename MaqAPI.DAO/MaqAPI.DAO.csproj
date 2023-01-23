@@ -64,6 +64,10 @@
       <Project>{f04d72db-cc69-4a60-94a1-abfc41cf7d8d}</Project>
       <Name>MaqAPI.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MaqAPI.Utilerias\MaqAPI.Utilerias.csproj">
+      <Project>{A5B2F741-BA03-49DE-9E9A-CC5987653BC6}</Project>
+      <Name>MaqAPI.Utilerias</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

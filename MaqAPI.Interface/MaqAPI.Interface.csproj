@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ICatalogoItem.cs" />
     <Compile Include="IConsultaItem.cs" />
+    <Compile Include="IFormatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

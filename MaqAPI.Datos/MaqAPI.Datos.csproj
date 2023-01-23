@@ -106,6 +106,9 @@
     <Compile Include="Models\parametros.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\spInsPecSemana_Result.cs">
+      <DependentUpon>MaqAPIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ubicacion.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
