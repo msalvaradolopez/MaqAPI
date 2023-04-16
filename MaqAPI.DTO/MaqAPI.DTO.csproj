@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbPosDTO.cs" />
     <Compile Include="BitSegDTO.cs" />
     <Compile Include="FiltrosDTO.cs" />
     <Compile Include="InsPecDTO.cs" />

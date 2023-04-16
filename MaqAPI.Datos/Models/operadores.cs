@@ -17,6 +17,8 @@ namespace MaqAPI.Datos.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public operadores()
         {
+            this.abpos = new HashSet<abpos>();
+            this.abpos1 = new HashSet<abpos>();
             this.bitseg = new HashSet<bitseg>();
             this.bitseg1 = new HashSet<bitseg>();
             this.bitseg2 = new HashSet<bitseg>();
@@ -34,6 +36,10 @@ namespace MaqAPI.Datos.Models
         public string categoria { get; set; }
         public string passw { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<abpos> abpos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<abpos> abpos1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bitseg> bitseg { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

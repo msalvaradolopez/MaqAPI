@@ -5,6 +5,37 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="abpos">
+          <Key>
+            <PropertyRef Name="idAbordaje" />
+          </Key>
+          <Property Name="idAbordaje" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="smalldatetime" Nullable="false" />
+          <Property Name="idSupervisor" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idObra" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="riesgo" Type="varchar" MaxLength="5" />
+          <Property Name="desvio" Type="varchar" MaxLength="10" />
+          <Property Name="casco" Type="varchar" MaxLength="1" />
+          <Property Name="lentes" Type="varchar" MaxLength="1" />
+          <Property Name="guantes" Type="varchar" MaxLength="1" />
+          <Property Name="uniforme" Type="varchar" MaxLength="1" />
+          <Property Name="zapatos" Type="varchar" MaxLength="1" />
+          <Property Name="uni_fajado" Type="varchar" MaxLength="1" />
+          <Property Name="tapones" Type="varchar" MaxLength="1" />
+          <Property Name="mascarilla" Type="varchar" MaxLength="1" />
+          <Property Name="careta" Type="varchar" MaxLength="1" />
+          <Property Name="arnes" Type="varchar" MaxLength="1" />
+          <Property Name="polainas" Type="varchar" MaxLength="1" />
+          <Property Name="peto" Type="varchar" MaxLength="1" />
+          <Property Name="gogles" Type="varchar" MaxLength="1" />
+          <Property Name="otros" Type="varchar" MaxLength="1" />
+          <Property Name="otro_descrip" Type="varchar" MaxLength="50" />
+          <Property Name="act_inseguros" Type="varchar" MaxLength="255" />
+          <Property Name="acc_correctiva" Type="varchar" MaxLength="255" />
+          <Property Name="cond_inseguras" Type="varchar" MaxLength="255" />
+          <Property Name="compromisos" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="bitseg">
           <Key>
             <PropertyRef Name="idBitacora" />
@@ -45,13 +76,6 @@
           <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="horaInicio" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="horaTermino" Type="varchar" MaxLength="5" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Demo">
-          <Key>
-            <PropertyRef Name="idUsuario" />
-          </Key>
-          <Property Name="idUsuario" Type="int" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -179,6 +203,42 @@
           <Property Name="TipoEmpleado" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="fecha_alta" Type="date" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ABPOS_empresa">
+          <End Role="obras" Type="Self.obras" Multiplicity="1" />
+          <End Role="abpos" Type="Self.abpos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obras">
+              <PropertyRef Name="idObra" />
+            </Principal>
+            <Dependent Role="abpos">
+              <PropertyRef Name="idObra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ABPOS_responsable">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="abpos" Type="Self.abpos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="abpos">
+              <PropertyRef Name="idSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ABPOS_trabajador">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="abpos" Type="Self.abpos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="abpos">
+              <PropertyRef Name="idOperador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bitseg_maquinaria">
           <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
           <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
@@ -343,8 +403,8 @@
           <Parameter Name="idInspeccion" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="MaquinariaModelStoreContainer">
+          <EntitySet Name="abpos" EntityType="Self.abpos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bitseg" EntityType="Self.bitseg" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Demo" EntityType="Self.Demo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="diesel" EntityType="Self.diesel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="inspec" EntityType="Self.inspec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" Schema="dbo" store:Type="Tables" />
@@ -353,6 +413,18 @@
           <EntitySet Name="parametros" EntityType="Self.parametros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ABPOS_empresa" Association="Self.FK_ABPOS_empresa">
+            <End Role="obras" EntitySet="obras" />
+            <End Role="abpos" EntitySet="abpos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ABPOS_responsable" Association="Self.FK_ABPOS_responsable">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="abpos" EntitySet="abpos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ABPOS_trabajador" Association="Self.FK_ABPOS_trabajador">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="abpos" EntitySet="abpos" />
+          </AssociationSet>
           <AssociationSet Name="FK_bitseg_maquinaria" Association="Self.FK_bitseg_maquinaria">
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="bitseg" EntitySet="bitseg" />
@@ -411,6 +483,40 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MaquinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="abpos">
+          <Key>
+            <PropertyRef Name="idAbordaje" />
+          </Key>
+          <Property Name="idAbordaje" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idSupervisor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idObra" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="riesgo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="desvio" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="casco" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="lentes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="guantes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="uniforme" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="zapatos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="uni_fajado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="tapones" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="mascarilla" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="careta" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="arnes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="polainas" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="peto" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="gogles" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="otros" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="otro_descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="act_inseguros" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="acc_correctiva" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="cond_inseguras" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="compromisos" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="obras" Relationship="Self.FK_ABPOS_empresa" FromRole="abpos" ToRole="obras" />
+          <NavigationProperty Name="operadores" Relationship="Self.FK_ABPOS_responsable" FromRole="abpos" ToRole="operadores" />
+          <NavigationProperty Name="operadores1" Relationship="Self.FK_ABPOS_trabajador" FromRole="abpos" ToRole="operadores" />
+        </EntityType>
         <EntityType Name="bitseg">
           <Key>
             <PropertyRef Name="idBitacora" />
@@ -456,13 +562,6 @@
           <NavigationProperty Name="operadores" Relationship="Self.FK_bitseg_operadores" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores1" Relationship="Self.FK_bitseg_supervisor" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores2" Relationship="Self.FK_bitseg_usuarios" FromRole="bitseg" ToRole="operadores" />
-        </EntityType>
-        <EntityType Name="Demo">
-          <Key>
-            <PropertyRef Name="idUsuario" />
-          </Key>
-          <Property Name="idUsuario" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -548,6 +647,7 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="abpos" Relationship="Self.FK_ABPOS_empresa" FromRole="obras" ToRole="abpos" />
           <NavigationProperty Name="bitseg" Relationship="Self.FK_bitseg_obras" FromRole="obras" ToRole="bitseg" />
           <NavigationProperty Name="ubicacion" Relationship="Self.FK_ubicacion_obras" FromRole="obras" ToRole="ubicacion" />
         </EntityType>
@@ -561,6 +661,8 @@
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="categoria" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="passw" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="abpos" Relationship="Self.FK_ABPOS_responsable" FromRole="operadores" ToRole="abpos" />
+          <NavigationProperty Name="abpos1" Relationship="Self.FK_ABPOS_trabajador" FromRole="operadores" ToRole="abpos" />
           <NavigationProperty Name="bitseg" Relationship="Self.FK_bitseg_operadores" FromRole="operadores" ToRole="bitseg" />
           <NavigationProperty Name="bitseg1" Relationship="Self.FK_bitseg_supervisor" FromRole="operadores" ToRole="bitseg" />
           <NavigationProperty Name="bitseg2" Relationship="Self.FK_bitseg_usuarios" FromRole="operadores" ToRole="bitseg" />
@@ -611,6 +713,42 @@
           <Property Name="TipoEmpleado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
+        <Association Name="FK_ABPOS_empresa">
+          <End Role="obras" Type="Self.obras" Multiplicity="1" />
+          <End Role="abpos" Type="Self.abpos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obras">
+              <PropertyRef Name="idObra" />
+            </Principal>
+            <Dependent Role="abpos">
+              <PropertyRef Name="idObra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ABPOS_responsable">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="abpos" Type="Self.abpos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="abpos">
+              <PropertyRef Name="idSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ABPOS_trabajador">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="abpos" Type="Self.abpos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="abpos">
+              <PropertyRef Name="idOperador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bitseg_maquinaria">
           <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
           <End Role="bitseg" Type="Self.bitseg" Multiplicity="*" />
@@ -768,8 +906,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="MaquinariaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="abpos" EntityType="Self.abpos" />
           <EntitySet Name="bitseg" EntityType="Self.bitseg" />
-          <EntitySet Name="Demo" EntityType="Self.Demo" />
           <EntitySet Name="diesel" EntityType="Self.diesel" />
           <EntitySet Name="inspec" EntityType="Self.inspec" />
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" />
@@ -778,6 +916,18 @@
           <EntitySet Name="parametros" EntityType="Self.parametros" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" />
           <EntitySet Name="usuarios" EntityType="Self.usuarios" />
+          <AssociationSet Name="FK_ABPOS_empresa" Association="Self.FK_ABPOS_empresa">
+            <End Role="obras" EntitySet="obras" />
+            <End Role="abpos" EntitySet="abpos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ABPOS_responsable" Association="Self.FK_ABPOS_responsable">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="abpos" EntitySet="abpos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ABPOS_trabajador" Association="Self.FK_ABPOS_trabajador">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="abpos" EntitySet="abpos" />
+          </AssociationSet>
           <AssociationSet Name="FK_bitseg_maquinaria" Association="Self.FK_bitseg_maquinaria">
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="bitseg" EntitySet="bitseg" />
@@ -855,6 +1005,38 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MaquinariaModelStoreContainer" CdmEntityContainer="MaquinariaEntities">
+          <EntitySetMapping Name="abpos">
+            <EntityTypeMapping TypeName="MaquinariaModel.abpos">
+              <MappingFragment StoreEntitySet="abpos">
+                <ScalarProperty Name="idAbordaje" ColumnName="idAbordaje" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="idSupervisor" ColumnName="idSupervisor" />
+                <ScalarProperty Name="idObra" ColumnName="idObra" />
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="riesgo" ColumnName="riesgo" />
+                <ScalarProperty Name="desvio" ColumnName="desvio" />
+                <ScalarProperty Name="casco" ColumnName="casco" />
+                <ScalarProperty Name="lentes" ColumnName="lentes" />
+                <ScalarProperty Name="guantes" ColumnName="guantes" />
+                <ScalarProperty Name="uniforme" ColumnName="uniforme" />
+                <ScalarProperty Name="zapatos" ColumnName="zapatos" />
+                <ScalarProperty Name="uni_fajado" ColumnName="uni_fajado" />
+                <ScalarProperty Name="tapones" ColumnName="tapones" />
+                <ScalarProperty Name="mascarilla" ColumnName="mascarilla" />
+                <ScalarProperty Name="careta" ColumnName="careta" />
+                <ScalarProperty Name="arnes" ColumnName="arnes" />
+                <ScalarProperty Name="polainas" ColumnName="polainas" />
+                <ScalarProperty Name="peto" ColumnName="peto" />
+                <ScalarProperty Name="gogles" ColumnName="gogles" />
+                <ScalarProperty Name="otros" ColumnName="otros" />
+                <ScalarProperty Name="otro_descrip" ColumnName="otro_descrip" />
+                <ScalarProperty Name="act_inseguros" ColumnName="act_inseguros" />
+                <ScalarProperty Name="acc_correctiva" ColumnName="acc_correctiva" />
+                <ScalarProperty Name="cond_inseguras" ColumnName="cond_inseguras" />
+                <ScalarProperty Name="compromisos" ColumnName="compromisos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="bitseg">
             <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
               <MappingFragment StoreEntitySet="bitseg">
@@ -894,14 +1076,6 @@
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="horaInicio" ColumnName="horaInicio" />
                 <ScalarProperty Name="horaTermino" ColumnName="horaTermino" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Demo">
-            <EntityTypeMapping TypeName="MaquinariaModel.Demo">
-              <MappingFragment StoreEntitySet="Demo">
-                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

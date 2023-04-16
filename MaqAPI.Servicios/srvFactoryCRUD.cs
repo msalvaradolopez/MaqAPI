@@ -36,6 +36,9 @@ namespace MaqAPI.Servicios
             if (tipoCRUD.INSPEC == pCRUDS)
                 return new InsPecDAO();
 
+            if (tipoCRUD.ABPOS == pCRUDS)
+                return new AbPosDAO();
+
 
             return null;
         }

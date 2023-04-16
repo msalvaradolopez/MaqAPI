@@ -4,17 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a9c32ca437444c9485663e20d732b349" Name="Diagram1">
-        <EntityTypeShape EntityType="MaquinariaModel.bitseg" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.Demo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.diesel" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.inspec" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+      <Diagram DiagramId="62b2998af505499f8dfe4e7136104cf5" Name="Diagram1">
+        <EntityTypeShape EntityType="MaquinariaModel.abpos" Width="1.5" PointX="3" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.bitseg" Width="1.5" PointX="6" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.diesel" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.inspec" Width="1.5" PointX="9" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MaquinariaModel.maquinaria" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.obras" Width="1.5" PointX="0.75" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.operadores" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.parametros" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.ubicacion" Width="1.5" PointX="9" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaquinariaModel.usuarios" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.obras" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.operadores" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.parametros" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.ubicacion" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.usuarios" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="MaquinariaModel.FK_ABPOS_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ABPOS_responsable" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ABPOS_trabajador" ManuallyRouted="false" />
         <AssociationConnector Association="MaquinariaModel.FK_bitseg_maquinaria" ManuallyRouted="false" />
         <AssociationConnector Association="MaquinariaModel.FK_bitseg_obras" ManuallyRouted="false" />
         <AssociationConnector Association="MaquinariaModel.FK_bitseg_operadores" ManuallyRouted="false" />

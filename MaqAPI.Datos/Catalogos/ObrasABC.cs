@@ -81,9 +81,9 @@ namespace MaqAPI.Datos.Catalogos
 
                     return _obraByID;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    var _error = ex.Message.ToString();
                     throw;
                 }
             }

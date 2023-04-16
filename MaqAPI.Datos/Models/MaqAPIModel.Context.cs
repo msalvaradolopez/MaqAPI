@@ -27,8 +27,8 @@ namespace MaqAPI.Datos.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<abpos> abpos { get; set; }
         public virtual DbSet<bitseg> bitseg { get; set; }
-        public virtual DbSet<Demo> Demo { get; set; }
         public virtual DbSet<diesel> diesel { get; set; }
         public virtual DbSet<inspec> inspec { get; set; }
         public virtual DbSet<maquinaria> maquinaria { get; set; }

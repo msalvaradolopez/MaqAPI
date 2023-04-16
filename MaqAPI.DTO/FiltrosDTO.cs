@@ -20,5 +20,6 @@ namespace MaqAPI.DTO
         public int mes { get; set; }
         public int anno { get; set; }
         public int dia { get; set; }
+        public int idAbordaje { get; set; }
     }
 }

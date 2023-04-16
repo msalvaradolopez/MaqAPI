@@ -16,6 +16,7 @@ namespace MaqAPI.Servicios
         BITSEG = 60,
         UBICACION = 70,
         BITSEG_FORMATO_PDFbase64 = 80,
-        INSPEC = 90
+        INSPEC = 90,
+        ABPOS = 100
     }
 }

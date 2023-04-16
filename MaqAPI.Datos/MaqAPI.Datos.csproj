@@ -67,10 +67,10 @@
     <Compile Include="Catalogos\OperadoresABC.cs" />
     <Compile Include="Interfaz\IConexion.cs" />
     <Compile Include="Interfaz\IFormats.cs" />
-    <Compile Include="Models\bitseg.cs">
+    <Compile Include="Models\abpos.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Demo.cs">
+    <Compile Include="Models\bitseg.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\diesel.cs">

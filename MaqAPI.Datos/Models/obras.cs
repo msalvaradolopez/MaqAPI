@@ -17,6 +17,7 @@ namespace MaqAPI.Datos.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public obras()
         {
+            this.abpos = new HashSet<abpos>();
             this.bitseg = new HashSet<bitseg>();
             this.ubicacion = new HashSet<ubicacion>();
         }
@@ -26,6 +27,8 @@ namespace MaqAPI.Datos.Models
         public string estatus { get; set; }
         public System.DateTime fecha_alta { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<abpos> abpos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bitseg> bitseg { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
