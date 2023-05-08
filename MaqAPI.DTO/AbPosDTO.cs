@@ -15,20 +15,20 @@ namespace MaqAPI.DTO
         public string idOperador { get; set; }
         public string riesgo { get; set; }
         public string desvio { get; set; }
-        public string casco { get; set; }
-        public string lentes { get; set; }
-        public string guantes { get; set; }
-        public string uniforme { get; set; }
-        public string zapatos { get; set; }
-        public string uni_fajado { get; set; }
-        public string tapones { get; set; }
-        public string mascarilla { get; set; }
-        public string careta { get; set; }
-        public string arnes { get; set; }
-        public string polainas { get; set; }
-        public string peto { get; set; }
-        public string gogles { get; set; }
-        public string otros { get; set; }
+        public bool casco { get; set; }
+        public bool lentes { get; set; }
+        public bool guantes { get; set; }
+        public bool uniforme { get; set; }
+        public bool zapatos { get; set; }
+        public bool uni_fajado { get; set; }
+        public bool tapones { get; set; }
+        public bool mascarilla { get; set; }
+        public bool careta { get; set; }
+        public bool arnes { get; set; }
+        public bool polainas { get; set; }
+        public bool peto { get; set; }
+        public bool gogles { get; set; }
+        public bool otros { get; set; }
         public string otro_descrip { get; set; }
         public string act_inseguros { get; set; }
         public string acc_correctiva { get; set; }

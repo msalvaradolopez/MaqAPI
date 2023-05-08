@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MaqAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="abpos">
           <Key>
             <PropertyRef Name="idAbordaje" />
@@ -16,20 +16,20 @@
           <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="riesgo" Type="varchar" MaxLength="5" />
           <Property Name="desvio" Type="varchar" MaxLength="10" />
-          <Property Name="casco" Type="varchar" MaxLength="1" />
-          <Property Name="lentes" Type="varchar" MaxLength="1" />
-          <Property Name="guantes" Type="varchar" MaxLength="1" />
-          <Property Name="uniforme" Type="varchar" MaxLength="1" />
-          <Property Name="zapatos" Type="varchar" MaxLength="1" />
-          <Property Name="uni_fajado" Type="varchar" MaxLength="1" />
-          <Property Name="tapones" Type="varchar" MaxLength="1" />
-          <Property Name="mascarilla" Type="varchar" MaxLength="1" />
-          <Property Name="careta" Type="varchar" MaxLength="1" />
-          <Property Name="arnes" Type="varchar" MaxLength="1" />
-          <Property Name="polainas" Type="varchar" MaxLength="1" />
-          <Property Name="peto" Type="varchar" MaxLength="1" />
-          <Property Name="gogles" Type="varchar" MaxLength="1" />
-          <Property Name="otros" Type="varchar" MaxLength="1" />
+          <Property Name="casco" Type="bit" />
+          <Property Name="lentes" Type="bit" />
+          <Property Name="guantes" Type="bit" />
+          <Property Name="uniforme" Type="bit" />
+          <Property Name="zapatos" Type="bit" />
+          <Property Name="uni_fajado" Type="bit" />
+          <Property Name="tapones" Type="bit" />
+          <Property Name="mascarilla" Type="bit" />
+          <Property Name="careta" Type="bit" />
+          <Property Name="arnes" Type="bit" />
+          <Property Name="polainas" Type="bit" />
+          <Property Name="peto" Type="bit" />
+          <Property Name="gogles" Type="bit" />
+          <Property Name="otros" Type="bit" />
           <Property Name="otro_descrip" Type="varchar" MaxLength="50" />
           <Property Name="act_inseguros" Type="varchar" MaxLength="255" />
           <Property Name="acc_correctiva" Type="varchar" MaxLength="255" />
@@ -402,7 +402,7 @@
         <Function Name="spInsPecSemana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idInspeccion" Type="int" Mode="In" />
         </Function>
-        <EntityContainer Name="MaquinariaModelStoreContainer">
+        <EntityContainer Name="MaqAPIModelStoreContainer">
           <EntitySet Name="abpos" EntityType="Self.abpos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bitseg" EntityType="Self.bitseg" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="diesel" EntityType="Self.diesel" Schema="dbo" store:Type="Tables" />
@@ -482,7 +482,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MaquinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="MaqAPIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="abpos">
           <Key>
             <PropertyRef Name="idAbordaje" />
@@ -494,20 +494,20 @@
           <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="riesgo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="desvio" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="casco" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="lentes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="guantes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="uniforme" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="zapatos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="uni_fajado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="tapones" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="mascarilla" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="careta" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="arnes" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="polainas" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="peto" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="gogles" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="otros" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="casco" Type="Boolean" />
+          <Property Name="lentes" Type="Boolean" />
+          <Property Name="guantes" Type="Boolean" />
+          <Property Name="uniforme" Type="Boolean" />
+          <Property Name="zapatos" Type="Boolean" />
+          <Property Name="uni_fajado" Type="Boolean" />
+          <Property Name="tapones" Type="Boolean" />
+          <Property Name="mascarilla" Type="Boolean" />
+          <Property Name="careta" Type="Boolean" />
+          <Property Name="arnes" Type="Boolean" />
+          <Property Name="polainas" Type="Boolean" />
+          <Property Name="peto" Type="Boolean" />
+          <Property Name="gogles" Type="Boolean" />
+          <Property Name="otros" Type="Boolean" />
           <Property Name="otro_descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="act_inseguros" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="acc_correctiva" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -984,7 +984,7 @@
             <Parameter Name="intRenglones" Mode="In" Type="Int32" />
             <Parameter Name="intPagina" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spInsPecSemana" ReturnType="Collection(MaquinariaModel.spInsPecSemana_Result)">
+          <FunctionImport Name="spInsPecSemana" ReturnType="Collection(MaqAPIModel.spInsPecSemana_Result)">
             <Parameter Name="idInspeccion" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
@@ -1004,9 +1004,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MaquinariaModelStoreContainer" CdmEntityContainer="MaquinariaEntities">
+        <EntityContainerMapping StorageEntityContainer="MaqAPIModelStoreContainer" CdmEntityContainer="MaquinariaEntities">
           <EntitySetMapping Name="abpos">
-            <EntityTypeMapping TypeName="MaquinariaModel.abpos">
+            <EntityTypeMapping TypeName="MaqAPIModel.abpos">
               <MappingFragment StoreEntitySet="abpos">
                 <ScalarProperty Name="idAbordaje" ColumnName="idAbordaje" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
@@ -1038,7 +1038,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="bitseg">
-            <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
+            <EntityTypeMapping TypeName="MaqAPIModel.bitseg">
               <MappingFragment StoreEntitySet="bitseg">
                 <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
                 <ScalarProperty Name="docBitacora" ColumnName="docBitacora" />
@@ -1080,7 +1080,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="diesel">
-            <EntityTypeMapping TypeName="MaquinariaModel.diesel">
+            <EntityTypeMapping TypeName="MaqAPIModel.diesel">
               <MappingFragment StoreEntitySet="diesel">
                 <ScalarProperty Name="idDiesel" ColumnName="idDiesel" />
                 <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
@@ -1095,7 +1095,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="inspec">
-            <EntityTypeMapping TypeName="MaquinariaModel.inspec">
+            <EntityTypeMapping TypeName="MaqAPIModel.inspec">
               <MappingFragment StoreEntitySet="inspec">
                 <ScalarProperty Name="idInspeccion" ColumnName="idInspeccion" />
                 <ScalarProperty Name="docInspeccion" ColumnName="docInspeccion" />
@@ -1142,7 +1142,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="maquinaria">
-            <EntityTypeMapping TypeName="MaquinariaModel.maquinaria">
+            <EntityTypeMapping TypeName="MaqAPIModel.maquinaria">
               <MappingFragment StoreEntitySet="maquinaria">
                 <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
@@ -1152,7 +1152,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="obras">
-            <EntityTypeMapping TypeName="MaquinariaModel.obras">
+            <EntityTypeMapping TypeName="MaqAPIModel.obras">
               <MappingFragment StoreEntitySet="obras">
                 <ScalarProperty Name="idObra" ColumnName="idObra" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1162,7 +1162,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="operadores">
-            <EntityTypeMapping TypeName="MaquinariaModel.operadores">
+            <EntityTypeMapping TypeName="MaqAPIModel.operadores">
               <MappingFragment StoreEntitySet="operadores">
                 <ScalarProperty Name="idOperador" ColumnName="idOperador" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1174,7 +1174,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="parametros">
-            <EntityTypeMapping TypeName="MaquinariaModel.parametros">
+            <EntityTypeMapping TypeName="MaqAPIModel.parametros">
               <MappingFragment StoreEntitySet="parametros">
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="valor" ColumnName="valor" />
@@ -1182,7 +1182,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ubicacion">
-            <EntityTypeMapping TypeName="MaquinariaModel.ubicacion">
+            <EntityTypeMapping TypeName="MaqAPIModel.ubicacion">
               <MappingFragment StoreEntitySet="ubicacion">
                 <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
                 <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
@@ -1202,7 +1202,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="usuarios">
-            <EntityTypeMapping TypeName="MaquinariaModel.usuarios">
+            <EntityTypeMapping TypeName="MaqAPIModel.usuarios">
               <MappingFragment StoreEntitySet="usuarios">
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1213,10 +1213,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaquinariaModel.Store.spConsultaUbicacionPaginado" />
-          <FunctionImportMapping FunctionImportName="spInsPecSemana" FunctionName="MaquinariaModel.Store.spInsPecSemana">
+          <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaqAPIModel.Store.spConsultaUbicacionPaginado" />
+          <FunctionImportMapping FunctionImportName="spInsPecSemana" FunctionName="MaqAPIModel.Store.spInsPecSemana">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="MaquinariaModel.spInsPecSemana_Result">
+              <ComplexTypeMapping TypeName="MaqAPIModel.spInsPecSemana_Result">
                 <ScalarProperty Name="concepto" ColumnName="concepto" />
                 <ScalarProperty Name="lunes" ColumnName="lunes" />
                 <ScalarProperty Name="martes" ColumnName="martes" />

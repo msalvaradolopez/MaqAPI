@@ -10,7 +10,7 @@ using MaqAPI.Utilerias;
 
 namespace MaqAPI.DAO
 {
-    public class AbPosDAO : ICatalogoItem<AbPosDTO>
+    public class AbPosDAO : ICatalogoItem<AbPosDTO>, IConsultaItem<AbPosDTO>
     {
         public bool DeleteItem(AbPosDTO pItem)
         {
@@ -51,20 +51,20 @@ namespace MaqAPI.DAO
                             idOperador = x.idOperador,
                             riesgo = x.riesgo,
                             desvio = x.desvio,
-                            casco = x.casco,
-                            lentes= x.lentes,
-                            guantes = x.guantes,
-                            uniforme = x.uniforme,
-                            zapatos = x.zapatos,
-                            uni_fajado = x.zapatos,
-                            tapones = x.tapones,
-                            mascarilla = x.mascarilla,
-                            careta = x.careta,
-                            arnes = x.arnes,
-                            polainas = x.polainas,
-                            peto = x.peto,
-                            gogles = x.gogles,
-                            otros = x.otros,
+                            casco = (bool)x.casco,
+                            lentes= (bool)x.lentes,
+                            guantes = (bool)x.guantes,
+                            uniforme = (bool)x.uniforme,
+                            zapatos = (bool)x.zapatos,
+                            uni_fajado = (bool)x.zapatos,
+                            tapones = (bool)x.tapones,
+                            mascarilla = (bool)x.mascarilla,
+                            careta = (bool)x.careta,
+                            arnes = (bool)x.arnes,
+                            polainas = (bool)x.polainas,
+                            peto = (bool)x.peto,
+                            gogles = (bool)x.gogles,
+                            otros = (bool)x.otros,
                             otro_descrip = x.otro_descrip,
                             act_inseguros = x.act_inseguros,
                             acc_correctiva = x.acc_correctiva,
@@ -104,20 +104,20 @@ namespace MaqAPI.DAO
                             idOperador = x.idOperador,
                             riesgo = x.riesgo,
                             desvio = x.desvio,
-                            casco = x.casco,
-                            lentes = x.lentes,
-                            guantes = x.guantes,
-                            uniforme = x.uniforme,
-                            zapatos = x.zapatos,
-                            uni_fajado = x.zapatos,
-                            tapones = x.tapones,
-                            mascarilla = x.mascarilla,
-                            careta = x.careta,
-                            arnes = x.arnes,
-                            polainas = x.polainas,
-                            peto = x.peto,
-                            gogles = x.gogles,
-                            otros = x.otros,
+                            casco = (bool)x.casco,
+                            lentes = (bool)x.lentes,
+                            guantes = (bool)x.guantes,
+                            uniforme = (bool)x.uniforme,
+                            zapatos = (bool)x.zapatos,
+                            uni_fajado = (bool)x.zapatos,
+                            tapones = (bool)x.tapones,
+                            mascarilla = (bool)x.mascarilla,
+                            careta = (bool)x.careta,
+                            arnes = (bool)x.arnes,
+                            polainas = (bool)x.polainas,
+                            peto = (bool)x.peto,
+                            gogles = (bool)x.gogles,
+                            otros = (bool)x.otros,
                             otro_descrip = x.otro_descrip,
                             act_inseguros = x.act_inseguros,
                             acc_correctiva = x.acc_correctiva,
@@ -137,9 +137,9 @@ namespace MaqAPI.DAO
 
                     return _list;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    var _error = ex.Message.ToString();
                     throw;
                 }
             }
@@ -169,6 +169,7 @@ namespace MaqAPI.DAO
 
                     var _ItemModel = new abpos();
 
+                    _ItemModel.idAbordaje = _idAbordaje;
                     _ItemModel.fecha = pItem.fecha;
                     _ItemModel.idSupervisor = pItem.idSupervisor;
                     _ItemModel.idObra = pItem.idObra;
