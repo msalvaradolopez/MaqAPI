@@ -50,5 +50,10 @@ namespace MaqAPI.Aplicacion.Controllers
         [Route("getListFilter")]
         public List<AbPosDTO> getListFilter([FromBody] FiltrosDTO pFiltro) => _objConsultas.GetItemList(pFiltro);
 
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getPDF")]
+        public string getPDF([FromBody] AbPosDTO pItem) => _objFormatos.getPDF(pItem);
+
     }
 }

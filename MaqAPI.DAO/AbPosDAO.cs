@@ -10,7 +10,7 @@ using MaqAPI.Utilerias;
 
 namespace MaqAPI.DAO
 {
-    public class AbPosDAO : ICatalogoItem<AbPosDTO>, IConsultaItem<AbPosDTO>
+    public class AbPosDAO : ICatalogoItem<AbPosDTO>, IConsultaItem<AbPosDTO>, IFormatos<AbPosDTO>
     {
         public bool DeleteItem(AbPosDTO pItem)
         {
@@ -26,9 +26,9 @@ namespace MaqAPI.DAO
                     db.SaveChanges();
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    var _error = ex.Message.ToString();
                     throw;
                 }
             }
@@ -142,6 +142,143 @@ namespace MaqAPI.DAO
                     var _error = ex.Message.ToString();
                     throw;
                 }
+            }
+        }
+
+        public string getPDF(AbPosDTO pItem)
+        {
+            try
+            {
+                var _html = getHTML(pItem);
+
+                generaPDF _generaPDF = new generaPDF();
+                return _generaPDF.createPDFtoBASE64(_html);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string getHTML(AbPosDTO pItem)
+        {
+            try
+            {
+
+                var _headerHTML = getHeaderHTML(pItem);
+                var _detailHTML = getDetailHTML(pItem);
+                var _footerHTML = getFooterHTML(pItem);
+                return _headerHTML + _detailHTML + _footerHTML;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string getHeaderHTML(AbPosDTO pItem)
+        {
+            try
+            {
+                var _idAbordaje = pItem.idAbordaje;
+                var _fecha = pItem.fecha;
+                var _supervisorNom = pItem.nomSupervisor;
+                var _nomObra = pItem.nomObra;
+                var _nomOperador = pItem.nomOperador;
+                var _riesgo = pItem.riesgo;
+                var _desvio = pItem.desvio;
+                
+                string stringHTMLaux = "<table align='center' border='0' cellpadding='1' cellspacing='1' style='height:10px;width:100%'><tbody><tr><td style='text-align:center'><p><span style='font-size:22px'><strong>GRUPO BITESA</strong></span></p><p><span style='font-size:14px'><strong><u>ABORDAJE POSITIVO</u></strong></span></p><p>&nbsp;</p><p style='text-align:right'><span style='font-size:10px'><strong># Abordaje: _idAbordaje</strong></span></p></td></tr></tbody></table><table border='0' cellpadding='5' cellspacing='1' style='height:30px;width:100%'><tbody><tr><td style='text-align:right;width:85px'><span style='font-size:8px'>FECHA</span></td><td style='background-color:#ccc;width:365px'><span style='font-size:8px'>_fecha</span></td><td style='text-align:right;width:175px'><span style='font-size:8px'>EMPRESA:</span></td><td style='background-color:#ccc;width:508px'><span style='font-size:8px'>_empresa</span></td></tr><tr><td style='text-align:right;width:85px'><span style='font-size:8px'>RESPONSABLE:</span></td><td style='background-color:#ccc;width:365px'><span style='font-size:8px'>_responsable</span></td><td style='text-align:right;width:175px'><span style='font-size:8px'>TRABAJADOR</span></td><td style='background-color:#ccc;width:508px'><span style='font-size:8px'>_trabajador</span></td></tr><tr><td style='text-align:right;width:85px'>&nbsp;</td><td style='width:365px'>&nbsp;</td><td style='text-align:right;width:175px'>&nbsp;</td><td style='width:508px'>&nbsp;</td></tr><tr><td style='text-align:right;width:85px'><span style='font-size:8px'>RIESGO</span></td><td style='background-color:#ccc;width:365px'><span style='font-size:8px'>_riesgo</span></td><td style='text-align:right;width:175px'><span style='font-size:8px'>DESVIO</span></td><td style='background-color:#ccc;width:508px'><span style='font-size:8px'>_desvio</span></td></tr></tbody></table><p>&nbsp;</p>";
+
+                string stringHTML = stringHTMLaux.Replace("_idAbordaje", _idAbordaje.ToString())
+                    .Replace("_fecha", _fecha.ToString())
+                    .Replace("_responsable", _supervisorNom)
+                    .Replace("_empresa", _nomObra)
+                    .Replace("_trabajador", _nomOperador)
+                    .Replace("_riesgo", _riesgo)
+                    .Replace("_desvio", _desvio);
+
+                return stringHTML;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string getDetailHTML(AbPosDTO pItem)
+        {
+            try
+            {
+                var _casco = pItem.casco;
+                var _lentes = pItem.guantes;
+                var _guantes = pItem.guantes;
+                var _uniforme = pItem.uniforme;
+                var _zapatos = pItem.zapatos;
+                var _uni_fajado = pItem.uni_fajado;
+                var _tapones = pItem.tapones;
+                var _mascarilla = pItem.mascarilla;
+                var _careta = pItem.careta;
+                var _arnes = pItem.arnes;
+                var _polainas = pItem.polainas;
+                var _peto = pItem.peto;
+                var _gogles = pItem.gogles;
+                var _otros = pItem.otros;
+                var _otro_descrip = pItem.otro_descrip;
+                var _act_inseguros = pItem.act_inseguros;
+                var _acc_correctiva = pItem.acc_correctiva;
+                var _cond_inseguras = pItem.cond_inseguras;
+
+                string stringHTMLaux = "<table align='center' border='0' cellpadding='0' cellspacing='0' style='width:100%'><tbody><tr><td style='width:572px'><table align='left' border='1' cellpadding='1' cellspacing='0' style='width:100%'><tbody><tr><td style='width:207px'><span style='font-size:8px'>CASCO</span></td><td style='width:208px'><span style='font-size:8px'>_casco</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>LENTES</span></td><td style='width:208px'><span style='font-size:8px'>_lentes</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>GUANTES</span></td><td style='width:208px'><span style='font-size:8px'>_guantes</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>UNIFORME</span></td><td style='width:208px'><span style='font-size:8px'>_uniforme</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>ZAPATOS</span></td><td style='width:208px'><span style='font-size:8px'>_zapatos</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>UNIFORME FAJADO</span></td><td style='width:208px'><span style='font-size:8px'>_uni_fajado</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>TAPONES</span></td><td style='width:208px'><span style='font-size:8px'>_tapones</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>MASCARILLA</span></td><td style='width:208px'><span style='font-size:8px'>_mascarilla</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>CARETA FACIAL</span></td><td style='width:208px'><span style='font-size:8px'>_careta</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>ARNES</span></td><td style='width:208px'><span style='font-size:8px'>_arnes</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>POLAINAS</span></td><td style='width:208px'><span style='font-size:8px'>_polainas</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>PETO</span></td><td style='width:208px'><span style='font-size:8px'>_peto</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>GOGLES O CARETA PARA SOLDAR</span></td><td style='width:208px'><span style='font-size:8px'>_gogles</span></td></tr><tr><td style='width:207px'><span style='font-size:8px'>OTROS ESPECIFICAR</span></td><td style='width:208px'><span style='font-size:8px'>_otros</span></td></tr><tr><td colspan='2'><span style='font-size:8px'>_otro_descrip</span></td></tr></tbody></table><p>&nbsp;</p></td><td style='width:226px'>&nbsp;</td><td style='width:523px'><table align='right' border='1' cellpadding='1' cellspacing='0' style='width:100%'><tbody><tr><td style='background-color:#ccc;width:501px'><span style='font-size:8px'>ACTOS INSEGUROS</span></td></tr><tr><td style='width:501px'><p><span style='font-size:8px'>_act_inseguros</span></p><p>&nbsp;</p></td></tr></tbody></table><p>&nbsp;</p><table align='right' border='1' cellpadding='1' cellspacing='0' style='width:100%'><tbody><tr><td style='background-color:#ccc;width:522px'><span style='font-size:8px'>ACCION CORRECTIVA</span></td></tr><tr><td style='width:522px'><p><span style='font-size:8px'>_acc_correctiva</span></p><p>&nbsp;</p></td></tr></tbody></table><p>&nbsp;</p><table align='right' border='1' cellpadding='1' cellspacing='0' style='width:100%'><tbody><tr><td style='background-color:#ccc'><span style='font-size:8px'>CONDICIONES INSEGURAS</span></td></tr><tr><td><p><span style='font-size:8px'>_cond_inseguras</span></p><p>&nbsp;</p></td></tr></tbody></table><p>&nbsp;</p></td></tr></tbody></table><p>&nbsp;</p>";
+
+                string stringHTML = stringHTMLaux.Replace("_casco", _casco ? "Si" : "No")
+                    .Replace("_lentes", _lentes ? "Si" : "No")
+                    .Replace("_guantes", _guantes ? "Si" : "No")
+                    .Replace("_uniforme", _uniforme ? "Si" : "No")
+                    .Replace("_zapatos", _zapatos ? "Si" : "No")
+                    .Replace("_uni_fajado", _uni_fajado ? "Si" : "No")
+                    .Replace("_tapones", _tapones ? "Si" : "No")
+                    .Replace("_mascarilla", _mascarilla ? "Si" : "No")
+                    .Replace("_careta", _careta ? "Si" : "No")
+                    .Replace("_arnes", _arnes ? "Si" : "No")
+                    .Replace("_polainas", _polainas ? "Si" : "No")
+                    .Replace("_peto", _peto ? "Si" : "No")
+                    .Replace("_gogles", _gogles ? "Si" : "No")
+                    .Replace("_otros", _otros ? "Si" : "No")
+                    .Replace("_otro_descrip", _otro_descrip)
+                    .Replace("_act_inseguros", _act_inseguros)
+                    .Replace("_acc_correctiva", _acc_correctiva)
+                    .Replace("_cond_inseguras", _cond_inseguras);
+
+                return stringHTML;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string getFooterHTML(AbPosDTO pItem)
+        {
+            try
+            {
+                var _compromisos = pItem.compromisos;
+                
+
+                string stringHTMLaux = "<table border='1' cellpadding='1' cellspacing='0' style='width:100%'><tbody><tr><td style='background-color:#ccc'><span style='font-size:8px'>COMPROMISOS</span></td></tr><tr><td style='vertical-align:top'><p><span style='font-size:8px'>_compromisos</span></p><p>&nbsp;</p><p>&nbsp;</p></td></tr><tr><td><p>&nbsp;</p><p style='text-align:right'>&nbsp;</p><p style='text-align:center'>&nbsp;</p><p style='text-align:center'>Firma del trabajador</p></td></tr></tbody></table><p>&nbsp;</p>";
+
+                string stringHTML = stringHTMLaux.Replace("_compromisos", _compromisos);
+
+                return stringHTML;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
