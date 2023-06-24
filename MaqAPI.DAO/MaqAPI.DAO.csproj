@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbPosDAO.cs" />
+    <Compile Include="DesvioDAO.cs" />
     <Compile Include="InsPecDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

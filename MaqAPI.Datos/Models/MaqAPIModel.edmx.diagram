@@ -4,33 +4,37 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="689937639a1e49a5bcfef390ffbae119" Name="Diagram1">
-        <EntityTypeShape EntityType="MaqAPIModel.abpos" Width="1.5" PointX="3" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.bitseg" Width="1.5" PointX="6" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.diesel" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.inspec" Width="1.5" PointX="9" PointY="13.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.maquinaria" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.obras" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.operadores" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.parametros" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.ubicacion" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MaqAPIModel.usuarios" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <AssociationConnector Association="MaqAPIModel.FK_ABPOS_empresa" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_ABPOS_responsable" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_ABPOS_trabajador" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_bitseg_maquinaria" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_bitseg_obras" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_bitseg_operadores" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_bitseg_supervisor" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_bitseg_usuarios" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_inspec_maquinaria" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_inspec_operadores" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_inspec_ResponsableMtto" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_inspec_supervisor" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_ubicacion_maquinaria" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_ubicacion_obras" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_ubicacion_operadores" ManuallyRouted="false" />
-        <AssociationConnector Association="MaqAPIModel.FK_ubicacion_usuarios" ManuallyRouted="false" />
+      <Diagram DiagramId="eddafe24f5974c59813f2c754b97f546" Name="Diagram1">
+        <EntityTypeShape EntityType="MaquinariaModel.abpos" Width="1.5" PointX="3" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.bitseg" Width="1.5" PointX="6" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.desvio" Width="1.5" PointX="9" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.diesel" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.inspec" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.maquinaria" Width="1.5" PointX="0.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.obras" Width="1.5" PointX="0.75" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.operadores" Width="1.5" PointX="0.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.parametros" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.ubicacion" Width="1.5" PointX="3" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MaquinariaModel.usuarios" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="MaquinariaModel.FK_ABPOS_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ABPOS_responsable" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ABPOS_trabajador" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_maquinaria" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_obras" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_operadores" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_supervisor" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_bitseg_usuarios" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_DESVIO_empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_DESVIO_responsable" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_DESVIO_trabajador" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_inspec_maquinaria" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_inspec_operadores" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_inspec_ResponsableMtto" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_inspec_supervisor" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_maquinaria" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_obras" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_operadores" ManuallyRouted="false" />
+        <AssociationConnector Association="MaquinariaModel.FK_ubicacion_usuarios" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

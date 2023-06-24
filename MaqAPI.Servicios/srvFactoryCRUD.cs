@@ -39,6 +39,9 @@ namespace MaqAPI.Servicios
             if (tipoCRUD.ABPOS == pCRUDS)
                 return new AbPosDAO();
 
+            if (tipoCRUD.DESVIO == pCRUDS)
+                return new DesvioDAO();
+
 
             return null;
         }

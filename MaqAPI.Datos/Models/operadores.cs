@@ -22,6 +22,8 @@ namespace MaqAPI.Datos.Models
             this.bitseg = new HashSet<bitseg>();
             this.bitseg1 = new HashSet<bitseg>();
             this.bitseg2 = new HashSet<bitseg>();
+            this.desvio = new HashSet<desvio>();
+            this.desvio1 = new HashSet<desvio>();
             this.inspec = new HashSet<inspec>();
             this.inspec1 = new HashSet<inspec>();
             this.inspec2 = new HashSet<inspec>();
@@ -46,6 +48,10 @@ namespace MaqAPI.Datos.Models
         public virtual ICollection<bitseg> bitseg1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bitseg> bitseg2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<desvio> desvio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<desvio> desvio1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<inspec> inspec { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

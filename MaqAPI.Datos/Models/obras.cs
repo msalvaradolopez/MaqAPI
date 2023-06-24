@@ -19,6 +19,7 @@ namespace MaqAPI.Datos.Models
         {
             this.abpos = new HashSet<abpos>();
             this.bitseg = new HashSet<bitseg>();
+            this.desvio = new HashSet<desvio>();
             this.ubicacion = new HashSet<ubicacion>();
         }
     
@@ -31,6 +32,8 @@ namespace MaqAPI.Datos.Models
         public virtual ICollection<abpos> abpos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bitseg> bitseg { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<desvio> desvio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ubicacion> ubicacion { get; set; }
     }

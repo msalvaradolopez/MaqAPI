@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MaqAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MaquinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="abpos">
           <Key>
             <PropertyRef Name="idAbordaje" />
@@ -76,6 +76,44 @@
           <Property Name="idUsuario" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="horaInicio" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="horaTermino" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="desvio">
+          <Key>
+            <PropertyRef Name="idDesvio" />
+          </Key>
+          <Property Name="idDesvio" Type="int" Nullable="false" />
+          <Property Name="numTabulador" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="area" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha" Type="smalldatetime" Nullable="false" />
+          <Property Name="idSupervisor" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idObra" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idOperador" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="evento" Type="varchar" MaxLength="50" />
+          <Property Name="estado_prisa" Type="bit" />
+          <Property Name="estado_frustacion" Type="bit" />
+          <Property Name="estado_fatiga" Type="bit" />
+          <Property Name="estado_complacencia" Type="bit" />
+          <Property Name="error_ojos_no_tarea" Type="bit" />
+          <Property Name="error_mente_no_tarea" Type="bit" />
+          <Property Name="error_mala_colocacion" Type="bit" />
+          <Property Name="error_perdida_equilibrio" Type="bit" />
+          <Property Name="observaciones" Type="varchar" MaxLength="255" />
+          <Property Name="caidas" Type="bit" />
+          <Property Name="golpes" Type="bit" />
+          <Property Name="quemaduras" Type="bit" />
+          <Property Name="asfixia" Type="bit" />
+          <Property Name="eletrocucion" Type="bit" />
+          <Property Name="objetos_que_golpean" Type="bit" />
+          <Property Name="accidentes_vehiculares" Type="bit" />
+          <Property Name="actitud" Type="bit" />
+          <Property Name="procedimiento_de_trabajo" Type="bit" />
+          <Property Name="permiso_de_trabajo" Type="bit" />
+          <Property Name="e_p_p" Type="bit" />
+          <Property Name="herremientas_y_equipos" Type="bit" />
+          <Property Name="posicion_de_las_personas" Type="bit" />
+          <Property Name="orden_y_limpieza" Type="bit" />
+          <Property Name="reaccion_de_la_persona" Type="bit" />
+          <Property Name="compromiso_establecido" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -299,6 +337,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DESVIO_empresa">
+          <End Role="obras" Type="Self.obras" Multiplicity="1" />
+          <End Role="desvio" Type="Self.desvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obras">
+              <PropertyRef Name="idObra" />
+            </Principal>
+            <Dependent Role="desvio">
+              <PropertyRef Name="idObra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DESVIO_responsable">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="desvio" Type="Self.desvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="desvio">
+              <PropertyRef Name="idSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DESVIO_trabajador">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="desvio" Type="Self.desvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="desvio">
+              <PropertyRef Name="idOperador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_inspec_maquinaria">
           <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
           <End Role="inspec" Type="Self.inspec" Multiplicity="*" />
@@ -402,9 +476,10 @@
         <Function Name="spInsPecSemana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idInspeccion" Type="int" Mode="In" />
         </Function>
-        <EntityContainer Name="MaqAPIModelStoreContainer">
+        <EntityContainer Name="MaquinariaModelStoreContainer">
           <EntitySet Name="abpos" EntityType="Self.abpos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bitseg" EntityType="Self.bitseg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="desvio" EntityType="Self.desvio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="diesel" EntityType="Self.diesel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="inspec" EntityType="Self.inspec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" Schema="dbo" store:Type="Tables" />
@@ -445,6 +520,18 @@
             <End Role="operadores" EntitySet="operadores" />
             <End Role="bitseg" EntitySet="bitseg" />
           </AssociationSet>
+          <AssociationSet Name="FK_DESVIO_empresa" Association="Self.FK_DESVIO_empresa">
+            <End Role="obras" EntitySet="obras" />
+            <End Role="desvio" EntitySet="desvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DESVIO_responsable" Association="Self.FK_DESVIO_responsable">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="desvio" EntitySet="desvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DESVIO_trabajador" Association="Self.FK_DESVIO_trabajador">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="desvio" EntitySet="desvio" />
+          </AssociationSet>
           <AssociationSet Name="FK_inspec_maquinaria" Association="Self.FK_inspec_maquinaria">
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="inspec" EntitySet="inspec" />
@@ -482,7 +569,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MaqAPIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="MaquinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="abpos">
           <Key>
             <PropertyRef Name="idAbordaje" />
@@ -562,6 +649,47 @@
           <NavigationProperty Name="operadores" Relationship="Self.FK_bitseg_operadores" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores1" Relationship="Self.FK_bitseg_supervisor" FromRole="bitseg" ToRole="operadores" />
           <NavigationProperty Name="operadores2" Relationship="Self.FK_bitseg_usuarios" FromRole="bitseg" ToRole="operadores" />
+        </EntityType>
+        <EntityType Name="desvio">
+          <Key>
+            <PropertyRef Name="idDesvio" />
+          </Key>
+          <Property Name="idDesvio" Type="Int32" Nullable="false" />
+          <Property Name="numTabulador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idSupervisor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idObra" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idOperador" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="evento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado_prisa" Type="Boolean" />
+          <Property Name="estado_frustacion" Type="Boolean" />
+          <Property Name="estado_fatiga" Type="Boolean" />
+          <Property Name="estado_complacencia" Type="Boolean" />
+          <Property Name="error_ojos_no_tarea" Type="Boolean" />
+          <Property Name="error_mente_no_tarea" Type="Boolean" />
+          <Property Name="error_mala_colocacion" Type="Boolean" />
+          <Property Name="error_perdida_equilibrio" Type="Boolean" />
+          <Property Name="observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="caidas" Type="Boolean" />
+          <Property Name="golpes" Type="Boolean" />
+          <Property Name="quemaduras" Type="Boolean" />
+          <Property Name="asfixia" Type="Boolean" />
+          <Property Name="eletrocucion" Type="Boolean" />
+          <Property Name="objetos_que_golpean" Type="Boolean" />
+          <Property Name="accidentes_vehiculares" Type="Boolean" />
+          <Property Name="actitud" Type="Boolean" />
+          <Property Name="procedimiento_de_trabajo" Type="Boolean" />
+          <Property Name="permiso_de_trabajo" Type="Boolean" />
+          <Property Name="e_p_p" Type="Boolean" />
+          <Property Name="herremientas_y_equipos" Type="Boolean" />
+          <Property Name="posicion_de_las_personas" Type="Boolean" />
+          <Property Name="orden_y_limpieza" Type="Boolean" />
+          <Property Name="reaccion_de_la_persona" Type="Boolean" />
+          <Property Name="compromiso_establecido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="obras" Relationship="Self.FK_DESVIO_empresa" FromRole="desvio" ToRole="obras" />
+          <NavigationProperty Name="operadores" Relationship="Self.FK_DESVIO_responsable" FromRole="desvio" ToRole="operadores" />
+          <NavigationProperty Name="operadores1" Relationship="Self.FK_DESVIO_trabajador" FromRole="desvio" ToRole="operadores" />
         </EntityType>
         <EntityType Name="diesel">
           <Key>
@@ -649,6 +777,7 @@
           <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="abpos" Relationship="Self.FK_ABPOS_empresa" FromRole="obras" ToRole="abpos" />
           <NavigationProperty Name="bitseg" Relationship="Self.FK_bitseg_obras" FromRole="obras" ToRole="bitseg" />
+          <NavigationProperty Name="desvio" Relationship="Self.FK_DESVIO_empresa" FromRole="obras" ToRole="desvio" />
           <NavigationProperty Name="ubicacion" Relationship="Self.FK_ubicacion_obras" FromRole="obras" ToRole="ubicacion" />
         </EntityType>
         <EntityType Name="operadores">
@@ -666,6 +795,8 @@
           <NavigationProperty Name="bitseg" Relationship="Self.FK_bitseg_operadores" FromRole="operadores" ToRole="bitseg" />
           <NavigationProperty Name="bitseg1" Relationship="Self.FK_bitseg_supervisor" FromRole="operadores" ToRole="bitseg" />
           <NavigationProperty Name="bitseg2" Relationship="Self.FK_bitseg_usuarios" FromRole="operadores" ToRole="bitseg" />
+          <NavigationProperty Name="desvio" Relationship="Self.FK_DESVIO_responsable" FromRole="operadores" ToRole="desvio" />
+          <NavigationProperty Name="desvio1" Relationship="Self.FK_DESVIO_trabajador" FromRole="operadores" ToRole="desvio" />
           <NavigationProperty Name="inspec" Relationship="Self.FK_inspec_operadores" FromRole="operadores" ToRole="inspec" />
           <NavigationProperty Name="inspec1" Relationship="Self.FK_inspec_ResponsableMtto" FromRole="operadores" ToRole="inspec" />
           <NavigationProperty Name="inspec2" Relationship="Self.FK_inspec_supervisor" FromRole="operadores" ToRole="inspec" />
@@ -809,6 +940,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DESVIO_empresa">
+          <End Role="obras" Type="Self.obras" Multiplicity="1" />
+          <End Role="desvio" Type="Self.desvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="obras">
+              <PropertyRef Name="idObra" />
+            </Principal>
+            <Dependent Role="desvio">
+              <PropertyRef Name="idObra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DESVIO_responsable">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="desvio" Type="Self.desvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="desvio">
+              <PropertyRef Name="idSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DESVIO_trabajador">
+          <End Role="operadores" Type="Self.operadores" Multiplicity="1" />
+          <End Role="desvio" Type="Self.desvio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operadores">
+              <PropertyRef Name="idOperador" />
+            </Principal>
+            <Dependent Role="desvio">
+              <PropertyRef Name="idOperador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_inspec_maquinaria">
           <End Role="maquinaria" Type="Self.maquinaria" Multiplicity="1" />
           <End Role="inspec" Type="Self.inspec" Multiplicity="*" />
@@ -908,6 +1075,7 @@
         <EntityContainer Name="MaquinariaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="abpos" EntityType="Self.abpos" />
           <EntitySet Name="bitseg" EntityType="Self.bitseg" />
+          <EntitySet Name="desvio" EntityType="Self.desvio" />
           <EntitySet Name="diesel" EntityType="Self.diesel" />
           <EntitySet Name="inspec" EntityType="Self.inspec" />
           <EntitySet Name="maquinaria" EntityType="Self.maquinaria" />
@@ -948,6 +1116,18 @@
             <End Role="operadores" EntitySet="operadores" />
             <End Role="bitseg" EntitySet="bitseg" />
           </AssociationSet>
+          <AssociationSet Name="FK_DESVIO_empresa" Association="Self.FK_DESVIO_empresa">
+            <End Role="obras" EntitySet="obras" />
+            <End Role="desvio" EntitySet="desvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DESVIO_responsable" Association="Self.FK_DESVIO_responsable">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="desvio" EntitySet="desvio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DESVIO_trabajador" Association="Self.FK_DESVIO_trabajador">
+            <End Role="operadores" EntitySet="operadores" />
+            <End Role="desvio" EntitySet="desvio" />
+          </AssociationSet>
           <AssociationSet Name="FK_inspec_maquinaria" Association="Self.FK_inspec_maquinaria">
             <End Role="maquinaria" EntitySet="maquinaria" />
             <End Role="inspec" EntitySet="inspec" />
@@ -984,7 +1164,7 @@
             <Parameter Name="intRenglones" Mode="In" Type="Int32" />
             <Parameter Name="intPagina" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spInsPecSemana" ReturnType="Collection(MaqAPIModel.spInsPecSemana_Result)">
+          <FunctionImport Name="spInsPecSemana" ReturnType="Collection(MaquinariaModel.spInsPecSemana_Result)">
             <Parameter Name="idInspeccion" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
@@ -1004,9 +1184,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MaqAPIModelStoreContainer" CdmEntityContainer="MaquinariaEntities">
+        <EntityContainerMapping StorageEntityContainer="MaquinariaModelStoreContainer" CdmEntityContainer="MaquinariaEntities">
           <EntitySetMapping Name="abpos">
-            <EntityTypeMapping TypeName="MaqAPIModel.abpos">
+            <EntityTypeMapping TypeName="MaquinariaModel.abpos">
               <MappingFragment StoreEntitySet="abpos">
                 <ScalarProperty Name="idAbordaje" ColumnName="idAbordaje" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
@@ -1038,7 +1218,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="bitseg">
-            <EntityTypeMapping TypeName="MaqAPIModel.bitseg">
+            <EntityTypeMapping TypeName="MaquinariaModel.bitseg">
               <MappingFragment StoreEntitySet="bitseg">
                 <ScalarProperty Name="idBitacora" ColumnName="idBitacora" />
                 <ScalarProperty Name="docBitacora" ColumnName="docBitacora" />
@@ -1079,8 +1259,47 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="desvio">
+            <EntityTypeMapping TypeName="MaquinariaModel.desvio">
+              <MappingFragment StoreEntitySet="desvio">
+                <ScalarProperty Name="idDesvio" ColumnName="idDesvio" />
+                <ScalarProperty Name="numTabulador" ColumnName="numTabulador" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="idSupervisor" ColumnName="idSupervisor" />
+                <ScalarProperty Name="idObra" ColumnName="idObra" />
+                <ScalarProperty Name="idOperador" ColumnName="idOperador" />
+                <ScalarProperty Name="evento" ColumnName="evento" />
+                <ScalarProperty Name="estado_prisa" ColumnName="estado_prisa" />
+                <ScalarProperty Name="estado_frustacion" ColumnName="estado_frustacion" />
+                <ScalarProperty Name="estado_fatiga" ColumnName="estado_fatiga" />
+                <ScalarProperty Name="estado_complacencia" ColumnName="estado_complacencia" />
+                <ScalarProperty Name="error_ojos_no_tarea" ColumnName="error_ojos_no_tarea" />
+                <ScalarProperty Name="error_mente_no_tarea" ColumnName="error_mente_no_tarea" />
+                <ScalarProperty Name="error_mala_colocacion" ColumnName="error_mala_colocacion" />
+                <ScalarProperty Name="error_perdida_equilibrio" ColumnName="error_perdida_equilibrio" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="caidas" ColumnName="caidas" />
+                <ScalarProperty Name="golpes" ColumnName="golpes" />
+                <ScalarProperty Name="quemaduras" ColumnName="quemaduras" />
+                <ScalarProperty Name="asfixia" ColumnName="asfixia" />
+                <ScalarProperty Name="eletrocucion" ColumnName="eletrocucion" />
+                <ScalarProperty Name="objetos_que_golpean" ColumnName="objetos_que_golpean" />
+                <ScalarProperty Name="accidentes_vehiculares" ColumnName="accidentes_vehiculares" />
+                <ScalarProperty Name="actitud" ColumnName="actitud" />
+                <ScalarProperty Name="procedimiento_de_trabajo" ColumnName="procedimiento_de_trabajo" />
+                <ScalarProperty Name="permiso_de_trabajo" ColumnName="permiso_de_trabajo" />
+                <ScalarProperty Name="e_p_p" ColumnName="e_p_p" />
+                <ScalarProperty Name="herremientas_y_equipos" ColumnName="herremientas_y_equipos" />
+                <ScalarProperty Name="posicion_de_las_personas" ColumnName="posicion_de_las_personas" />
+                <ScalarProperty Name="orden_y_limpieza" ColumnName="orden_y_limpieza" />
+                <ScalarProperty Name="reaccion_de_la_persona" ColumnName="reaccion_de_la_persona" />
+                <ScalarProperty Name="compromiso_establecido" ColumnName="compromiso_establecido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="diesel">
-            <EntityTypeMapping TypeName="MaqAPIModel.diesel">
+            <EntityTypeMapping TypeName="MaquinariaModel.diesel">
               <MappingFragment StoreEntitySet="diesel">
                 <ScalarProperty Name="idDiesel" ColumnName="idDiesel" />
                 <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
@@ -1095,7 +1314,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="inspec">
-            <EntityTypeMapping TypeName="MaqAPIModel.inspec">
+            <EntityTypeMapping TypeName="MaquinariaModel.inspec">
               <MappingFragment StoreEntitySet="inspec">
                 <ScalarProperty Name="idInspeccion" ColumnName="idInspeccion" />
                 <ScalarProperty Name="docInspeccion" ColumnName="docInspeccion" />
@@ -1142,7 +1361,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="maquinaria">
-            <EntityTypeMapping TypeName="MaqAPIModel.maquinaria">
+            <EntityTypeMapping TypeName="MaquinariaModel.maquinaria">
               <MappingFragment StoreEntitySet="maquinaria">
                 <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
@@ -1152,7 +1371,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="obras">
-            <EntityTypeMapping TypeName="MaqAPIModel.obras">
+            <EntityTypeMapping TypeName="MaquinariaModel.obras">
               <MappingFragment StoreEntitySet="obras">
                 <ScalarProperty Name="idObra" ColumnName="idObra" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1162,7 +1381,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="operadores">
-            <EntityTypeMapping TypeName="MaqAPIModel.operadores">
+            <EntityTypeMapping TypeName="MaquinariaModel.operadores">
               <MappingFragment StoreEntitySet="operadores">
                 <ScalarProperty Name="idOperador" ColumnName="idOperador" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1174,7 +1393,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="parametros">
-            <EntityTypeMapping TypeName="MaqAPIModel.parametros">
+            <EntityTypeMapping TypeName="MaquinariaModel.parametros">
               <MappingFragment StoreEntitySet="parametros">
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="valor" ColumnName="valor" />
@@ -1182,7 +1401,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ubicacion">
-            <EntityTypeMapping TypeName="MaqAPIModel.ubicacion">
+            <EntityTypeMapping TypeName="MaquinariaModel.ubicacion">
               <MappingFragment StoreEntitySet="ubicacion">
                 <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
                 <ScalarProperty Name="idEconomico" ColumnName="idEconomico" />
@@ -1202,7 +1421,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="usuarios">
-            <EntityTypeMapping TypeName="MaqAPIModel.usuarios">
+            <EntityTypeMapping TypeName="MaquinariaModel.usuarios">
               <MappingFragment StoreEntitySet="usuarios">
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1213,10 +1432,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaqAPIModel.Store.spConsultaUbicacionPaginado" />
-          <FunctionImportMapping FunctionImportName="spInsPecSemana" FunctionName="MaqAPIModel.Store.spInsPecSemana">
+          <FunctionImportMapping FunctionImportName="spConsultaUbicacionPaginado" FunctionName="MaquinariaModel.Store.spConsultaUbicacionPaginado" />
+          <FunctionImportMapping FunctionImportName="spInsPecSemana" FunctionName="MaquinariaModel.Store.spInsPecSemana">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="MaqAPIModel.spInsPecSemana_Result">
+              <ComplexTypeMapping TypeName="MaquinariaModel.spInsPecSemana_Result">
                 <ScalarProperty Name="concepto" ColumnName="concepto" />
                 <ScalarProperty Name="lunes" ColumnName="lunes" />
                 <ScalarProperty Name="martes" ColumnName="martes" />

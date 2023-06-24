@@ -73,6 +73,9 @@
     <Compile Include="Models\bitseg.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\desvio.cs">
+      <DependentUpon>MaqAPIModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\diesel.cs">
       <DependentUpon>MaqAPIModel.tt</DependentUpon>
     </Compile>
