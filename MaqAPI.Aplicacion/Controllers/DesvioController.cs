@@ -15,12 +15,14 @@ namespace MaqAPI.Aplicacion.Controllers
     {
         private ICatalogoItem<DesvioDTO> _objCRUD;
         private IConsultaItem<DesvioDTO> _objConsultas;
+        private IFormatos<DesvioDTO> _objFormatos;
         private srvFactoryCRUD _srvFactoryCRUD = new srvFactoryCRUD();
 
         public DesvioController()
         {
             _objCRUD = _srvFactoryCRUD.srvFabrica(tipoCRUD.DESVIO) as ICatalogoItem<DesvioDTO>;
-            _objConsultas = _srvFactoryCRUD.srvFabrica(tipoCRUD.ABPOS) as IConsultaItem<DesvioDTO>;
+            _objConsultas = _srvFactoryCRUD.srvFabrica(tipoCRUD.DESVIO) as IConsultaItem<DesvioDTO>;
+            _objFormatos = _srvFactoryCRUD.srvFabrica(tipoCRUD.DESVIO) as IFormatos<DesvioDTO>;
         }
 
         [AcceptVerbs("POST")]
@@ -47,5 +49,11 @@ namespace MaqAPI.Aplicacion.Controllers
         [HttpPost()]
         [Route("getListFilter")]
         public List<DesvioDTO> getListFilter([FromBody] FiltrosDTO pFiltro) => _objConsultas.GetItemList(pFiltro);
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getPDF")]
+        public string getPDF([FromBody] DesvioDTO pItem) => _objFormatos.getPDF(pItem);
+
     }
 }
