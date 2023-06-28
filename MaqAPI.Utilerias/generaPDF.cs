@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
 
+using SpreadsheetLight;
 
 namespace MaqAPI.Utilerias
 {
@@ -33,6 +35,27 @@ namespace MaqAPI.Utilerias
                 inputAsString = Convert.ToBase64String(ms.ToArray());
             }
 
+
+            return inputAsString;
+        }
+
+        public string createXLSXtoBase64(DataTable pDataTable)
+        {
+            string inputAsString = "";
+            int ctdColumnas = pDataTable.Columns.Count;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                
+                SLDocument sl = new SLDocument();
+                sl.ImportDataTable(1, 1, pDataTable, true);
+
+                sl.AutoFitColumn(1, ctdColumnas);
+                
+                sl.SaveAs(ms);
+
+                inputAsString = Convert.ToBase64String(ms.ToArray());
+            }
 
             return inputAsString;
         }

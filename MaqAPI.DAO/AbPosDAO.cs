@@ -7,10 +7,11 @@ using MaqAPI.Interface;
 using MaqAPI.DTO;
 using MaqAPI.Datos.Models;
 using MaqAPI.Utilerias;
+using System.Data;
 
 namespace MaqAPI.DAO
 {
-    public class AbPosDAO : ICatalogoItem<AbPosDTO>, IConsultaItem<AbPosDTO>, IFormatos<AbPosDTO>
+    public class AbPosDAO : ICatalogoItem<AbPosDTO>, IConsultaItem<AbPosDTO>, IFormatos<AbPosDTO>, IExportaXLSX<AbPosDTO>
     {
         public bool DeleteItem(AbPosDTO pItem)
         {
@@ -392,5 +393,57 @@ namespace MaqAPI.DAO
                 }
             }
         }
+
+        public string getXLSX(List<AbPosDTO> pList)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Documento", typeof(string)));
+                dt.Columns.Add(new DataColumn("Fecha", typeof(string)));
+                dt.Columns.Add(new DataColumn("Empresa", typeof(string)));
+                dt.Columns.Add(new DataColumn("Responsable", typeof(string)));
+                dt.Columns.Add(new DataColumn("Trabajador", typeof(string)));
+                dt.Columns.Add(new DataColumn("Riesgo", typeof(string)));
+                dt.Columns.Add(new DataColumn("Desvio", typeof(string)));
+                dt.Columns.Add(new DataColumn("Casco", typeof(string)));
+                dt.Columns.Add(new DataColumn("Lentes", typeof(string)));
+                dt.Columns.Add(new DataColumn("Guantes", typeof(string)));
+                dt.Columns.Add(new DataColumn("Uniforme", typeof(string)));
+                dt.Columns.Add(new DataColumn("Zapatos", typeof(string)));
+                dt.Columns.Add(new DataColumn("Uniforme fajado", typeof(string)));
+                dt.Columns.Add(new DataColumn("Tapones", typeof(string)));
+                dt.Columns.Add(new DataColumn("Mascarilla", typeof(string)));
+                dt.Columns.Add(new DataColumn("Careta facial", typeof(string)));
+                dt.Columns.Add(new DataColumn("Arnes", typeof(string)));
+                dt.Columns.Add(new DataColumn("Polainas", typeof(string)));
+                dt.Columns.Add(new DataColumn("Peto", typeof(string)));
+                dt.Columns.Add(new DataColumn("Gogles o Careta Soldar", typeof(string)));
+                dt.Columns.Add(new DataColumn("Otros", typeof(string)));
+                dt.Columns.Add(new DataColumn("Otros Comentarios", typeof(string)));
+                dt.Columns.Add(new DataColumn("Actos Inseguros", typeof(string)));
+                dt.Columns.Add(new DataColumn("Accion Correctiva", typeof(string)));
+                dt.Columns.Add(new DataColumn("Condiciones Inseguras", typeof(string)));
+                dt.Columns.Add(new DataColumn("Compromisos", typeof(string)));
+
+                pList.ForEach(x => {
+                    dt.Rows.Add(x.idAbordaje, x.fecha.ToString("dd-MM-yyyy"), x.idObra + "|" + x.nomObra, x.idSupervisor + "|" + x.nomSupervisor,
+                        x.idOperador + "|" + x.nomOperador, x.riesgo, x.desvio, valorCampos(x.casco), valorCampos(x.lentes), valorCampos(x.guantes), valorCampos(x.uniforme),
+                        valorCampos(x.zapatos), valorCampos(x.uni_fajado), valorCampos(x.tapones), valorCampos(x.mascarilla), valorCampos(x.careta), valorCampos(x.arnes),
+                        valorCampos(x.polainas), valorCampos(x.peto), valorCampos(x.gogles), valorCampos(x.otros), x.otro_descrip, x.act_inseguros, x.acc_correctiva, x.cond_inseguras,
+                        x.compromisos);
+                });
+
+                generaPDF _generaPDF = new generaPDF();
+                return _generaPDF.createXLSXtoBase64(dt);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string valorCampos(bool pDato) => pDato ? "SI" : "NO";
     }
 }

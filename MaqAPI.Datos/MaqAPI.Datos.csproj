@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MaqAPI.Datos</RootNamespace>
     <AssemblyName>MaqAPI.Datos</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -147,6 +148,10 @@
     <ProjectReference Include="..\MaqAPI.Entidades\MaqAPI.Entidades.csproj">
       <Project>{76775ef8-a75a-4a74-9863-bffe8b69d29a}</Project>
       <Name>MaqAPI.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaqAPI.Interface\MaqAPI.Interface.csproj">
+      <Project>{f04d72db-cc69-4a60-94a1-abfc41cf7d8d}</Project>
+      <Name>MaqAPI.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\MaqAPI.Utilerias\MaqAPI.Utilerias.csproj">
       <Project>{a5b2f741-ba03-49de-9e9a-cc5987653bc6}</Project>

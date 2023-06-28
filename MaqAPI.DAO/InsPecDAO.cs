@@ -8,10 +8,11 @@ using MaqAPI.DTO;
 using MaqAPI.Datos.Models;
 using MaqAPI.Utilerias;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace MaqAPI.DAO
 {
-    public class InsPecDAO : ICatalogoItem<InsPecDTO>, IConsultaItem<InsPecDTO>, IFormatos<InsPecDTO>
+    public class InsPecDAO : ICatalogoItem<InsPecDTO>, IConsultaItem<InsPecDTO>, IFormatos<InsPecDTO>, IExportaXLSX<InsPecDTO>
     {
         public bool DeleteItem(InsPecDTO pItem)
         {
@@ -626,6 +627,76 @@ namespace MaqAPI.DAO
                 }
             }
         }
+
+        public string getXLSX(List<InsPecDTO> pList)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Documento", typeof(string)));
+                dt.Columns.Add(new DataColumn("Fecha", typeof(string)));
+                dt.Columns.Add(new DataColumn("Supervisor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Equipo", typeof(string)));
+                dt.Columns.Add(new DataColumn("Operador", typeof(string)));
+                dt.Columns.Add(new DataColumn("Turno", typeof(string)));
+                dt.Columns.Add(new DataColumn("Horometro", typeof(double)));
+                dt.Columns.Add(new DataColumn("Mantenimiento", typeof(string)));
+                dt.Columns.Add(new DataColumn("Frenos", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Frenos", typeof(string)));
+                dt.Columns.Add(new DataColumn("Alarma/Rev", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Alarma/Rev", typeof(string)));
+                dt.Columns.Add(new DataColumn("Nivel aceite", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs nivel aceite", typeof(string)));
+                dt.Columns.Add(new DataColumn("Motor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs motor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Transmision", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Transmision", typeof(string)));
+                dt.Columns.Add(new DataColumn("Fugas aceite", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs fugas aceite", typeof(string)));
+                dt.Columns.Add(new DataColumn("Nivel agua", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs nivel agua", typeof(string)));
+                dt.Columns.Add(new DataColumn("Extinguidor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs extinguidor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Luces", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs luces", typeof(string)));
+                dt.Columns.Add(new DataColumn("Torreta", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs torreta", typeof(string)));
+                dt.Columns.Add(new DataColumn("Neumaticos", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs neumaticos", typeof(string)));
+                dt.Columns.Add(new DataColumn("Pernos/bujes", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Pernos/bujes", typeof(string)));
+                dt.Columns.Add(new DataColumn("Direccion", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs direccion", typeof(string)));
+                dt.Columns.Add(new DataColumn("Espejos retrovisores", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs espejso retrovisores", typeof(string)));
+                dt.Columns.Add(new DataColumn("Claxon", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs claxon", typeof(string)));
+                dt.Columns.Add(new DataColumn("Cinturon seguridad", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs cinturon seguridad", typeof(string)));
+
+                pList.ForEach(x => {
+                    dt.Rows.Add(x.docInspeccion, x.fecha.ToString("dd-MM-yyyy"), x.idSupervisor + "|" + x.nomSupervisor, x.idEconomico + "|" + x.nomEquipo,
+                        x.idOperador + "|" + x.nomOperador, valorTurno(x.turno), x.horometro, x.idResponsableMtto + "|" + x.nomResponsableMtto, valorCampos(x.frenos), x.frenos_obs,
+                        valorCampos(x.alarma_rev), x.alarma_rev_obs, valorCampos(x.nivel_aceite), x.nivel_aceite_obs, valorCampos(x.motor), x.motor_obs, valorCampos(x.transmision), x.transmision_obs,
+                        valorCampos(x.fugas_aceite), x.fugas_aceite_obs, valorCampos(x.nivel_agua), x.nivel_agua_obs, valorCampos(x.extinguidor), x.extinguidor_obs, valorCampos(x.luces), x.luces_obs,
+                        valorCampos(x.torreta), x.torreta_obs, valorCampos(x.neumaticos), x.neumaticos_obs, valorCampos(x.pernos_bujes), x.pernos_bujes_obs, valorCampos(x.direccion), x.direccion_obs,
+                        valorCampos(x.espejos_retrovisores), x.espejos_retrovisores_obs, valorCampos(x.claxon), x.claxon_obs, valorCampos(x.cinturon_seguridad), x.cinturon_seguridad_obs);
+                });
+
+                generaPDF _generaPDF = new generaPDF();
+                return _generaPDF.createXLSXtoBase64(dt);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string valorTurno(string pData) => pData == "M" ? "Matutino" : pData == "V" ? "Vespertino" : "Nocturno";
+
+        private string valorCampos(string pData) => pData == "O" ? "OK" : "FALLA";
+        
     }
 }
 

@@ -9,11 +9,14 @@ using Newtonsoft.Json.Converters;
 using System.Text;
 using System.Threading.Tasks;
 using MaqAPI.DTO;
+using MaqAPI.Interface;
 using MaqAPI.Utilerias;
+using System.Data;
+using MaqAPI.Entidades;
 
 namespace MaqAPI.Datos.Operaciones
 {
-    public class BitSegABC<T> : IConexion<T>, IFormats
+    public class BitSegABC<T> : IConexion<T>, IFormats, IExportaXLSX<BitSegEntidad>
     {
 
         public string FormatBASE64(object pItem)
@@ -608,6 +611,65 @@ namespace MaqAPI.Datos.Operaciones
 
             return pBitSegEncabezadosDTO;
         }
+
+        public string getXLSX(List<BitSegEntidad> pList)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Documento", typeof(string)));
+                dt.Columns.Add(new DataColumn("Fecha", typeof(string)));
+                dt.Columns.Add(new DataColumn("Planta", typeof(string)));
+                dt.Columns.Add(new DataColumn("Supervisor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Area", typeof(string)));
+                dt.Columns.Add(new DataColumn("Hora Inicio", typeof(string)));
+                dt.Columns.Add(new DataColumn("Hora Termino", typeof(string)));
+                dt.Columns.Add(new DataColumn("Equipo", typeof(string)));
+                dt.Columns.Add(new DataColumn("Operador", typeof(string)));
+                dt.Columns.Add(new DataColumn("Actividad", typeof(string)));
+                dt.Columns.Add(new DataColumn("Punto Exacto", typeof(string)));
+                dt.Columns.Add(new DataColumn("Chequeo Medico", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Chequeo Medico", typeof(string)));
+                dt.Columns.Add(new DataColumn("Check List Equipo", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Check List Equipo", typeof(string)));
+                dt.Columns.Add(new DataColumn("A.P.R", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs A.P.R", typeof(string)));
+                dt.Columns.Add(new DataColumn("Permiso Instancia", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Permiso Instancia", typeof(string)));
+                dt.Columns.Add(new DataColumn("DC3", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs DC3", typeof(string)));
+                dt.Columns.Add(new DataColumn("Extintor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Extintor", typeof(string)));
+                dt.Columns.Add(new DataColumn("Kit Antiderrames", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Kit Antiderrames", typeof(string)));
+                dt.Columns.Add(new DataColumn("Platica 5 minutos", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Platica 5 minutos", typeof(string)));
+                dt.Columns.Add(new DataColumn("EPP", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs EPP", typeof(string)));
+                dt.Columns.Add(new DataColumn("Otro", typeof(string)));
+                dt.Columns.Add(new DataColumn("Descripcion Otro", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obs Otro", typeof(string)));
+
+                pList.ForEach(x => {
+                    dt.Rows.Add(x.docBitacora, x.fecha.ToString("dd-MM-yyyy"), x.idObra, x.idSupervisor, x.area, x.horaInicio, x.horaTermino, x.idEconomico, x.idOperador, x.actividad, x.pto_exacto,
+                        valoresCampos(x.chequeo_medico), x.chequeo_medico_obs, valoresCampos(x.checklist_maq_equip), x.checklist_maq_equip_obs, valoresCampos(x.apr), x.apr_obs,
+                        valoresCampos(x.permiso_instancia), x.permiso_instancia_obs, valoresCampos(x.dc3), x.dc3_obs,
+                        valoresCampos(x.extintor), x.extintor_obs, valoresCampos(x.kit_antiderrames), x.kit_antiderrames_obs, valoresCampos(x.platica_5min), x.platica_5min_obs,
+                        valoresCampos(x.epp), x.epp_obs, valoresCampos(x.otro), x.otro_descrip, x.otro_obs);
+                });
+
+                generaPDF _generaPDF = new generaPDF();
+                return _generaPDF.createXLSXtoBase64(dt);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string valoresCampos(string pDato) => pDato == "X" ? "N/A" : pDato == "S" ? "SI" : "NO";
+       
 
 
         #endregion

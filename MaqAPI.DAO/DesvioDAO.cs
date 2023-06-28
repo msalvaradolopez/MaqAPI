@@ -7,10 +7,11 @@ using MaqAPI.Interface;
 using MaqAPI.DTO;
 using MaqAPI.Datos.Models;
 using MaqAPI.Utilerias;
+using System.Data;
 
 namespace MaqAPI.DAO
 {
-    public class DesvioDAO : ICatalogoItem<DesvioDTO>, IConsultaItem<DesvioDTO>, IFormatos<DesvioDTO>
+    public class DesvioDAO : ICatalogoItem<DesvioDTO>, IConsultaItem<DesvioDTO>, IFormatos<DesvioDTO>, IExportaXLSX<DesvioDTO>
     {
         public bool DeleteItem(DesvioDTO pItem)
         {
@@ -459,5 +460,67 @@ namespace MaqAPI.DAO
                 }
             }
         }
+
+        public string getXLSX(List<DesvioDTO> pList)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Documento", typeof(string)));
+                dt.Columns.Add(new DataColumn("Fecha", typeof(string)));
+                dt.Columns.Add(new DataColumn("Empresa", typeof(string)));
+                dt.Columns.Add(new DataColumn("Responsable", typeof(string)));
+                dt.Columns.Add(new DataColumn("Trabajador", typeof(string)));
+                dt.Columns.Add(new DataColumn("Tabulador", typeof(string)));
+                dt.Columns.Add(new DataColumn("Area", typeof(string)));
+                dt.Columns.Add(new DataColumn("Evento", typeof(string)));
+                dt.Columns.Add(new DataColumn("Estado Prisa", typeof(string)));
+                dt.Columns.Add(new DataColumn("Estado Frustracion", typeof(string)));
+                dt.Columns.Add(new DataColumn("Estado Fatiga", typeof(string)));
+                dt.Columns.Add(new DataColumn("Estado Complacencia", typeof(string)));
+                dt.Columns.Add(new DataColumn("Error Ojos en la tarea", typeof(string)));
+                dt.Columns.Add(new DataColumn("Error mente no en la tarea", typeof(string)));
+                dt.Columns.Add(new DataColumn("Error Colocarse en la linea de fuego", typeof(string)));
+                dt.Columns.Add(new DataColumn("Error Perder Equilibrio", typeof(string)));
+                dt.Columns.Add(new DataColumn("Observacioness", typeof(string)));
+                dt.Columns.Add(new DataColumn("Caidas", typeof(string)));
+                dt.Columns.Add(new DataColumn("Golpes", typeof(string)));
+                dt.Columns.Add(new DataColumn("Quemaduras", typeof(string)));
+                dt.Columns.Add(new DataColumn("Asfixia", typeof(string)));
+                dt.Columns.Add(new DataColumn("Electrocucion", typeof(string)));
+                dt.Columns.Add(new DataColumn("Objetos que golpean", typeof(string)));
+                dt.Columns.Add(new DataColumn("Accidentes vehiculares", typeof(string)));
+                dt.Columns.Add(new DataColumn("Actitud", typeof(string)));
+                dt.Columns.Add(new DataColumn("Procedimiento de trabajo", typeof(string)));
+                dt.Columns.Add(new DataColumn("Permiso de trabajo", typeof(string)));
+                dt.Columns.Add(new DataColumn("E.P.P.", typeof(string)));
+                dt.Columns.Add(new DataColumn("Herramientas y equipos", typeof(string)));
+                dt.Columns.Add(new DataColumn("Posicion de las personas", typeof(string)));
+                dt.Columns.Add(new DataColumn("Orden y limpieza", typeof(string)));
+                dt.Columns.Add(new DataColumn("Reaccion de la persona", typeof(string)));
+                dt.Columns.Add(new DataColumn("Compromisos del trabajador", typeof(string)));
+
+                pList.ForEach(x => {
+                    dt.Rows.Add(x.idDesvio, x.fecha.ToString("dd-MM-yyyy"), x.idObra + "|" + x.nomObra, x.idSupervisor + "|" + x.nomSupervisor,
+                        x.idOperador + "|" + x.nomOperador, x.numTabulador, x.area, x.evento, valorCampos((bool)x.estado_prisa), valorCampos((bool)x.estado_frustacion),
+                        valorCampos((bool)x.estado_fatiga), valorCampos((bool)x.estado_complacencia), valorCampos((bool)x.error_ojos_no_tarea), valorCampos((bool)x.error_mente_no_tarea),
+                        valorCampos((bool)x.error_mala_colocacion), valorCampos((bool)x.error_perdida_equilibrio), x.observaciones, valorCampos((bool)x.caidas), valorCampos((bool)x.golpes),
+                        valorCampos((bool)x.quemaduras), valorCampos((bool)x.asfixia), valorCampos((bool)x.eletrocucion), valorCampos((bool)x.objetos_que_golpean), valorCampos((bool)x.accidentes_vehiculares),
+                        valorCampos((bool)x.actitud), valorCampos((bool)x.procedimiento_de_trabajo), valorCampos((bool)x.permiso_de_trabajo), valorCampos((bool)x.e_p_p),
+                        valorCampos((bool)x.herremientas_y_equipos), valorCampos((bool)x.posicion_de_las_personas), valorCampos((bool)x.orden_y_limpieza), valorCampos((bool)x.reaccion_de_la_persona), 
+                        x.compromiso_establecido);
+                });
+
+                generaPDF _generaPDF = new generaPDF();
+                return _generaPDF.createXLSXtoBase64(dt);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string valorCampos(bool pDato) => pDato ? "SI" : "NO";
     }
 }

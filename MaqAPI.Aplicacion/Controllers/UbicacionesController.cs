@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MaqAPI.Interface;
+using MaqAPI.DTO;
 
 namespace MaqAPI.Aplicacion.Controllers
 {
@@ -14,8 +16,14 @@ namespace MaqAPI.Aplicacion.Controllers
     {
 
         private srvCRUD<UbicacionEntidad> _srvCRUD;
+        private IExportaXLSX<UbicacionesDTO> _objExportaXLSX;
+        private srvFactoryCRUD _srvFactoryCRUD = new srvFactoryCRUD();
 
-        public UbicacionesController() => _srvCRUD = new srvCRUD<UbicacionEntidad>(tipoCRUD.UBICACION);
+        public UbicacionesController()
+        {
+            _srvCRUD = new srvCRUD<UbicacionEntidad>(tipoCRUD.UBICACION);
+            _objExportaXLSX = _srvFactoryCRUD.srvFabrica(tipoCRUD.UBICACION) as IExportaXLSX<UbicacionesDTO>;
+        }
         
         [AcceptVerbs("POST")]
         [HttpPost()]
@@ -66,5 +74,10 @@ namespace MaqAPI.Aplicacion.Controllers
             return _srvCRUD.TableroList(_filtros.pagina);
 
         }
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getXLSX")]
+        public string getXLSX([FromBody] List<UbicacionesDTO> pList) => _objExportaXLSX.getXLSX(pList);
     }
 }

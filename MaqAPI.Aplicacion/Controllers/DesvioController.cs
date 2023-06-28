@@ -16,6 +16,7 @@ namespace MaqAPI.Aplicacion.Controllers
         private ICatalogoItem<DesvioDTO> _objCRUD;
         private IConsultaItem<DesvioDTO> _objConsultas;
         private IFormatos<DesvioDTO> _objFormatos;
+        private IExportaXLSX<DesvioDTO> _objExportaXLSX;
         private srvFactoryCRUD _srvFactoryCRUD = new srvFactoryCRUD();
 
         public DesvioController()
@@ -23,6 +24,7 @@ namespace MaqAPI.Aplicacion.Controllers
             _objCRUD = _srvFactoryCRUD.srvFabrica(tipoCRUD.DESVIO) as ICatalogoItem<DesvioDTO>;
             _objConsultas = _srvFactoryCRUD.srvFabrica(tipoCRUD.DESVIO) as IConsultaItem<DesvioDTO>;
             _objFormatos = _srvFactoryCRUD.srvFabrica(tipoCRUD.DESVIO) as IFormatos<DesvioDTO>;
+            _objExportaXLSX = _srvFactoryCRUD.srvFabrica(tipoCRUD.DESVIO) as IExportaXLSX<DesvioDTO>;
         }
 
         [AcceptVerbs("POST")]
@@ -54,6 +56,11 @@ namespace MaqAPI.Aplicacion.Controllers
         [HttpPost()]
         [Route("getPDF")]
         public string getPDF([FromBody] DesvioDTO pItem) => _objFormatos.getPDF(pItem);
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getXLSX")]
+        public string getXLSX([FromBody] List<DesvioDTO> pList) => _objExportaXLSX.getXLSX(pList);
 
     }
 }

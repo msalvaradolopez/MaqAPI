@@ -16,6 +16,7 @@ namespace MaqAPI.Aplicacion.Controllers
         private ICatalogoItem<AbPosDTO> _objCRUD;
         private IConsultaItem<AbPosDTO> _objConsultas;
         private IFormatos<AbPosDTO> _objFormatos;
+        private IExportaXLSX<AbPosDTO> _objExportaXLSX;
         private srvFactoryCRUD _srvFactoryCRUD = new srvFactoryCRUD();
 
         public AbPosController()
@@ -23,6 +24,7 @@ namespace MaqAPI.Aplicacion.Controllers
             _objCRUD = _srvFactoryCRUD.srvFabrica(tipoCRUD.ABPOS) as ICatalogoItem<AbPosDTO>;
             _objConsultas = _srvFactoryCRUD.srvFabrica(tipoCRUD.ABPOS) as IConsultaItem<AbPosDTO>;
             _objFormatos = _srvFactoryCRUD.srvFabrica(tipoCRUD.ABPOS) as IFormatos<AbPosDTO>;
+            _objExportaXLSX = _srvFactoryCRUD.srvFabrica(tipoCRUD.ABPOS) as IExportaXLSX<AbPosDTO>;
         }
 
         [AcceptVerbs("POST")]
@@ -54,6 +56,11 @@ namespace MaqAPI.Aplicacion.Controllers
         [HttpPost()]
         [Route("getPDF")]
         public string getPDF([FromBody] AbPosDTO pItem) => _objFormatos.getPDF(pItem);
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getXLSX")]
+        public string getXLSX([FromBody] List<AbPosDTO> pList) => _objExportaXLSX.getXLSX(pList);
 
     }
 }

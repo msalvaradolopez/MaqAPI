@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using MaqAPI.Datos.Interfaz;
 using MaqAPI.Datos.Models;
 using MaqAPI.Entidades;
+using MaqAPI.Interface;
+using MaqAPI.DTO;
+using System.Data;
+using MaqAPI.Utilerias;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace MaqAPI.Datos.Operaciones
 {
-    public class UbicacionesABC<T> : IConexion<T>
+    public class UbicacionesABC<T> : IConexion<T>, IExportaXLSX<UbicacionesDTO>
     {
         public IEnumerable<object> GetListAll()
         {
@@ -239,5 +243,36 @@ namespace MaqAPI.Datos.Operaciones
         {
             throw new NotImplementedException();
         }
+
+        public string getXLSX(List<UbicacionesDTO> pList)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("Equipo", typeof(string)));
+                dt.Columns.Add(new DataColumn("Obra", typeof(string)));
+                dt.Columns.Add(new DataColumn("Operador", typeof(string)));
+                dt.Columns.Add(new DataColumn("Fecha", typeof(string)));
+                dt.Columns.Add(new DataColumn("Odometro", typeof(int)));
+                dt.Columns.Add(new DataColumn("Sello", typeof(string)));
+                dt.Columns.Add(new DataColumn("Litros", typeof(double)));
+                dt.Columns.Add(new DataColumn("Horometro", typeof(int)));
+                dt.Columns.Add(new DataColumn("Tipo", typeof(string)));
+                dt.Columns.Add(new DataColumn("Usuario", typeof(string)));
+
+                pList.ForEach(x=> {
+                    dt.Rows.Add(x.idEconomico + "|" + x.equipoNom, x.idObra + "|" + x.obraNom, x.idOperador + "|" + x.operadorNom, x.fecha_alta.ToString("dd-MM-yyyy"), x.odometro, x.sello, x.litros, x.horometro, x.ventana, x.idUsuario);
+                });
+
+                generaPDF _generaPDF = new generaPDF();
+                return _generaPDF.createXLSXtoBase64(dt);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

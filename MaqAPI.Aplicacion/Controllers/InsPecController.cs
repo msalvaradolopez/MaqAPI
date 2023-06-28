@@ -16,12 +16,14 @@ namespace MaqAPI.Aplicacion.Controllers
         private ICatalogoItem<InsPecDTO> _objCRUD;
         private IConsultaItem<InsPecDTO> _objConsultas;
         private IFormatos<InsPecDTO> _objFormatos;
+        private IExportaXLSX<InsPecDTO> _objExportaXLSX;
         private srvFactoryCRUD _srvFactoryCRUD = new srvFactoryCRUD();
 
         public InsPecController() {
             _objCRUD = _srvFactoryCRUD.srvFabrica(tipoCRUD.INSPEC) as ICatalogoItem<InsPecDTO>;
             _objConsultas = _srvFactoryCRUD.srvFabrica(tipoCRUD.INSPEC) as IConsultaItem<InsPecDTO>;
             _objFormatos = _srvFactoryCRUD.srvFabrica(tipoCRUD.INSPEC) as IFormatos<InsPecDTO>;
+            _objExportaXLSX = _srvFactoryCRUD.srvFabrica(tipoCRUD.INSPEC) as IExportaXLSX<InsPecDTO>;
         } 
 
         [AcceptVerbs("POST")]
@@ -53,5 +55,10 @@ namespace MaqAPI.Aplicacion.Controllers
         [HttpPost()]
         [Route("getPDF")]
         public string getPDF([FromBody] InsPecDTO pItem) => _objFormatos.getPDF(pItem);
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getXLSX")]
+        public string getXLSX([FromBody] List<InsPecDTO> pList) => _objExportaXLSX.getXLSX(pList);
     }
 }

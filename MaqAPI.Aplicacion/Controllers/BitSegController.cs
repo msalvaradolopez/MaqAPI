@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MaqAPI.Entidades;
+using MaqAPI.Interface;
 
 namespace MaqAPI.Aplicacion.Controllers
 {
@@ -15,7 +17,13 @@ namespace MaqAPI.Aplicacion.Controllers
     {
 
         private srvCRUD<BitSegEntidad> _srvCRUD;
-        public BitSegController() => _srvCRUD = new srvCRUD<BitSegEntidad>(tipoCRUD.BITSEG);
+        private IExportaXLSX<BitSegEntidad> _objExportaXLSX;
+        private srvFactoryCRUD _srvFactoryCRUD = new srvFactoryCRUD();
+        public BitSegController()
+        {
+            _srvCRUD = new srvCRUD<BitSegEntidad>(tipoCRUD.BITSEG);
+            _objExportaXLSX = _srvFactoryCRUD.srvFabrica(tipoCRUD.BITSEG) as IExportaXLSX<BitSegEntidad>;
+        }
 
         [AcceptVerbs("POST")]
         [HttpPost()]
@@ -86,5 +94,10 @@ namespace MaqAPI.Aplicacion.Controllers
             return _srvCRUD.ListadoFiltro(_filtros);
 
         }
+
+        [AcceptVerbs("POST")]
+        [HttpPost()]
+        [Route("getXLSX")]
+        public string getXLSX([FromBody] List<BitSegEntidad> pList) => _objExportaXLSX.getXLSX(pList);
     }
 }

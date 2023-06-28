@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MaqAPI.Interface</RootNamespace>
     <AssemblyName>MaqAPI.Interface</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ICatalogoItem.cs" />
     <Compile Include="IConsultaItem.cs" />
+    <Compile Include="IExportaXLSX.cs" />
     <Compile Include="IFormatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
